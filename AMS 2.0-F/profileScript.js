@@ -57,7 +57,7 @@ $(document).ready(function(){
                 <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a> <!--Dashboard -->
             </li>
             <li>
-                <a href="./alerts.html"><i class='bx bxs-bell' ></i></a> <!--Alert -->
+                <a href="./alert.html"><i class='bx bxs-bell' ></i></a> <!--Alert -->
             </li>
             <li>
                 <a href="./asset.html"><i class='bx bxs-cube-alt' ></i></a> <!--Asset -->
