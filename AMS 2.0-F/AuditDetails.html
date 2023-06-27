@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"
+    integrity="sha384-Tv5i09RULyHKMwX0E8wJUqSOaXlyu3SQxORObAI08iUwIalMmN5L6AvlPX2LMoSE" crossorigin="anonymous" />
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"
+    integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <link rel="stylesheet" href="AuditDetails.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Audit details</title>
+</head>
+<body>
+
+    <div class="nav-bar-height">
+        <section class="sidebar">
+            <section class="imageSet">
+                <img src="./images/favicon.ico" alt="" class="companyLogo">
+            </section>
+            <nav class="navbar">
+                <ul>
+                    <li>
+                        <!-- Dashboard -->
+                        <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a>
+                    </li>
+                    <li>
+                        <!-- Alerts -->
+                        <a href="./alert.html"><i class='bx bxs-bell'></i></a>
+                    </li>
+                    <li>
+                        <!-- Assets -->
+                        <a href="./asset.html"><i class='bx bxs-cube-alt'></i></a>
+                    </li>
+                    <li>
+                        <!-- Requests -->
+                        <a href="./request.html"><i class='bx bxs-layer'></i></a>
+                    </li>
+
+                    <li>
+                        <!-- Dashboard -->
+                        <a href="./overview.html"><i class='bx bx-table'></i></a>
+                    </li>
+                    <li>
+                      <!-- Profile -->
+                      <a href="./AuditOverview.html"><i class='bx bx-edit' ></i></a>
+                  </li>
+                    <li>
+                        <!-- Profile -->
+                        <a href="./profile.html"><i class='bx bxs-user'></i></a>
+                    </li>
+                   
+
+
+                </ul>
+            </nav>
+            <section class="navOpts">
+
+                <button class="logoutBtn" id="logoutBtn"><i class='bx bx-log-out-circle'></i></button>
+            </section>
+        </section>
+    </div>
+
+    <div class="container">
+      <h1 class="asset-aduit"> Asset Audit </h1>
+     
+        <div class="aduit-details">
+          <form class="Aduit-details-from">
+            <!-- Form 1 -->
+            <div class="bar-prog">
+
+            </div>
+            <div class="Aduit-Number">
+              <h7> Audit Number *</h7> <input type="text" class="aduit-scope-input" placeholder="Audit-Number">
+            </div>
+            <div class="Aduit-scope">
+              <h7> Audit scope *&nbsp; &nbsp; </h7>  <input type="text" class="aduit-scope-input" placeholder="Audit scope">
+            </div>
+            <div class="location">
+              <h7> Location *&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</h7> <input type="text" class="aduit-scope-input" placeholder="Location">
+            </div>
+            <div class="Scheduled">
+              <h7> Scheduled End Date *</h7> <input type="text" class="aduit-scope-input" placeholder="Scheduled Date">
+            </div>
+          </form>
+      
+          <!-- Assigned to -->
+          <form class="Aduit-details-from">
+            <div class="bar-prog">
+              <br>
+            
+            <!-- Form 2 -->
+            <div class="Aduit-Number">
+              <h7> Auditor Name *</h7> <input type="text" class="aduit-scope-input" placeholder="Asset to">
+            </div>
+            <div class="Aduit-scope">
+              <h7>Audit Status *</h7>  <input type="text" class="aduit-scope-input" placeholder="Status">
+            </div>
+            <div class="Scheduled">
+              <h7> Scheduled Start Date *</h7> <input type="text" class="aduit-scope-input" placeholder="Scheduled Date">
+            </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="Result-aduit">
+          <h1 class="audit-res">Audit Result</h1> 
+          <div class="char">
+            <p>Asset Audit Result by Asset Status</p>
+            <canvas id="myChart" ></canvas>
+          </div>
+          <from>
+            <div class="bar-prog">
+              <br>
+            <div class="Aduit-Number">
+                <h7> Scanned and Expected *</h7> <input type="text" class="aduit-scope-input" placeholder="Asset to">
+              </div>
+              <div class="Aduit-scope">
+                <h7>Scanned and Not Expected*</h7>  <input type="text" class="aduit-scope-input" placeholder="Status">
+              </div>
+              <div class="Scheduled">
+                <h7> Expected and Not found*</h7> <input type="text" class="aduit-scope-input" placeholder="Scheduled Date">
+              </div>
+              <div class="Scheduled">
+                <h7> New*</h7> <input type="text" class="aduit-scope-input" placeholder="Scheduled Date">
+              </div>
+            </div>
+          </from>
+        </div>
+       <!-- Table for Excepted and scanner-->
+
+       <div class="table-container">
+        <div class="table-buttons">
+          <button class="table-button" id="table-1-button">Expected Assets</button>
+          <button class="table-button" id="table-2-button">Scanned Assets</button>
+        </div>
+        
+        <div class="table-container-scroll">
+          <table id="table-1" class="data-table">
+            <!-- Table 1 Data -->
+            <thead class="table-boder">
+              <tr>
+                <th>Tag Id</th>
+                <th>Tag UU Id</th>
+                <th>Asset ID</th>
+                <th>Asset Class</th>
+                <th>Asset Type</th>
+                <th>Asset Name</th>
+                <th>Asset Location</th>
+                <th>Asset Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>Open</td>
+              </tr>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>Closed</td>
+              </tr>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>In progress</td>
+              </tr>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>Expired</td>
+              </tr>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>Data H</td>
+              </tr>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>Data H</td>
+              </tr>
+              
+             
+            </thead>
+            <tbody>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>Data H</td>
+              </tr>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>Data H</td>
+              </tr>
+              <!-- Add more rows as needed -->
+            </tbody>
+          </table>
+        
+          <table id="table-2" class="data-table" style="display: none;">
+            <!-- Table 2 Data -->
+            <thead class="table-boder">
+              <tr>
+                <th>Tag Id</th>
+                <th>Asset Id</th>
+                <th>Asset Class</th>
+                <th>Asset Type</th>
+                <th>Asset Name</th>
+                <th>Asset Location</th>
+                <th>Scanned Date / Time</th>
+                <th>Scanned By</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>Data H</td>
+              </tr>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>Data H</td>
+              </tr>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>Data H</td>
+              </tr>
+              
+            </thead>
+            <tbody>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>Data H</td>
+              </tr>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>Data H</td>
+              </tr>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>Data H</td>
+              </tr>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>Data H</td>
+              </tr>
+              <tr>
+                <td>Data A</td>
+                <td>Data B</td>
+                <td>Data C</td>
+                <td>Data D</td>
+                <td>Data E</td>
+                <td>Data F</td>
+                <td>Data G</td>
+                <td>Data H</td>
+              </tr>
+              <!-- Add more rows as needed -->
+            </tbody>
+          </table>
+        </div>
+        
+      </div>
+      
+    
+      </div>
+     
+     
+
+
+      <!---cHART JS GRAPH-->
+      <script>
+ var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+  type: 'pie',
+  data: {
+    labels: ["Not Found", "Not Expected", "Expected", "New"],
+    datasets: [{
+      backgroundColor: [
+        "#2ecc71",
+      
+      
+        "#9b59b6",
+        "#f1c40f",
+        "#e74c3c",
+        "#34495e"
+      ],
+      data: [12, 19,  3, 28]
+    }]
+  }
+});
+      </script>
+
+<!--script for color-->
+<script >
+  // Get the table
+const table = document.getElementById('table-1');
+
+// Get all the rows in the table body
+const rows = table.getElementsByTagName('tbody')[0].rows;
+
+// Loop through each row
+for (let i = 0; i < rows.length; i++) {
+  const cell = rows[i].cells[7]; // Get the cell in the "Asset Status" column
+
+  // Get the value of the cell
+  const assetStatus = cell.textContent.trim();
+
+  // Apply the corresponding color based on the asset status
+  if (assetStatus === 'Open') {
+    cell.style.color = 'red';
+  } else if (assetStatus === 'Closed') {
+    cell.style.color = 'green';
+  } else if (assetStatus === 'In progress') {
+    cell.style.color = 'blue';
+  } else if (assetStatus === 'Expired') {
+    cell.style.backgroundColor = '#008000';
+    cell.style.color = 'white';
+  }
+}
+
+</script>
+<!---script for table-->
+      <script>
+         const table1 = document.getElementById('table-1');
+  const table2 = document.getElementById('table-2');
+  const table1Button = document.getElementById('table-1-button');
+  const table2Button = document.getElementById('table-2-button');
+
+  // Add click event listeners to the buttons
+  table1Button.addEventListener('click', function() {
+    // Show Table 1 and hide Table 2
+    table1.style.display = 'table';
+    table2.style.display = 'none';
+  });
+
+  table2Button.addEventListener('click', function() {
+    // Show Table 2 and hide Table 1
+    table2.style.display = 'table';
+    table1.style.display = 'none';
+  });
+      </script>
+     
+  
+</body>
+
+</html>

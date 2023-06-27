@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./assetFormStyle.css">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <section class="assetSearchModal">
+        <section class="searchModalFormFront">
+            <div class="modalHeader">Advanced search</div>
+            <form class="assetSearchForm">
+                <!-- Employee name -->
+                <section class="searchFieldContainer">
+                    <div class="fieldTitle">Employee name / Employee ID</div>
+                    <div class="assetInputField">
+                        <input type="text" name="employee" id="searchEmployeeField" placeholder="Enter employee name / ID">
+                        <i class='bx bx-x clearfield' ></i>
+                    </div>
+                    <div class="errorMsg">Error message</div>
+                </section>
+
+                <!-- Asset name / Asset ID -->
+                <section class="searchFieldContainer">
+                    <div class="fieldTitle">Asset name / Asset ID</div>
+                    <div class="assetInputField">
+                        <input type="text" name="asset" id="searchAssetField" placeholder="Enter asset name / ID">
+                        <i class='bx bx-x clearfield' ></i>
+                    </div>
+                    <div class="errorMsg">Error message</div>
+                </section>
+
+                <!-- Dates -->
+                <section class="fieldGroup">
+
+                    <!-- start date -->
+                    <section class="searchFieldContainer">
+                        <div class="fieldTitle">Start Date</div>
+                        <div class="assetInputField">
+                            <input type="date" name="startDate" id="searchStartDateField" placeholder="Start">
+                        </div>
+                        <div class="errorMsg">Error message</div>
+                    </section>
+
+                    <!-- End date -->
+                    <section class="searchFieldContainer">
+                        <div class="fieldTitle">End Date</div>
+                        <div class="assetInputField">
+                            <input type="date" name="endDate" id="searchEndDateField" placeholder="End Date">
+                        </div>
+                        <div class="errorMsg">Error message</div>
+                    </section>
+                </section>
+
+                <!-- Location name / location id -->
+
+                <section class="searchFieldContainer">
+                    <div class="fieldTitle">Location name / Location ID</div>
+                    <div class="assetInputField">
+                        <input type="text" name="employee" id="searchLocationField" placeholder="Enter location name / ID">
+                        <i class='bx bx-x clearfield' ></i>
+                    </div>
+                    <div class="errorMsg">Error message</div>
+                </section>
+                <button class="assetSearchBtn" id="assetSearchBtn">Search</button>
+            </form>
+            
+        </section>
+        <section class="searchModalFormBack"></section>
+    </section>
+    <script src="./assetFormSearch.js"></script>
+</body>
+</html>

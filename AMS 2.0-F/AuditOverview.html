@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"
+    integrity="sha384-Tv5i09RULyHKMwX0E8wJUqSOaXlyu3SQxORObAI08iUwIalMmN5L6AvlPX2LMoSE" crossorigin="anonymous" />
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"
+    integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <link rel="stylesheet" href="AuditOverview.css">
+    <style>
+        .additional-search {
+    display: none;
+}
+    </style>
+    
+    <title>Parents table </title>
+</head>
+<body>
+    <!--side nav-bar-->
+
+    <div class="nav-bar-height">
+        <section class="sidebar">
+            <section class="imageSet">
+                <img src="./images/favicon.ico" alt="" class="companyLogo">
+            </section>
+            <nav class="navbar">
+                <ul>
+                    <li>
+                        <!-- Dashboard -->
+                        <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a>
+                    </li>
+                    <li>
+                        <!-- Alerts -->
+                        <a href="./alert.html"><i class='bx bxs-bell'></i></a>
+                    </li>
+                    <li>
+                        <!-- Assets -->
+                        <a href="./asset.html"><i class='bx bxs-cube-alt'></i></a>
+                    </li>
+                    <li>
+                        <!-- Requests -->
+                        <a href="./request.html"><i class='bx bxs-layer'></i></a>
+                    </li>
+
+                    <li>
+                        <!-- Dashboard -->
+                        <a href="./overview.html"><i class='bx bx-table'></i></a>
+                    </li>
+                    <li>
+                        <!-- Profile -->
+                        <a href="./AuditOverview.html"><i class='bx bx-edit' ></i></a>
+                    </li>
+                    <li>
+                        <!-- Profile -->
+                        <a href="./profile.html"><i class='bx bxs-user'></i></a>
+                    </li>
+
+                </ul>
+            </nav>
+            <section class="navOpts">
+
+                <button class="logoutBtn" id="logoutBtn"><i class='bx bx-log-out-circle'></i></button>
+            </section>
+        </section>
+    </div>
+
+
+
+
+    <!--Table-->
+    <div class="main-wrapper">
+        <main role="main">
+            <div class="table-card">
+                <h1 class="table-title"> Audit Overview </h1>
+                <div class="bar-prog "></div>
+                    <div class="container">
+
+                          <!---char bar for show the data-->
+                   <div class="charts">
+                    <div class="title">
+                      <span class="pie-chart" style="--p: 74.32; --c: darkgreen">
+                        74
+                     </span>
+                     <h1 class="title-1">New Audit</h1>
+                    </div>
+                     
+
+                    <div class="title">
+                      <span class="pie-chart" style="--p: 59.44">
+                        59
+                      </span>
+                      <h1 class="title-1" >Inprogress Audit</h1>
+                    </div>
+                    <div class="title">
+                      <span class="pie-chart" style="--p: 31.95; --c: darkred">
+                        32
+                      </span>
+                      <h1 class="title-1">Closed Audit</h1>
+                    </div>
+                    <div class="title">
+                        <span class="pie-chart" class="char-4" style="--p: 31.95; --c: red">
+                          32
+                        </span>
+                        <h1 class="title-1"> Expired Audit</h1>
+                     </div>
+                </div>
+                      <!--new and create audit Box-->
+                     
+                      <!--Advance search part-->
+                      
+                     
+                      <form class="advnace-search-from">
+                        <!-- <div id="search-boxes"> -->
+                           
+                            <input type="text" name="location" placeholder="Location Id" required><br>
+                            <div id="department-section" class="additional-search">
+                                <input type="text" name="department" placeholder="Department Id"><br>
+                            </div>
+                            <div id="category-section" class="additional-search">
+                                <input type="text" name="category" placeholder="Category"><br>
+                            </div>
+                            <button  type="button" id="toggle-department">departmentId+</button>
+                            <button  type="button" id="toggle-category">Category+</button>
+                            <div class="search-btn">
+                                <input type="submit" value="Search">
+                            </div>
+                        </form>
+                        <!-- </div> -->
+                     
+                 
+                       
+
+
+
+                      <!---- 👍-->
+                       
+                        
+                        <div class="form-group-21"> 
+                          
+                            <h7 class="select-name">Select Number Of Rows</h7>
+                            <select class="form-control" name="state" id="maxRows">
+                                <option value="5000">Show ALL Rows</option>
+    
+                                <option value="50" selected>50</option>
+                                <option value="100">100</option>
+                                <option value="150">150</option>
+                                <option value="200">200</option>
+                                <option value="500">500</option>
+                                <option value="700">700</option>
+                                <option value="1000">1000</option>
+                            </select>
+                        </div>
+    
+                        <div class="table-scroll">
+                            <div class="table-wrapper">
+                                <table class="sticky-table" class="audit-table" id="example">
+
+                                    <thead class="table-head" title="Click to sort">
+                                        <tr class="table-row">
+                                            <th class="col-head" scope="col">Audit Number<br></th>
+                                            <th class="col-head" scope="col">Location Name<br></th>
+                                            <th class="col-head" scope="col">Dept Name<br></th>
+                                            <th class="col-head" scope="col">Auditor Name<br></th>
+                                            <th class="col-head" scope="col">Start Date<br></th>
+                                            <th class="col-head" scope="col">End Date<br></th>
+                                            <th class="col-head" scope="col">Approved<br>
+                                            <th class="col-head" scope="col">Asset Assign<br></th>
+                                            <th class="col-head" scope="col">Approved Date</th>
+                                            <th class="col-head" scope="col">Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-body" id="audit-table-body">
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                      
+                                          <td><button class="view" style="width: 50px; height: 35px;"><i class="fas fa-eye fa-lg" style="color: #11213c;  "></button></i></td>
+                                 
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>No</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <td><button class="view" style="width: 50px; height: 35px;"><i class="fas fa-eye fa-lg" style="color: #11213c;  "></button></i></td>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>No</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <td><button class="view" style="width: 50px; height: 35px;"><i class="fas fa-eye fa-lg" style="color: #11213c;  "></button></i></td>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>No</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <td><button class="view" style="width: 50px; height: 35px;"><i class="fas fa-eye fa-lg" style="color: #11213c;  "></button></i></td>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>No</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <td><button class="view" style="width: 50px; height: 35px;"><i class="fas fa-eye fa-lg" style="color: #11213c;  "></button></i></td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <td><button class="view" style="width: 50px; height: 35px;"><i class="fas fa-eye fa-lg" style="color: #11213c;  "></button></i></td>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <td><button class="view" style="width: 50px; height: 35px;"><i class="fas fa-eye fa-lg" style="color: #11213c;  "></button></i></td>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                           
+                                            <td><button class="view" style="width: 50px; height: 35px; "><i class="fas fa-eye fa-lg" style="color: #11213c;  "></button></i></td>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <td><button class="view" style="width: 50px; height: 35px;"><i class="fas fa-eye fa-lg" style="color: #11213c;  "></button></i></td>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>Data 3</td>
+                                            <td>Data 1</td>
+                                            <td>Data 2</td>
+                                            <td>yes</td>
+                                            <td>Data 3</td>
+                                            <td>yes</td>
+                                            <td>yes</td>
+                                            <button class="view">
+                                            <td><i class="fas fa-eye fa-lg" style="color: #11213c;  "></i></td>
+                                            </button>
+   
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+
+                            </div> <!-- /.table-scroll -->
+                            <div id="no-data-message" style="display: none;">Data is not available</div> 
+                        </div> <!-- /.table-wrapoer -->
+                        <!--   next page pagination-->
+                        <div class='pagination-container'>
+                            <nav>
+                                <ul class="pagination">
+                                    <li data-page="prev">
+                                        <span>
+                                            < <span class="sr-only">(current)
+                                        </span></span>
+                                    </li>
+                                    <!--	Here the JS Function Will Add the Rows -->
+                                    <li data-page="next" id="prev">
+                                        <span> > <span class="sr-only">(current)</span></span>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                  
+
+                        </div> <!-- /.table-wrapoer -->
+                        <!--   next page pagination-->
+                    </div> <!-- /.table-card -->
+                </div> <!-- /.container -->
+        </main>
+    </div> <!-- /.main-container -->
+
+
+    <!---script for color of approved-->
+    <script>
+         const approvedCells = document.querySelectorAll('#example tbody td:nth-child(6)');
+
+approvedCells.forEach(cell => {
+    const cellText = cell.textContent.trim().toLowerCase();
+
+    if (cellText === 'yes') {
+        cell.style.backgroundColor = 'white';
+        cell.style.color = 'green';
+        cell.classList.add('approved');
+    } else if (cellText === 'no') {
+        cell.style.backgroundColor = 'white';
+        cell.style.color = 'red';
+        cell.classList.add('not-approved');
+    }
+});
+    </script>
+
+
+<!---   for Advance search-->
+    <script>
+        var departmentSection = document.getElementById("department-section");
+  var categorySection = document.getElementById("category-section");
+  var toggleDepartmentButton = document.getElementById("toggle-department");
+  var toggleCategoryButton = document.getElementById("toggle-category");
+  
+  toggleDepartmentButton.addEventListener("click", function () {
+      if (departmentSection.style.display === "none") {
+          departmentSection.style.display = "block";
+          toggleDepartmentButton.innerText = "departmentId-";
+      } else {
+          departmentSection.style.display = "none";
+          toggleDepartmentButton.innerText = "departmentId+";
+      }
+  });
+  
+  toggleCategoryButton.addEventListener("click", function () {
+      if (categorySection.style.display === "none") {
+          categorySection.style.display = "block";
+          toggleCategoryButton.innerText = "Category-";
+      } else {
+          categorySection.style.display = "none";
+          toggleCategoryButton.innerText = "Category+";
+      }
+  });
+    </script>
+   
+    <script scr="parents.js"></script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./settings2Style.css">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <section class="sidebar">
+        <section class="imageSet">
+            <img src="./images/soulLogo.png" alt="" class="logo">
+        </section>
+        <nav class="sideNav">
+            <!-- <ul>
+                <li>
+                    <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a> 
+                </li>
+                <li>
+                    <a href="./alerts.html"><i class='bx bxs-bell' ></i></a> 
+                </li>
+                <li>
+                    <a href="./requests.html"><i class='bx bxs-layer' ></i></a> 
+                </li>
+                <li>
+                    <a href="./settings2.html"><i class='bx bxs-user'></i></a> 
+                </li>
+            </ul> -->
+        </nav>
+        <section class="sideOpts">
+            <span class="toggleBtn">
+                <input type="checkbox" name="switch" id="switch">
+                <label for="switch"></label>
+            </span>
+            <!-- <a href="./settings.html" class="settingsBtn"><i class='bx bxs-cog'></i></a> -->
+            <button class="logoutBtn" id="logoutBtn"><i class='bx bx-log-out-circle' ></i></button>
+        </section>
+     </section>
+     <section class="mainBody">
+
+        <section class="nav">
+            <div class="title">Profile</div>
+        </section>
+
+        <section class="userDetails">
+
+            <section class="subPanel1">
+                <section class="info">
+                    <div class="pName">First Name</div>
+                    <div class="pValue">
+                        <i class='bx bxs-user'></i>
+                        <span class="val" id="firstName"></span>
+                    </div>
+                </section>
+    
+                <section class="info">
+                    <div class="pName">Middle Name</div>
+                    <div class="pValue">
+                        <i class='bx bxs-user'></i>
+                        <span class="val" id="middleName"></span>
+                    </div>
+                </section>
+    
+                <section class="info">
+                    <div class="pName">Last Name</div>
+                    <div class="pValue">
+                        <i class='bx bxs-user'></i>
+                        <span class="val" id="lastName"></span>
+                    </div>
+                </section>        
+            </section>
+            
+            <section class="subPanel2">
+                <section class="info">
+                    <div class="pName">Department</div>
+                    <div class="pValue">
+                        <i class='bx bxs-buildings' ></i>
+                        <span class="val" id="department"></span>
+                    </div>
+                </section>
+    
+                <section class="info">
+                    <div class="pName">Privilege</div>
+                    <div class="pValue">
+                        <i class='bx bxs-shield-alt-2' ></i>
+                        <span class="val" id="privilege"></span>
+                    </div>
+                </section>
+    
+                <section class="info">
+                    <div class="pName">Contact</div>
+                    <div class="pValue">
+                        <i class='bx bxs-phone' ></i>
+                        <span class="val" id="number"></span>
+                    </div>
+                </section>
+    
+                <section class="info">
+                    <div class="pName">Email</div>
+                    <div class="pValue">
+                        <i class='bx bxs-envelope' ></i>
+                        <span class="val" id="email"></span>
+                    </div>
+                </section>
+            </section>
+        </section>
+        <section class="resetContainer">
+            <section class="resetPassContainer">
+                <i class='bx bxs-check-circle successLogo' ></i>
+    
+                <section class="headingContainer">
+                    <i class='bx bxs-lock-open-alt'></i>
+                    <div class="heading">Password Reset <i class='bx bx-info-circle formInfo'></i> </div>
+                    <div class="subHeading">Enter new password and then repeat it</div>
+                </section>
+                <form class="passForm">
+                    <section class="fieldContainer">
+                        <label for="newPassword">New password</label>
+                        <section class="inputContainer">
+                            <section class="fieldLogo">
+                                <i class='bx bxs-lock-open-alt'></i>
+                            </section>
+                            <input type="text" name="newPassword" id="newPassword">
+                            <i class='bx bx-x clearfield' ></i>
+                        </section>
+                        <div class="errMsg">Error message</div>
+                    </section>
+                    
+                    <section class="fieldContainer">
+                        <label for="confPassword">Confirm password</label>
+                        <section class="inputContainer">
+                            <section class="fieldLogo">
+                                <i class='bx bxs-lock-open-alt'></i>
+                            </section>
+                            <input type="text" name="confPassword" id="confPassword">
+                            <i class='bx bx-x clearfield' ></i>
+                        </section>
+                        <div class="errMsg">Error message</div>
+                    </section>
+                </form>
+                <button class="submitNewPass" id="submitNewPass">Reset Password</button>
+            </section>
+    
+            <!-- -------------------------------------------------------------------- -->
+    
+            <section class="resetContactContainer">
+                <!-- <i class='bx bx-x-circle closeLogo'></i> -->
+                <i class='bx bxs-check-circle successLogo' ></i>
+    
+                <section class="headingContainer">
+                    <i class='bx bxs-lock-open-alt'></i>
+                    <div class="heading">Contact Reset <i class='bx bx-info-circle formInfo'></i> </div>
+                    <div class="subHeading">Enter new contact number</div>
+                </section>
+                <form class="contactForm">              
+                    <section class="fieldContainer">
+                        <label for="newContact">Number</label>
+                        <section class="inputContainer">
+                            <section class="fieldLogo">
+                                <i class='bx bxs-lock-open-alt'></i>
+                            </section>
+                            <input type="text" name="newContact" id="newContact">
+                            <i class='bx bx-x clearfield' ></i>
+                        </section>
+                        <div class="errMsg">Error message</div>
+                    </section>
+                </form>
+                <button class="submitNewContact" id="submitNewContact">Reset Contact</button>
+            </section>
+        </section>
+     </section>
+
+     <script src="./settings2Script.js"></script>
+</body>
+</html>

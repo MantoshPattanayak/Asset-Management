@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMS | Dashboard</title>
+    <link rel="stylesheet" href="./dashboardStyle.css" type="text/css">
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'> <!--icons link-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!--chart js link-->
+</head>
+<body>
+    <section class="sidebar">
+        <section class="imageSet">
+            <img src="./images/favicon.ico" alt="" class="companyLogo">
+        </section>
+        <nav class="navbar">
+            <ul>
+                <li>
+                    <!-- Dashboard -->
+                    <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a>
+                </li>
+                <li>
+                    <!-- Alerts -->
+                    <a href="./alert.html"><i class='bx bxs-bell' ></i></a>
+                </li>
+                <li>
+                    <!-- Assets -->
+                    <a href="./asset.html"><i class='bx bxs-cube-alt' ></i></a>
+                </li>
+                <li>
+                    <!-- Requests -->
+                    <a href="./request.html"><i class='bx bxs-layer' ></i></a>
+                </li>
+                <li>
+                    <!-- overview page -->
+                    <a href="./overview.html"><i class='bx bx-table' ></i></a>
+                </li>
+                <li>
+                    <!-- Audit -->
+                    <a href="./AuditOverview.html"><i class='bx bx-edit' ></i></a>
+                </li>
+                <li>
+                    <!-- Profile -->
+                    <a href="./profile.html"><i class='bx bxs-user' ></i></a>
+                </li>
+            </ul>
+        </nav>
+        <section class="navOpts">
+            <!-- <section class="toggleBtn">
+                <input type="checkbox" id="switch" name="switch">
+                <label for="switch"></label>
+            </section> -->
+            <!-- logout button -->
+            <button class="logoutBtn" id="logoutBtn"><i class='bx bx-log-out-circle' ></i></button>
+        </section>
+    </section>
+    <section class="mainBody">
+        <header>
+            <div class="pageName">Dashboard</div>
+            <section class="headerButtonSet">
+                <button class="reqAssetFormBtn" id="launchRequestForm">Request Asset</button>
+            </section>
+        </header>
+        <main>
+            <section class="panel1">
+                <section class="cardsPanel">
+                    <section class="card assetsCard">
+                        <section class="cardHeader">
+                            <div class="cardHeaderName">Assets</div>
+                            <div class="cardHeaderValue" id="assetsCardValue">2000</div>
+                        </section>
+                        <section class="cardBody">
+                            <section class="subCard">
+                                <div class="subCardName">Available</div>
+                                <div class="subCardValue" id="availableAssets">1500</div>
+                            </section>
+                            <section class="subCard">
+                                <div class="subCardName">On-move</div>
+                                <div class="subCardValue" id="assetsOnMove">500</div>
+                            </section>
+                        </section>
+                    </section>
+                    <section class="card tagsCard">
+                        <section class="cardHeader">
+                            <div class="cardHeaderName">Tags</div>
+                            <div class="cardHeaderValue" id="tagsCardValue">2000</div>
+                        </section>
+                        <section class="cardBody">
+                            <section class="subCard">
+                                <div class="subCardName">Assigned</div>
+                                <div class="subCardValue" id="assignedTags">1500</div>
+                            </section>
+                            <section class="subCard">
+                                <div class="subCardName">Available</div>
+                                <div class="subCardValue" id="availableTags">500</div>
+                            </section>
+                        </section>
+                    </section>
+                    <section class="card readersCard">
+                        <section class="cardHeader">
+                            <div class="cardHeaderName">Readers</div>
+                            <div class="cardHeaderValue" id="readersCardValue">30</div>
+                        </section>
+                        <section class="cardBody">
+                            <section class="subCard">
+                                <div class="subCardName">Online</div>
+                                <div class="subCardValue" id="readersOnline">26</div>
+                            </section>
+                            <section class="subCard">
+                                <div class="subCardName">Offline</div>
+                                <div class="subCardValue" id="readersOffline">4</div>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+                <section class="chartsPanel">
+                    <section class="chart movementsChartHolder">
+                        <section class="chartHeader">
+                            <div class="chartName">Movements</div>
+                            <section class="chartOpts">
+                                <button class="chartSyncBtn" id="mChartSyncBtn"><i class='bx bx-sync'></i></button>
+                                <input type="date" name="" id="mStartDate" value="Start date..." placeholder="Start date...">
+                                <input type="date" name="" id="mEndDate" placeholder="End date...">
+                                <button class="chartSearchBtn" id="mChartSearch"><i class='bx bx-search-alt-2'></i></button>
+                            </section>
+                        </section>
+                        <section class="chartBody">
+                            <canvas id="movementsChart"></canvas>
+                        </section>
+                    </section>
+                    <section class="chart alertsChartHolder">
+                        <section class="chartHeader">
+                            <div class="chartName">Alerts</div>
+                            <section class="chartOpts">
+                                <button class="chartSyncBtn" id="aChartSyncBtn"><i class='bx bx-sync'></i></button>
+                                <input type="date" name="" id="aStartDate" placeholder="Start date...">
+                                <input type="date" name="" id="aEndDate" placeholder="End date...">
+                                <button class="chartSearchBtn" id="aChartSearch"><i class='bx bx-search-alt-2'></i></button>
+                            </section>
+                        </section>
+                        <section class="chartBody">
+                            <canvas id="alertsChart"></canvas>
+                        </section>
+                    </section>
+                </section>
+                <section class="tablePanel">
+                    <section class="tableHeader">
+                        <div class="tableName">Latest asset requests</div>
+                    </section>
+                    <section class="tableBody" id="tableBody">
+                        <table id="table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>header1</th>
+                                    <th>header2</th>
+                                    <th>header3</th>
+                                    <th>header4</th>
+                                    <th>header5</th>
+                                    <th>header6</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>data1</td>
+                                    <td>data2</td>
+                                    <td>data3</td>
+                                    <td>data4</td>
+                                    <td>data5</td>
+                                    <td>data6</td>
+                                </tr>
+                                <tr>
+                                    <td>data1</td>
+                                    <td>data2</td>
+                                    <td>data3</td>
+                                    <td>data4</td>
+                                    <td>data5</td>
+                                    <td>data6</td>
+                                </tr>
+                                <tr>
+                                    <td>data1</td>
+                                    <td>data2</td>
+                                    <td>data3</td>
+                                    <td>data4</td>
+                                    <td>data5</td>
+                                    <td>data6</td>
+                                </tr>
+                                <tr>
+                                    <td>data1</td>
+                                    <td>data2</td>
+                                    <td>data3</td>
+                                    <td>data4</td>
+                                    <td>data5</td>
+                                    <td>data6</td>
+                                </tr>
+                                <tr>
+                                    <td>data1</td>
+                                    <td>data2</td>
+                                    <td>data3</td>
+                                    <td>data4</td>
+                                    <td>data5</td>
+                                    <td>data6</td>
+                                </tr>
+                                <tr>
+                                    <td>data1</td>
+                                    <td>data2</td>
+                                    <td>data3</td>
+                                    <td>data4</td>
+                                    <td>data5</td>
+                                    <td>data6</td>
+                                </tr>
+                                <tr>
+                                    <td>data1</td>
+                                    <td>data2</td>
+                                    <td>data3</td>
+                                    <td>data4</td>
+                                    <td>data5</td>
+                                    <td>data6</td>
+                                </tr>
+                                <tr>
+                                    <td>data1</td>
+                                    <td>data2</td>
+                                    <td>data3</td>
+                                    <td>data4</td>
+                                    <td>data5</td>
+                                    <td>data6</td>
+                                </tr>
+                                <tr>
+                                    <td>data1</td>
+                                    <td>data2</td>
+                                    <td>data3</td>
+                                    <td>data4</td>
+                                    <td>data5</td>
+                                    <td>data6</td>
+                                </tr>
+                                <tr>
+                                    <td>data1</td>
+                                    <td>data2</td>
+                                    <td>data3</td>
+                                    <td>data4</td>
+                                    <td>data5</td>
+                                    <td>data6</td>
+                                </tr>
+                                <tr>
+                                    <td>data1</td>
+                                    <td>data2</td>
+                                    <td>data3</td>
+                                    <td>data4</td>
+                                    <td>data5</td>
+                                    <td>data6</td>
+                                </tr>
+                                <tr>
+                                    <td>data1</td>
+                                    <td>data2</td>
+                                    <td>data3</td>
+                                    <td>data4</td>
+                                    <td>data5</td>
+                                    <td>data6</td>
+                                </tr>
+                                <tr>
+                                    <td>data1</td>
+                                    <td>data2</td>
+                                    <td>data3</td>
+                                    <td>data4</td>
+                                    <td>data5</td>
+                                    <td>data6</td>
+                                </tr>
+                                <tr>
+                                    <td>data1</td>
+                                    <td>data2</td>
+                                    <td>data3</td>
+                                    <td>data4</td>
+                                    <td>data5</td>
+                                    <td>data6</td>
+                                </tr>
+                                <tr>
+                                    <td>data1</td>
+                                    <td>data2</td>
+                                    <td>data3</td>
+                                    <td>data4</td>
+                                    <td>data5</td>
+                                    <td>data6</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </section>
+            </section>
+            <section class="panel2">
+                <section class="assetsPerDept">
+                    <section class="panelHeader">
+                        <div class="panelName">Assets per dept.</div>
+                    </section>
+                    <section class="panelBody" id="assetsPanelBody">
+                    </section>
+                </section>
+                <section class="systemStats">
+                    <section class="panelHeader">
+                        <div class="panelName">System statistics</div>
+                    </section>
+                    <section class="panelBody" id="systemPanelBody">
+                    </section>
+                </section>
+            </section>
+        </main>
+    </section>
+
+    <!-- Request FORM -->
+    <section class="reqFormContainer" id="reqFormContainer">
+        <section class="reqFormFront" id="reqFormFront">
+            <section class="formHeader">
+                <h1>Request asset</h1>
+                <section class="formBtnSet" id="formBtnSet">
+                    <button class="formBtn" id="singleReqBtn">Single Request</button>
+                    <button class="formBtn" id="multiReqBtn">Multi Request</button>
+                 </section>
+            </section>
+            <section class="formHolder">
+                <section class="reqFormSlider" id="reqFormSlider">
+                    <form class="singleReqForm" id="singleReqForm">
+                        
+                        <section class="linecontainer">
+                            <section class="fieldContainer">
+                                <section class="inputContainer">
+                                <!-- requestor name -->
+                                
+                                    <!-- field icon -->
+                                    <i class='bx bxs-user fieldIcon' ></i>
+                                    <!-- input element -->
+                                    <input type="text" name="reqName" id="reqName"  placeholder="your name">
+                                    <!-- clear field -->
+                                    <!-- <i class='bx bx-x clearfield' ></i> -->
+                                </section>
+                                <section class="errorMsg">Error message </section>
+                            </section>
+                        
+                        <section class="fieldContainer right_line">
+                                <section class="inputContainer">
+                                    <!-- requestor id -->
+    
+                                    <!-- field icon -->
+                                    <i class='bx bxs-id-card fieldIcon' ></i>
+                                    <!-- input element -->
+                                    <input type="text" name="reqID" id="reqID" placeholder="your id">
+                                    <!-- clear field -->
+                                    <!-- <i class='bx bx-x clearfield' ></i> -->
+                                </section>
+                                <section class="errorMsg">Error message</section>
+                            </section>
+                        </section>
+
+                        <section class="fieldContainer left_line">
+                            <section class="inputContainer">
+                                <!-- requestor department -->
+    
+                                <!-- field icon -->
+                                <i class='bx bxs-buildings fieldIcon' ></i>
+                                <!-- input element -->
+                                <input type="text" name="empDept" id="empDept" placeholder="your department">
+                                <!-- clear field -->
+                                <!-- <i class='bx bx-x clearfield' ></i> -->
+                            </section>
+                            <section class="errorMsg">Error message</section>
+                        </section>
+
+                        <section class="fieldContainer">
+                            <section class="inputContainer">
+                                <!-- Asset ID -->
+                                <i class='bx bxs-devices fieldIcon' ></i>
+                                <input list="assetIDList" name="assetID" id="assetID" placeholder="asset id" autocomplete="off">
+                                <i class='bx bx-x clearfield' ></i>
+                                <datalist id="assetIDList"></datalist>
+                            </section>
+                            <section class="errorMsg">Error message</section>
+                        </section>
+
+                        
+                        <section class="fieldContainer">
+                            <section class="inputContainer">
+                                
+                                <!--Asset Name-->
+                                <i class='bx bx-book-content fieldIcon'></i>
+                                
+                                <section class="wrap" id="display">
+                                    <span>asset name display</span> 
+                                    <!-- asset name display -->
+                                </section>
+                                
+                                <!-- <i class='bx bx-x clearfield cleardisplay' ></i> -->
+                                <!-- <datalist id="assetIDList"></datalist> -->
+                            </section>
+                            <section class="errorMsg" id="errorMsg">Error message</section>
+                        </section>
+
+                        <section class="linecontainer">
+                            <section class="fieldContainer">
+                                <section class="inputContainer custom-select">
+                                    <!-- starting point -->
+                                        <i class='bx bxs-map-pin fieldIcon'></i>
+                                        <select name="" id="source">
+                                            <i class='bx bxs-map-pin fieldIcon'></i>
+                                            <option value="0">Starting Location:-</option>
+                                        </select>
+                                        <span class="custom-arrow"></span>
+                                    <!-- </section> -->
+
+                                </section>
+                                <section class="errorMsg">Error message</section>
+                            </section>
+
+                            <section class="fieldContainer">
+                                <section class="inputContainer custom-select">
+                                    <!-- destination point -->    
+                                    <!-- <section class="custom-select"> -->
+                                        <i class='bx bxs-map-pin fieldIcon'></i>
+                                        <!-- <select name="" id="dropdown"> -->
+                                        <select name="" id="destination">
+                                            
+                                            <option value="0" selected>Dest. Location:-</option>
+
+                                        </select>
+                                        <span class="custom-arrow"></span>
+                                    <!-- </section> -->
+                                
+                                </section>
+                                <section class="errorMsg">Error message</section>
+                            </section>
+                        </section>
+    
+                        <button class="submitSingleReqForm" id="submitSingleReqForm">Submit Request</button>
+                    </form>
+                    <form class="multiReqForm" id="multiReqForm">
+                        <!-- file upload container -->
+                        <section class="uploadForm">
+                            <img src="./img.png" alt="" class="fileIcon">
+                            <label for="uploadFile">Select file</label>
+                            <input type="file" name="uploadFile" id="uploadFile" accept=".csv" value="Select file" style="display: none">
+                        </section>
+                        <!-- file error response -->
+                        <section class="fileResponse" id="fileResponse">
+    
+                        </section>
+                        <button class="submitMultiReqForm" id="submitMultiReqForm">Upload File</button>
+                    </form>
+                </section>
+            </section>
+        </section>
+        <section class="reqFormBack" id="reqFormBack">
+            <!-- close modal -->
+            <!-- response icon -->
+            <!-- response message title-->
+            <!-- response message body -->
+            <i class='bx bx-x closeModal' ></i>
+            <i class="responseIcon"></i>
+            <div class="responseTitle"></div>
+            <div class="responseMsg"></div>
+        </section>
+    </section>
+
+    
+    <script src="./dashboardScript.js"></script>
+</body>
+</html>

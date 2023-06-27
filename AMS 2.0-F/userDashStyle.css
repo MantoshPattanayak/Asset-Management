@@ -1,0 +1,688 @@
+:root{
+    --bodyColor : #f4f6fb;
+    --inputFieldColor : #d2dae7;
+    --iconColor : #5863b4;
+    --buttonColor : #5863b4;
+    --btnTextColor : #fff;
+    --modalColor : #eaecf7;
+
+    /* --bodyColor : ; */
+    /* --modalColor : #eaecf8; */
+    --modalButtonColor : linear-gradient(-180deg, #1d95c9, #17759c 100%);
+    --modalFieldColor : #d2dae7 ;
+    --inputPlaceholderColor : ;
+    --inputTextColor : ;
+    --inputIconColor : ;
+    --errorMsgColor : ;
+    --modalHeadingColor : #000;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.sidebar{
+    width: 75px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0px;
+    position: relative;
+    z-index: 100;
+    background-color: #fafafa;
+    box-shadow: -2px 0px 10px -3px #1e1e1e;
+}
+.sidebar .imageSet{
+    width: 100%;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sidebar .imageSet img{
+    width: 80%;
+    height: 80%;
+}
+.navbar{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar ul li{
+    list-style: none;
+    padding: 15px 0px;
+}
+.navbar ul li a{
+    text-decoration: none;
+}
+.navbar ul li a i{
+    font-size: 30px;
+    color: black;
+    padding: 10px;
+    border-radius: 150px;
+    background: linear-gradient(145deg, #ffffff, #e1e1e1);
+    box-shadow: -1px -1px 2px #bebebe,
+                1px 2px 2px #bebebe,
+                -1px -1px 2px #ffffff;
+}
+.navOpts{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.logOut{
+    outline: none;
+    border: none;
+    padding: 10px 0px;
+}
+.logOut a{
+    text-decoration: none;
+}
+.logOut a i{
+    font-size: 25px;
+    color: black;
+}
+.logoutBtn{
+    background-color : transparent;
+    font-size: 35px;
+    outline: none;
+    border: none;
+}
+/* Main body style */
+
+.mainBody{
+    width: calc(100% - 75px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #E4E9F7;
+}
+header{
+    width: 100%;
+    height: 8%;
+    padding: 0px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: orangered; * */
+}
+.pageName{
+    font-size: 35px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+.reqAssetFormBtn{
+    width: 160px;
+    height: 60px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    background-color: #233248;
+    color: #fff;
+    font-size: 20px;
+}
+main{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+.panel{
+    width: 72%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 10px;
+    padding-right: 15px;
+}
+.cardsPanel{
+    width: 100%;
+    height: 20%;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.card{
+    width: 31%;
+    height: 100%;
+    border-radius: 23px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25) ;
+}
+.cardHeader{
+    width: 100%;
+    height: 40%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 15px;
+}
+.cardHeaderName, .cardHeaderValue{
+    font-size: 28px;
+}
+.cardBody{
+    width: 90%;
+    height: 60%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 15px;
+    border-radius: 0px 23px 0px 23px;
+    box-shadow: 2px -2px 4px rgba(0, 0, 0, 0.16);
+}
+.subCard{
+    width: 30%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.subCardName, .subCardValue{
+    font-size: 20px;
+}
+.tablePanel{
+    width: 100%;
+    height: 76%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 23px;
+}
+.tableHeader{
+    width: 100%;
+    height: 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px;
+    border-radius: 23px 23px 0px 0px;
+    background-color: #495C83;
+}
+.tableName{
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.tableTitle{
+    color: #fff;
+    font-size: 20px;
+}
+.chartSyncBtn{
+    border: none;
+    outline: none;
+    margin-left: 20px;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tableOpts{
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.tableOpts input{
+    width: 85%;
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+}
+.reqSearchBtn{
+    border: none;
+    width: 35px;
+    height: 35px;
+    outline: none;
+    font-size: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tableBody{
+    width: 100%;
+    height: 93%;
+}
+.assetsTable{
+    width: 28%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 23px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    background-color: #fff;
+}
+.assetsTableOpts{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.assetsTableOpts input{
+    width: 80%;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 16px;
+}
+.assetSearchBtn{
+    border: none;
+    width: 35px;
+    height: 35px;
+    outline: none;
+    font-size: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tableBody{
+    width: 100%;
+    height: 94%;
+    position: relative;
+    border-collapse: separate;
+    border-spacing: 0px;
+    overflow-y: scroll;
+
+}
+.requestTable, .assetTable{
+    width: 100%;
+    position: relative;
+    border-collapse: separate;
+    border-spacing: 0px;
+}
+thead{
+    position: sticky;
+    top: 0;
+    background-color: #354259;
+}
+thead tr th{
+    color: #fff;
+    letter-spacing: 1px;
+}
+tbody{
+    width: 100%;
+}
+tr{
+    line-height: 50px;
+    text-align: center;
+}
+tbody tr td{
+    border-bottom: 1px solid #d9d9d9;
+}
+
+/* --------------------------------------- request form style */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    /* transition: background-color 5000s ease-in-out 0s; */
+    transition-property:color, background-color;
+    transition-duration: 5000s;
+    transition-timing-function: ease-in-out;
+    transition-delay: 0s;
+}
+ input, textarea{
+    color: black;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+.errorMsg{
+    visibility: hidden;
+}
+
+.reqFormContainer{
+    width: 700px;
+    height: 900px;
+    box-shadow: 0px 4px 8px black;
+    border-radius: 20px;
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -110%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    z-index: 99;
+}
+.reqFormFront, .reqFormBack{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+}
+.reqFormFront{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: var(--modalColor);
+    transform: perspective(600px) rotateY(0deg);
+}
+.reqFormBack{
+    background-color: yellowgreen;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    transform: perspective(600px) rotateY(180deg);
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.responseIcon{
+    font-size: 50px;
+}
+.responseTitle{
+    padding-top: 10px;
+    font-size: 25px;
+}
+.responseMsg{
+    padding: 10px 20px;
+    font-size: 15px;
+}
+.closeModal, .closeformModal{
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    font-size: 25px;
+    color: var(--iconColor);
+}
+
+.formHeader{
+    width: 100%;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+.formHeader h1{
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: var(--modalHeadingColor);
+}
+.formBtnSet{
+    width : 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.formHolder{
+    width: 700px;
+    height: 700px;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.reqFormSlider{
+    display: flex;
+    transition: transform 0.6s linear 0s;
+}
+.singleReqForm{
+    width: 700px;
+    /* height: 700px; */
+    background-color: var(--modalColor);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+.linecontainer{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.fieldContainer{
+    width: 100%;
+    margin: 0px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inputContainer{
+    width: 100%;
+    position: relative;
+}
+.inputContainer > input{
+    width: 100%;
+    padding: 15px 50px;
+    font-size: 20px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    background-color: var(--modalFieldColor);
+    border-radius: 10px;
+}
+.inputContainer .fieldIcon{
+    position: absolute;
+    font-size: 20px;
+    top: 50%;
+    left: 25px;
+    transform: translate(-50%, -50%);
+}
+.inputContainer .clearfield{
+    position: absolute;
+    top: 50%;
+    right: 25px;
+    font-size: 20px;
+    transform: translate(-50%, -50%);
+}
+
+.wrap{
+    width: 100%;
+    /* height: 100px; */
+    color: #757575;
+    background-color: var(--modalFieldColor);
+    padding: 15px 50px;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    /* border-radius: 20px; */
+    border-radius: 10px;
+    /* text-align: center; */
+}
+
+.errorMsg{
+    width: 100%;
+    align-items: flex-start;
+    padding: 10px 20px;
+    font-size: 15px;
+}
+.multiReqForm{
+    width: 700px;
+    height: 700px;
+    background-color: var(--modalColor);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+.uploadForm, .fileResponse{
+    width: 100%;
+    height: 40%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.fileResponse{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.fileResponse div{
+    padding: 10px 0px;
+}
+.fileIcon{
+    height: 60%;
+}
+.uploadForm label{
+    font-weight: bold;
+    margin-top: 15px;
+    padding : 8px 20px;
+    border-radius: 20px;
+    background-color: yellowgreen;
+    box-shadow: 0px 1px 2px black;
+}
+.reqFormContainer button{
+    border-radius: 10px;
+    color : aliceblue;
+    background-image: linear-gradient(-180deg, #1d95c9, #17759c 100%);
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0px 1px 2px black;
+    width: 45%;
+    cursor: pointer;
+    padding: 15px 0px;
+    outline: none;
+    border: none;
+}
+
+.reqFormContainer button.active{
+    /* margin-top: 10px; */
+    padding: 5px 15px;
+    border-radius: 10px;
+    margin: 5px;
+    cursor: pointer;
+    width: fit-content;
+    outline: none;
+    border: none;
+    font-size: 0.8rem;
+}
+
+.reqFormContainer button.selected{
+    background: linear-gradient(to right, #c31432, #240b36);
+}
+
+/*Select option*/
+select{
+    font-size: 1.4rem;
+    padding: 1rem 3.5em 0.8rem 2.5rem;
+    appearance: none;
+    /* color: #757575; */
+    color: #333;
+    /* width: max-content; */
+    width: 100%;
+    background-color: #D2DAE7;
+    border: 0;
+    outline: none;
+    border-radius: 10px;
+}
+
+option{
+    outline: none;
+    border: none;
+}
+
+.custom-select{
+    position: relative;
+    width: 100%;
+    /* box-shadow: 0 10px 25px rgba(0, 0.3, 0.4, 0.4); */
+}
+
+.custom-arrow{
+    position: absolute;
+    top:0;
+    right: 0;
+    display: block;
+    /* background-color: brown; */
+    height: 100%;
+    width: 3rem;
+    pointer-events: none;
+}
+
+.custom-arrow::before,
+.custom-arrow::after{
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 50%;
+    
+    transform: translate(-50%,-50%);
+}
+
+.custom-arrow::before{
+    border-left: 0.5em solid transparent;
+    border-right: 0.5em solid transparent;
+    border-bottom: 0.5em solid #000;
+    top: 40%;
+}
+
+.custom-arrow::after{
+    border-left: 0.5em solid transparent;
+    border-right: 0.5em solid transparent;
+    border-top: 0.5em solid #000;
+    top: 60%;
+}

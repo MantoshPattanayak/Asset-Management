@@ -1,0 +1,945 @@
+
+/*   NAV BAR CSS*/
+
+:root{
+    --bodyColor : #f4f6fb;
+    --inputFieldColor : #d2dae7;
+    --iconColor : #5863b4;
+    --buttonColor : #5863b4;
+    --btnTextColor : #fff;
+    --modalColor : #eaecf7;
+
+    /* --bodyColor : ; */
+    /* --modalColor : #eaecf8; */
+    --modalButtonColor : linear-gradient(-180deg, #1d95c9, #17759c 100%);
+    --modalFieldColor : #d2dae7 ;
+    --inputPlaceholderColor : ;
+    --inputTextColor : ;
+    --inputIconColor : ;
+    --errorMsgColor : ;
+    --modalHeadingColor : #000;
+}
+.nav-bar-height{
+    height: 100%;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: lighter;
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.sidebar{
+    width: 75px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0px;
+    position: relative;
+    z-index: 100;
+    background-color: #fafafa;
+    box-shadow: -2px 0px 10px -3px #1e1e1e;
+}
+.sidebar .imageSet{
+    width: 100%;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sidebar .imageSet img{
+    width: 80%;
+    height: 80%;
+}
+.navbar{
+    width: 100%;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar ul li{
+    list-style: none;
+    padding: 15px 0px;
+}
+.navbar ul li a{
+    text-decoration: none;
+}
+.navbar ul li a i{
+    font-size: 30px;
+    color: black;
+    padding: 10px;
+    border-radius: 150px;
+    background: linear-gradient(145deg, #ffffff, #e1e1e1);
+    box-shadow: -1px -1px 2px #bebebe,
+                1px 2px 2px #bebebe,
+                -1px -1px 2px #ffffff;
+}
+
+
+/* Overview  PAGE  css*/
+/* *,
+:before,
+:after {
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+}
+
+:before,
+:after {
+    text-decoration: inherit;
+    vertical-align: inherit;
+} */
+
+html {
+    box-sizing: border-box;
+    cursor: default;
+    font-family: sans-serif;
+    line-height: 1.4;
+    -moz-tab-size: 4;
+    tab-size: 4;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    word-wrap: break-word;
+}
+
+body {
+    color: #333;
+    font: 1em/1.4 Roboto, "Source Sans Pro", Ubuntu, Cantarell, Arial, "Noto Sans",
+        "Segoe UI", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol", "Noto Color Emoji";
+    margin: 0;
+    text-rendering: optimizeLegibility;
+} */
+
+/* Normalize h1 settings across browsers
+
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+/* A better looking default horizontal rule. */
+
+hr {
+    box-sizing: content-box;
+    display: block;
+    font-size: 2em;
+    height: 1px;
+    overflow: visible;
+}
+
+/* Add default styling for <main> so that it works in IE9-11 */
+
+main {
+    display: block;
+    position: fixed;
+}
+
+
+/* Render tables with collapsed cell borders and centered vertical alignment */
+
+table {
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+    vertical-align: middle;
+}
+
+/*
+ * This <div> element's style exists solely for the purposes of this demonstration.
+ * It simply horizontally and vertically centers the elements on the page and most
+ * likely will not be copied into a production implementation.
+ */
+
+
+.main-wrapper {
+   
+    align-items: center;
+   
+    display: flex;
+ 
+    justify-content: center;  
+    height: 95vh;
+    width: 100%;
+   
+
+}
+
+/* Table Styles */
+
+
+
+.table-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.23), 0 5px 40px rgba(0, 0, 0, 0.19);
+   
+    margin: 1em auto 0.625em;
+   
+    overflow: hidden;
+    padding: 1.25em 0.625em 2.5em;
+    
+    width: 98vw;
+    height: 100vh;
+  
+}
+
+/* A container for all the inner elements of the card (the white container for the table) */
+
+.container {
+    margin: 0 auto;
+    width: 100%;
+    height: 40vh;
+    padding: 14px;
+
+  
+
+}
+
+/*
+ * The outer containing <div> for the table elements. The scrollbar effects are
+ * applied to this element.
+ */
+
+.table-scroll {
+    margin: 0 auto;
+    
+    overflow: auto;
+    /* Turn on the scrollbars if the table is larger than this element */
+    scrollbar-arrow-color: #fff;
+    /* IE 6+ scroll styles */
+    scrollbar-face-color: #5863b4;
+   
+    scrollbar-track-color: #80a2be;
+   
+    scrollbar-width: thin;
+    /* Firefox 64+ */
+    width: 100%;
+    height: 40vh;
+}
+
+/* Scrollbar effects for webkit browsers (Chrome, Safari, Opera 11+, Chromium-based Edge) */
+
+.table-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.table-scroll::-webkit-scrollbar-track {
+    background: padding-box #80a2be;
+    border-radius: 4px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+    background: padding-box #5863b4;
+    border-radius: 4px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb:hover {
+    background: padding-box #5863b4;
+}
+
+.table-scroll::-webkit-scrollbar-thumb:active {
+    background: padding-box #5863b4;
+    box-shadow: inset 0 0 3px rgba(192, 192, 192, 0.5);
+}
+
+ .table-title,
+ .table-head {
+    font-family: Lato, Oxygen, "Open Sans", Montserrat, "PT Sans", Verdana, Arial,
+        sans-serif;
+} 
+
+.table-title {
+    color:#354259 ;
+    display: inline-block;
+   display: flex;
+   
+   justify-content: center;
+    font-size: 2em;
+    font-weight: 700;
+    margin: 0 0 0 0.525em;
+    /* Sets all margins to 0 except for the left margin */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* text-transform: uppercase; */
+    white-space: nowrap;
+    word-wrap: normal;
+
+}
+
+/*
+ * The first wrapping container <div> for the table. This class' height will set
+ * the height for the visible part of the table
+ */
+
+.table-wrapper {
+    height: 30em;
+    /* Fallback for browsers w/o vh support */
+    height: 66.9vh;
+    margin: 0 auto;
+    min-height: 7em;
+    /* Minimum height has the table header and footer and 1 row visible */
+    width: 98%;
+}
+
+/*
+ * Set table element's outer border, center text by default,
+ * 100% width of parent container, No top or bottom margin, and automatic left
+ * and right margins, which centers the table in its container.
+ */
+
+.sticky-table {
+    border: 2px solid #bcbec0;
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+ 
+    
+}
+
+
+/* Ensure the default cursor on table body <tbody> and footer <tfoot> */
+
+.table-body,
+.table-foot {
+    cursor: default;
+    border-radius: 23px;
+}
+
+/*
+ * Background shading on all even numbered table rows <tr> that are descendants
+ * of the table body <tbody>
+ */
+
+.table-body .table-row:nth-child(even) {
+    background: #d3d3d3;
+}
+
+/* Hover effect on all table rows <tr> that are descendants of table body <tbody> */
+
+.table-body .table-row:hover {
+    background: #495c83;
+    color: #fff;
+}
+
+/*
+ * Hover effect on all table rows <tr> that are descendants of the table
+ * footer <tfoot>
+ */
+.table-foot .table-row:hover {
+    background:#354259;
+    color: #fff;
+}
+
+/*
+ * Set the default padding for all the table's cells, 8px in every direction.
+ * .col-head are the <th> elements in the <thead> section, .cell are the <td>
+ * elements in the <tbody> sectiion, .col-foot are the <td> elements in the
+ * <tfoot> section of the HTML
+ */
+
+.cell,
+.col-foot {
+    padding: 8px;
+    padding: 0.5rem;
+}
+
+/*
+ * Set the style of the table's column header cells <th>.
+ * The position: sticky and position: -webkit-sticky must be added to a
+ * all the th elements themselves, like in the class below. It does NOT work
+ * if you attempt to apply it to a <thead> element instead.
+ */
+
+.col-head {
+    background: #354259;
+  
+    border-color: #bcbec0;
+    border-style: solid;
+    border-width: 0 0 3px;
+    /* 0px on the top, 0px on sides, and 3px below */
+    color: #f1f2f2;
+    font-size: 1.25em;
+    letter-spacing: 0.075em;
+    padding: 0.4em 0.8em;
+    position: -webkit-sticky;
+    position: sticky;
+    top: -0.5px;
+    /* Fixes issue w/ sticky where sometimes text from table shows above header */
+    /* Transition timing for hover/active effects */
+    -webkit-transition: background-color 0.4s ease-out;
+    -moz-transition: background-color 0.4s ease-out;
+    transition: background-color 0.4s ease-out;
+    white-space: nowrap;
+    z-index: 999;
+    /* Ensure the sticky-headers will be on top of everything as user scrolls */
+}
+
+.col-head:hover {
+    background: #354259;
+}
+
+.col-head:active {
+    background: #003057;
+}
+
+/* Every cell <td> in the table body <tbody> has this class applied */
+
+.cell {
+    border-bottom: 1px solid #bcbec0;
+}
+
+/* Set the styling for the cells in the table footer */
+
+.col-foot {
+    background: #94a5b7;
+    border-top: 2px solid #bcbec0;
+    bottom: -1px;
+    /* Fixes issue w/ sticky where sometimes text from table shows below footer */
+    color: #ffe;
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 999;
+    /* Ensures the footer stays on top of everything else */
+}
+
+/* Set the hover effect for cells in the table footer */
+
+.col-foot:hover {
+    color: #00447c;
+    font-weight: 700;
+}
+
+/* Style the first column of the table */
+
+.col-head:first-child,
+.cell:first-child,
+.col-foot:first-child {
+    padding-left: 16px;
+    /* Fallback for browsers not supporting rem units */
+    padding-left: 1rem;
+    text-align: left;
+}
+
+/* Style the last column of the table */
+
+.col-head:last-child,
+.cell:last-child,
+.col-foot:last-child {
+    padding-right: 16px;
+    /* Fallback for browsers not supporting rem units */
+    padding-right: 1rem;
+    text-align: right;
+}
+
+/* Set a border for every cell with a sibling before it */
+
+.col-head+.col-head,
+.cell+.cell,
+.col-foot+.col-foot {
+    border-left: 1px solid #bcbec0;
+}
+
+/*
+ * Styles for table sorting feature - These class names must remain unchanged
+ * as they are applied to the HTML via the sorttable.js JavaScript.
+ */
+
+.table-sort-header {
+    cursor: pointer;
+}
+
+.table-sort-header::-moz-selection {
+    background: 0 0;
+}
+
+.table-sort-header::selection {
+    background: 0 0;
+}
+
+/*
+ * Last columns sort indicator shows up on left instead of right for right
+ * text-alignment. If the final column isn't right-aligned the selectors
+ * can be simplified. (sort-header:after)
+ */
+.table-sort-header:not(:last-child):after,
+.table-sort-header:last-child:before {
+    border-color: #fff transparent;
+    border-style: solid;
+    border-width: 0 0.3em 0.3em;
+
+    margin-top: 0.55em;
+
+    /* Opacity fallback for IE8- */
+    opacity: 0.7;
+    position: absolute;
+    visibility: hidden;
+}
+
+/*
+ * Sets all headers except for the last column to have the sorting indicator
+ * triangle floating to the right of the header's text (for left and center aligned text)
+ */
+.table-sort-header:not(:last-child):after {
+    float: right;
+    right: 2%;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+
+/*
+ * Sets the last column's headers to have the sorting indicator
+ * triangle floating to the left of the header's text (for right aligned text)
+ */
+
+.table-sort-header:last-child:before {
+    float: left;
+    left: 2%;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.table-sort-header:hover:after,
+.table-sort-header:hover:before {
+    visibility: visible;
+}
+
+.table-sort-asc:after,
+.table-sort-asc:hover:after,
+.table-sort-desc:after,
+.table-sort-asc:before,
+.table-sort-asc:hover:before,
+.table-sort-desc:before {
+    border-width: 0 0.3em 0.3em;
+    /* -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(enabled=false)"; */
+    /* Opacity fallback for IE8- */
+    opacity: 1;
+    -webkit-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -ms-transform: rotate(0);
+    transform: rotate(0);
+}
+
+.table-sort-desc:not(:last-child):after,
+.table-sort-desc:last-child:before {
+    border-width: 0.3em 0.3em 0;
+    /* -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(enabled=false)"; */
+    /* Opacity fallback for IE8- */
+    opacity: 1;
+    -webkit-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -ms-transform: rotate(0);
+    transform: rotate(0);
+}
+
+/* MEDIA QUERIES (for smaller screen sizes) */
+
+@media only screen and (max-width: 60em) {
+    .main-wrapper {
+        font-size: 80%;
+    }
+}
+
+@media only screen and (max-width: 52.5em) {
+    .main-wrapper {
+        font-size: 65%;
+    }
+}
+
+@media only screen and (max-width: 45em) {
+    .main-wrapper {
+        font-size: 50%;
+    }
+
+    .cell {
+        font-size: 112.5%;
+    }
+}
+
+/* PRINT ONLY STYLES */
+
+@media print {
+    * {
+        color: #000;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+
+
+    table {
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+        max-height: 100%;
+        max-width: 100%;
+        page-break-inside: auto;
+    }
+
+    /* Prevent the page from breaking in the middle of a table row */
+    tr,
+    td {
+        page-break-inside: avoid;
+        font-size: 30px;
+    }
+
+    /* Prevent the page from breaking right after a heading */
+    header,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        page-break-after: avoid;
+    }
+
+    th,
+    tfoot td {
+        position: static !important;
+    }
+
+    nav,
+    footer,
+    button,
+    input,
+    select,
+    .no-print {
+        /* Apply this class to anything you don't want displayed on print */
+        display: none !important;
+    }
+
+    .main-wrapper,
+    .table-card,
+    .container,
+    .table-wrap-outer,
+    .table-wrap {
+        display: block;
+        /* height: 100%; */
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    .table-title {
+        font-family: Georgia, Cambria, Garamond, "Times New Roman", Times, serif;
+    }
+
+    
+
+    /*
+     * Lighten the background color and change from white text on the column
+     * headers for better printing if user prints in black and white
+    */
+
+    .col-head {
+        background: #80a2be;
+        color: #000;
+    }
+
+    @page {
+        margin: 1.5cm;
+        size: auto;
+    }
+}
+
+/* select number of row**/
+.form-group-21 {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .form-group-21 select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #f2f3f5; /* Light gray background */
+    border: none;
+    padding: 10px 30px 10px 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 200px;
+  }
+  
+  .form-group-21 select::-ms-expand {
+    display: none;
+  }
+  
+  .form-group-21::after {
+  
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  
+  .form-group-21 select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #1877F2; /* Facebook blue color */
+  }
+  
+  .form-group-21 select option {
+    background-color: #fff;
+    color: #1d2129; /* Dark text color */
+  }
+  
+  .form-group-21 select option:checked {
+    background-color: #1877F2; /* Facebook blue color */
+    color: #fff; /* White text color */
+  }
+  .select-name{
+    font-weight: 600;
+  }
+  
+/* code for aproved**/
+/* Styling for the pagination container */
+.pagination-container {
+    /* display: flex;
+    justify-content: center; */
+    margin-top: 20px;
+    font-size: 30px;
+    float: right;
+  }
+  /* Styling for the pagination */
+  .pagination {
+    list-style-type: none;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 10px;
+    /* margin: -5px; */
+    font-size: 30px;
+  }
+  /* Styling for the pagination buttons */
+  .pagination li {
+    margin: 2px 5px;
+    padding-left: 10px;
+  }
+  .pagination li:hover {
+      border: 1px solid black;
+      border-radius: 50%;  
+      padding-right: 10px;
+  }
+  /* Styling for the previous and next buttons */
+  .pagination li[data-page="prev"],
+  .pagination li[data-page="next"] {
+    padding: 5px;
+    width: 3vw;
+    border: 1px solid #1b1a1a;
+    border-radius: 50%;
+    background-color:#73a5d6;
+    cursor: pointer;
+  }
+  /* Styling for the close appearance of the buttons */
+  .pagination li[data-page="prev"] span:before,
+  .pagination li[data-page="next"] span:after {
+    font-weight: bold;
+  }
+  
+  /* Styling for the current page indicator */
+  .pagination .sr-only {
+    display: none;
+  }
+  
+span {
+    color: rgb(13, 13, 14);
+    border: 1px;
+    font-size: 30px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+
+
+
+
+/** from**/
+
+  .Aduit-details-from {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    max-width: 100%;
+    padding: 20px;
+ 
+    border-radius: 5px;
+ 
+    height: 40vh;
+  }
+  
+  .Aduit-details-from h7 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .Aduit-scope-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .bar-prog {
+    grid-column: 1 / span 3;
+    height: 5px;
+    background-color: #007bff;
+    margin-bottom: 20px;
+  }
+  /*new code**/
+  
+    
+    .Aduit-Number,
+    .Aduit-scope,
+    .location,
+    .Scheduled {
+      margin-bottom: 10px;
+    
+    }
+    
+    .Aduit-Number h7,
+    .Aduit-scope h7,
+    .location h7,
+    .Scheduled h7 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: bold;
+      
+    }
+    
+    .aduit-scope-input {
+      background-color: #f2f3f5; /* Light gray background */
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 4px;
+      width: 100%;
+      box-shadow: #09739c 0.1px 0.2px;
+    
+    }
+  @media (max-width: 768px) {
+    .Aduit-details-from {
+      grid-template-columns: 1fr;
+    }
+  }
+ /*cancel and submit btn**/
+ .submit-audit-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    margin-right: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .btn-submit {
+    background-color: #4caf50;
+    color: #fff;
+  }
+  
+  .btn-submit:hover {
+    background-color: #45a049;
+  }
+  
+  .btn-cancel {
+    background-color: #f44336;
+    color: #fff;
+  }
+  
+  .btn-cancel:hover {
+    background-color: #d32f2f;
+  }
+  /***css for popup ****/
+  .btn-submit {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .popup {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px;
+    width: 20%;
+    height: 35%;
+    text-align: center;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: 2px 2px 2px 2px  black;
+  }
+
+  .popup h3 {
+    margin-top: 0;
+  }
+
+  .popup .btn-confirm{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  .popup .btn-cancel {
+    background-color: #be3b37;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+  }

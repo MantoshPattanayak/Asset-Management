@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <link rel="stylesheet" href="MultipleUserReg.css">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'> <!--icons link-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+    <title>Multiple Reg</title>
+</head>
+<body>
+<!---   csv upload web page -->
+    <div class="container">
+   <div class="card">
+    <h3>Upload File</h3>
+    <div class="drop-box">
+        
+        <p>File Support: CSV/EXCEL</p>
+      
+
+        <section class="uploadForm">
+            <img src="images/csv.jpg" width="110">
+          
+            <label for="uploadFile"><i class='bx bx-select-multiple' ></i>&nbsp;Select file</label>
+            <input type="file" name="uploadFile" id="uploadFile" accept=".csv" value="Select file" style="display: none">
+         
+            <div class="mess">
+
+            </div>
+        </section>
+    
+        <button id="uploadBtns" class="upload-btn">Upload</button>
+ </form>
+    </div>
+
+    <!--   dowloand csv file 🤞-->
+    <div class="file">
+       
+        <button onclick="downloadCSV(people)" class="button-download"><i class='bx bxs-down-arrow-circle' ></i>&nbsp;Download CSV  file</button>
+    </div>
+    </div>
+
+  
+   </div>
+   
+    </div>
+
+    <!--   Footer ✌-->
+    <footer>
+        <div class="wrapper">
+          <small>&copy;2023 <strong>Soul Ltd</strong>, All Rights Reserved</small>
+       
+        </div>
+      </footer>
+
+<script src="MultipleUserReg.js"></script>
+
+
+ 
+</body>
+</html>
