@@ -7,6 +7,7 @@ const bcrypt = require('bcryptjs');
 const multer = require('multer');
 const csvParser = require('csv-parser');
 const fs = require('fs');
+const auditOverviewRouter = require('./audit-routes/audit-overview-route');
 
 
 const app = express();
@@ -32,7 +33,12 @@ const sqlConfig = {
     }
 };
 
+//********************************************AUDIT ROUTES - START***************************************************************************/
+app.use('/audit-overview', auditOverviewRouter);
 
+
+
+//********************************************AUDIT ROUTES - END***************************************************************************/
 
 const transporter = nodeMailer.createTransport({
     host: 'smtp.mail.yahoo.com',
