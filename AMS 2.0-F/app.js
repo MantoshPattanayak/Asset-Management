@@ -7,6 +7,7 @@ const bcrypt = require('bcryptjs');
 const multer = require('multer');
 const csvParser = require('csv-parser');
 const fs = require('fs');
+const auditOverviewRouter = require('./audit-routes/audit-overview-route');
 
 
 const app = express();
@@ -32,7 +33,12 @@ const sqlConfig = {
     }
 };
 
+//********************************************AUDIT ROUTES - START***************************************************************************/
+app.use('/audit-overview', auditOverviewRouter);
 
+
+
+//********************************************AUDIT ROUTES - END***************************************************************************/
 
 const transporter = nodeMailer.createTransport({
     host: 'smtp.mail.yahoo.com',
@@ -136,44 +142,24 @@ app.get('/d', (req, res) => {
 })
 
 
-
 app.post('/done', (req, res) => {
     const { fname, mname, lname, email, password, parental, empid } = req.body
-    console.log(fname)
-    console.log(lname)
-    console.log(mname)
-    console.log(email)
     console.log(empid)
     const user = 'user';
     const saltRounds = 10;
     bcrypt.hash(password, saltRounds, function (err, hash) {
         console.log(hash)
 
-        // const username=fname+mname+lname
-        // console.log(username)
-
-        let query = `            
-        SELECT em.official_email, em.personal_email, emp_no, first_name, 
-        middle_name,
-          last_name
-   FROM asset.dbo.Employees e
-   INNER JOIN asset.dbo.Employee_master em ON e.emp_no = em.emp_id
-   WHERE e.emp_no = '${empid}' 
-         AND e.first_name = '${fname}' 
-         AND e.last_name = '${lname}' 
-         AND (em.official_email = '${email}' OR em.personal_email = '${email}')
-           AND (middle_name = '${mname}' OR middle_name = '' OR middle_name IS NULL)
-        `;
+        const username = fname + mname + lname
+        console.log(username)
+        let query = `SELECT emp_no,first_name, middle_name, last_name, contact_no,Parent_org from asset.dbo.Employees WHERE emp_no = '${empid}'`;
 
 
         let query1 = `Insert into asset.dbo.Users (first_name,middle_name,last_name,user_id,user_name,email,password,user_type,Parent_org) 
-       VALUES ('${fname}','${mname}','${lname}','${empid}','${email}','${email}','${hash}','${user}','${parental}')`;
+       VALUES ('${fname}','${mname}','${lname}','${empid}','${email}','${email}','${hash}','${user}','${parental}')`;
 
 
         let query2 = `select user_id from asset.dbo.Users where user_id='${empid}' or user_name='${email}'`;
-
-
-
 
         mssql.query(query, (err, result) => {
             console.log(result)
@@ -190,7 +176,7 @@ app.post('/done', (req, res) => {
                 console.log(result)
                 mssql.query(query2, (err, result2) => {
                     if (err) throw err;
-                    if (result2.recordset.length != 0) {
+                    if (result2.recordset != 0) {
                         res.send({
                             code: "user_already_exist",
                             response: "User already Exist"
@@ -233,88 +219,59 @@ app.post('/editAssets', (req, res) => {
     console.log('1')
     const { asset_name, asset_type, asset_id, location_name } = req.body
     console.log(req.body.asset_name)
-    console.log(req.body.asset_type)
+    console.log(req.body.asset_id)
     console.log(req.body.location_name)
-    let query1 = `select asset_desc from asset.dbo.asset_class where asset_desc='${asset_type}'`
-    let query2 = `select location_name from asset.dbo.location where location_name='${location_name}'`
-    mssql.query(query1, (err, result1) => {
-        if (err) throw err;
-        mssql.query(query2, (err, result2) => {
-            if (err) throw err;
-            if (result1.recordset.length != 0) {
-                if (result2.recordset.length != 0) {
-                    let query = `
-            UPDATE a
-            SET a.asset_name = '${asset_name}'
-            FROM asset.dbo.assets a WHERE a.asset_id = '${asset_id}'
-            
-            
-            
-            UPDATE a
-            SET a.asset_type = '${asset_type}'
-            FROM asset.dbo.assets a
-            WHERE a.asset_id = '${asset_id}'
-            
-            
-            UPDATE a
-            SET a.location_id  = (select location_id from location where location_name ='${location_name}')
-            FROM asset.dbo.assets a
-            INNER JOIN asset.dbo.location l ON l.location_id = a.location_id
-            WHERE a.asset_id = '${asset_id}'`
-                    // let query = `update
 
-                    // asset.dbo.assets a
+    let query = `
+     UPDATE a
+     SET a.asset_name = '${asset_name}'
+     FROM asset.dbo.assets a WHERE a.asset_id = '${asset_id}'
+     
+     
+     
+     UPDATE a
+     SET a.asset_type = '${asset_type}'
+     FROM asset.dbo.assets a
+     WHERE a.asset_id = '${asset_id}'
+     
+     
+     UPDATE a
+     SET a.location_id  = (select location_id from location where location_name ='${location_name}')
+     FROM asset.dbo.assets a
+     INNER JOIN asset.dbo.location l ON l.location_id = a.location_id
+     WHERE a.asset_id = '${asset_id}'`
+    // let query = `update
 
-                    // inner join  asset.dbo.department d on a.dept_id =d.dept_id
+    // asset.dbo.assets a
 
-                    // inner join asset.dbo.Employees e on e.dept_work = d.dept_name
+    // inner join  asset.dbo.department d on a.dept_id =d.dept_id
 
-                    // inner join asset.dbo.location l on l.location_id =d.location_id
+    // inner join asset.dbo.Employees e on e.dept_work = d.dept_name
 
-                    // set  a.asset_type='${asset_type}',a.asset_name='${asset_name}',l.location_name='${location_name}' where a.asset_id='${asset_id}',d.dept_name='${dept_name}',e.emp_name='${emp_name}',e.emp_no='${emp_no}'`;
+    // inner join asset.dbo.location l on l.location_id =d.location_id
 
-                    let queryResult = mssql.query(query, (err, result) => {
+    // set  a.asset_type='${asset_type}',a.asset_name='${asset_name}',l.location_name='${location_name}' where a.asset_id='${asset_id}',d.dept_name='${dept_name}',e.emp_name='${emp_name}',e.emp_no='${emp_no}'`;
 
-                        if (err) {
+    let queryResult = mssql.query(query, (err, result) => {
 
-                            console.log('Error in update asset query');
-                        }
+        if (err) {
 
-                        else {
+            console.log('Error in update asset query');
+        }
+
+        else {
 
 
-                            console.log(result);
+            console.log(result);
 
-                            // console.log(result.recordset[0].asset_id)
+            // console.log(result.recordset[0].asset_id)
 
-                            // res.send(result.recordset);  
-                            res.send({
-                                code: 'Updation_done_Successfully',
-                                response: "Updation done Successfully"
-                            })
-                        }
-                    })
-                }
-                else {
-                    res.send({
-                        code: 'Invalid location_name',
-                        response: "Invalid location_name"
-                    })
-
-                }
-            }
-            else {
-
-                res.send({
-                    code: 'Invalid asset_type',
-                    response: "Invalid asset_type"
-                })
-
-
-
-            }
-
-        })
+            // res.send(result.recordset);  
+            res.send({
+                code: 'Updation_done_Successfully',
+                response: "Updation done Successfully"
+            })
+        }
     })
 })
 
@@ -460,54 +417,6 @@ app.post('/AllAssets', (req, res) => {
 
 //     })   
 
-////Mantosh Kumar
-app.get('/editfetch', (req, res) => {
-
-    let message, answer;
-    let query = `select asset_desc from asset.dbo.asset_class`
-
-    let query2 = `select location_name from asset.dbo.location`
-
-    mssql.query(query, (err, result) => {
-
-        if (err) throw err
-
-
-
-
-
-        answer = {
-
-            asset_type: result.recordset,
-
-
-        }
-    })
-    mssql.query(query2, (err, result2) => {
-
-
-        if (err) throw err
-
-        message = {
-
-            location_name: result2.recordset
-        }
-
-        res.send({ message: message, answer: answer });
-
-
-
-
-    })
-
-})
-
-
-
-
-
-
-
 
 //satyam vivek works
 const storage = multer.diskStorage({
@@ -541,36 +450,36 @@ app.post('/assetupload', upload.single('uploadFile'), function (req, res) {
 
                 if (results.length > 0) {
                     for (let i = 0; i < results.length; i++) {
-                        if (results[i].asset_price == '' && results[i].asset_id == '' && results[i].emp_no
-                            == '' && results[i].tag_uuid
-                            == '' && results[i].asset_type
-                            == '' && results[i].asset_name
-                            == '' && results[i].dept_id
-                            == '') {
-                            responseStr += 'file is empty or remove the empty row';
+                        if(results[i].asset_price==''&&results[i].asset_id==''&&results[i].emp_no
+                        ==''&&results[i].tag_uuid
+                        ==''&&results[i].asset_type
+                        ==''&&results[i].asset_name
+                        ==''&&results[i].dept_id
+                        =='' ){
+                            responseStr += 'file is empty';
                         }
-                        else {
+                        else{
 
-                            if (!taguuid.test(results[i].tag_uuid)) {
-                                console.log('INVALID::::' + results[i].tag_uuid);
-                                responseStr += `MATCH THE FORMAT tag_uuid(SA/abc/a1/0000) :::: ${results[i].tag_uuid} at row no ${i + 1}\n`;
-                            }
-                            if (!deptid.test(results[i].dept_id)) {
-                                console.log('INVALID::::' + results[i].dept_id);
-                                responseStr += `MATCH THE FORMAT dept_id(between 1 to 18) :::: ${results[i].dept_id} at row no ${i + 1} \n`;
-                            }
-
-                            if (!empno.test(results[i].emp_no)) {
-                                console.log('INVALID::::' + results[i].emp_no);
-                                responseStr += `MATCH THE FORMAT emp_no(6digit) :::: ${results[i].emp_no} at row no ${i + 1}\n`;
-                            }
-                            // if ((results[i].asset_type != 'Medical Equipments' && results[i].asset_type != 'Land & Land Developments' && results[i].asset_type != 'Buildings' && results[i].asset_type != 'Furniture, Fixture & Office Equipments' && results[i].asset_type != 'Motor Vehicles' && results[i].asset_type != 'Crockery and Utensils' && results[i].asset_type != 'Books and Library' && results[i].asset_type != 'Electrical, Electronics Equipments' && results[i].asset_type != 'Machinery & Lab Equipments' && results[i].asset_type != 'Photo Copier' && results[i].asset_type != 'Audio & Visual Equipment' && results[i].asset_type != 'Telephone & EPABX' && results[i].asset_type != 'Transformer & Generator' && results[i].asset_type != 'Laptop' && results[i].asset_type != 'Computer Related' && results[i].asset_type != 'Computer Software' && results[i].asset_type != 'Air Conditioner' && results[i].asset_type != 'Solar Power Systems' && results[i].asset_type != 'Solar Water Heating System' && results[i].asset_type != 'Sculpture Garden' && results[i].asset_type != 'Central Medical Gas' && results[i].asset_type != 'Electrical, Electronics Equipments for R&D' && results[i].asset_type != 'Machinery & Lab Equipments for R&D' && results[i].asset_type != 'Furniture, Fixture & Office Equipments for R&D' && results[i].asset_type != 'Surveylliance Equipment' && results[i].asset_type != 'Sports & Musical Equipment' && results[i].asset_type != 'Computer Related for R&D' && results[i].asset_type != 'Smart Class Room' && results[i].asset_type != 'Asset Under Construction')) {
-                            //     console.log('INVALID::::' + results[i].asset_type);
-                            //     responseStr += `MATCH THE FORMAT asset_type :::: ${results[i].asset_type} at row no ${i + 1}\n`;
-                            // }
-
+                        if (!taguuid.test(results[i].tag_uuid)) {
+                            console.log('INVALID::::' + results[i].tag_uuid);
+                            responseStr += `MATCH THE FORMAT tag_uuid(SA/abc/a1/0000) :::: ${results[i].tag_uuid} at row no ${i + 1}\n`;
                         }
+                        if (!deptid.test(results[i].dept_id)) {
+                            console.log('INVALID::::' + results[i].dept_id);
+                            responseStr += `MATCH THE FORMAT dept_id(between 1 to 18) :::: ${results[i].dept_id} at row no ${i + 1} \n`;
+                        }
+
+                        if (!empno.test(results[i].emp_no)) {
+                            console.log('INVALID::::' + results[i].emp_no);
+                            responseStr += `MATCH THE FORMAT emp_no(6digit) :::: ${results[i].emp_no} at row no ${i + 1}\n`;
+                        }
+                        if ((results[i].asset_type != 'Medical Equipments' && results[i].asset_type != 'Land & Land Developments' && results[i].asset_type != 'Buildings' && results[i].asset_type != 'Furniture, Fixture & Office Equipments' && results[i].asset_type != 'Motor Vehicles' && results[i].asset_type != 'Crockery and Utensils' && results[i].asset_type != 'Books and Library' && results[i].asset_type != 'Electrical, Electronics Equipments' && results[i].asset_type != 'Machinery & Lab Equipments' && results[i].asset_type != 'Photo Copier' && results[i].asset_type != 'Audio & Visual Equipment' && results[i].asset_type != 'Telephone & EPABX' && results[i].asset_type != 'Transformer & Generator' && results[i].asset_type != 'Laptop' && results[i].asset_type != 'Computer Related' && results[i].asset_type != 'Computer Software' && results[i].asset_type != 'Air Conditioner' && results[i].asset_type != 'Solar Power Systems' && results[i].asset_type != 'Solar Water Heating System' && results[i].asset_type != 'Sculpture Garden' && results[i].asset_type != 'Central Medical Gas' && results[i].asset_type != 'Electrical, Electronics Equipments for R&D' && results[i].asset_type != 'Machinery & Lab Equipments for R&D' && results[i].asset_type != 'Furniture, Fixture & Office Equipments for R&D' && results[i].asset_type != 'Surveylliance Equipment' && results[i].asset_type != 'Sports & Musical Equipment' && results[i].asset_type != 'Computer Related for R&D' && results[i].asset_type != 'Smart Class Room' && results[i].asset_type != 'Asset Under Construction')) {
+                            console.log('INVALID::::' + results[i].asset_type);
+                            responseStr += `MATCH THE FORMAT asset_type :::: ${results[i].asset_type} at row no ${i + 1}\n`;
+                        }
+
                     }
+                }
                 }
                 else {
                     responseStr += 'file is empty';
@@ -620,8 +529,6 @@ function insertDataToAsDatabase2(Asdata2) {
 
 
 
-var newstr = '';
-var count = 0;
 //multiple user upload(csv files)
 app.post('/userupload', upload.single('uploadFile'), function (req, res) {
     const filePath = req.file.path;
@@ -654,7 +561,7 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
                             == '' && results[i].Parent_org
                             == ''
                         ) {
-                            responseStr += 'file is empty or remove the empty row';
+                            responseStr += 'file is empty';
                         }
                         else {
 
@@ -664,10 +571,10 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
                             }
 
 
-                            // if (!phonePattern.test(results[i].contact_no)) {
-                            //     console.log('INVALID::::' + results[i].contact_no);
-                            //     responseStr += `MATCH THE FORMAT OF contact_no(10 digit):::: ${results[i].contact_no} at row no ${i + 1} \n`;
-                            // }
+                            if (!phonePattern.test(results[i].contact_no)) {
+                                console.log('INVALID::::' + results[i].contact_no);
+                                responseStr += `MATCH THE FORMAT OF contact_no(10 digit):::: ${results[i].contact_no} at row no ${i + 1} \n`;
+                            }
 
                             if (!passwordPattern.test(results[i].password)) {
                                 console.log('INVALID::::' + results[i].password);
@@ -695,12 +602,12 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
                                 console.log('INVALID::::' + results[i].Parent_org);
                                 responseStr += `MATCH THE FORMAT(KIIT)  OF parent_org:::: ${results[i].Parent_org} at row no ${i + 1} \n`;
                             }
-                            // if ((results[i].dept_work != 'ICT CELL KIIT CORE' && results[i].dept_work != 'COMMON ELECTRONICS ENGG' && results[i].dept_work != 'MECHANICAL' && results[i].dept_work != 'BIOTECH' && results[i].dept_work != 'CIVIL' && results[i].dept_work != 'APPLIED SCIENCE' && results[i].dept_work != 'AUDITORIUM' && results[i].dept_work != 'FINANCIAL AND HUMAN SCIENCE' && results[i].dept_work != 'SCHOOL OF HUMANITIES' && results[i].dept_work != 'COMPUTER SCIENCE-1' && results[i].dept_work != 'COMPUTER SCIENCE-2' && results[i].dept_work != 'ELECTRICAL' && results[i].dept_work != 'KIIT SCHOOL OF RURAL MANAGEMENT' && results[i].dept_work != 'ANNEX BUILDING' && results[i].dept_work != 'LAW' && results[i].dept_work != 'KIIT SCHOOL OF ACTIVITY CENTER' && results[i].dept_work != 'KIIT SCHOOL OF MANAGEMENT')) {
+                            if ((results[i].dept_work != 'ICT CELL KIIT CORE' && results[i].dept_work != 'COMMON ELECTRONICS ENGG' && results[i].dept_work != 'MECHANICAL' && results[i].dept_work != 'BIOTECH' && results[i].dept_work != 'CIVIL' && results[i].dept_work != 'APPLIED SCIENCE' && results[i].dept_work != 'AUDITORIUM' && results[i].dept_work != 'FINANCIAL AND HUMAN SCIENCE' && results[i].dept_work != 'SCHOOL OF HUMANITIES' && results[i].dept_work != 'COMPUTER SCIENCE-1' && results[i].dept_work != 'COMPUTER SCIENCE-2' && results[i].dept_work != 'ELECTRICAL' && results[i].dept_work != 'KIIT SCHOOL OF RURAL MANAGEMENT' && results[i].dept_work != 'ANNEX BUILDING' && results[i].dept_work != 'LAW' && results[i].dept_work != 'KIIT SCHOOL OF ACTIVITY CENTER' && results[i].dept_work != 'KIIT SCHOOL OF MANAGEMENT')) {
 
-                            //     console.log('INVALID::::' + results[i].dept_work);
-                            //     responseStr += `MATCH THE FORMAT OF dept_work:::: ${results[i].dept_work} at row no ${i + 1} \n`;
+                                console.log('INVALID::::' + results[i].dept_work);
+                                responseStr += `MATCH THE FORMAT OF parent_org:::: ${results[i].dept_work} at row no ${i + 1} \n`;
 
-                            // }
+                            }
 
                         }
                     }
@@ -712,34 +619,12 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
                 if (responseStr)
                     res.send((responseStr));
                 else {
-
                     for (let i = 0; i < results.length; i++) {
                         insertDataToDatabase1(results[i], function (dbvalue) {
-                            // console.log(dbvalue);   
-                            // newstr.push( `${dbvalue} at row ${i + 1} \n`); 
-                            newstr += `${dbvalue} at row ${i + 1} \n`
-                            console.log('outerloop data===', newstr);
-                            console.log('outervalue----------------', results.length, i);
-                            count++;
-                            console.log(`count value outer: ${count}`)
-                            if (count === results.length) {
-                                console.log('innervalue--------------', results.length, i);
-                                console.log(`count value inner: ${count}`)
-                                // res.send(newstr)
-                                sendResponse();
-                                console.log('inner loop data===', newstr)
-                            }
-                            // console.log(newstr); 
-
+                            console.log(dbvalue);
+                            res.send(dbvalue);
                         });
-
                     }
-                    function sendResponse() {
-                        res.send(newstr);
-                    }
-
-
-
                 }
             })
 
@@ -753,16 +638,7 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
 
 
 function insertDataToDatabase1(data1, callback) {
-    mssql.query(`SELECT em.official_email, em.personal_email, emp_no, first_name, 
-    middle_name,
-    last_name
-    FROM asset.dbo.Employees e
-    INNER JOIN asset.dbo.Employee_master em ON e.emp_no = em.emp_id
-    WHERE e.emp_no = '${data1.user_id}' 
-    AND e.first_name = '${data1.first_name}' 
-    AND e.last_name = '${data1.last_name}' 
-    AND (em.official_email = '${data1.email}' OR em.personal_email = '${data1.email}')
-    AND (middle_name = '${data1.middle_name}' OR middle_name = '' OR middle_name IS NULL)`, function (err, result) {
+    mssql.query(`SELECT emp_no FROM Employees WHERE emp_no = '${data1.user_id}'`, function (err, result) {
         console.log(result);
         if (err) {
             console.log('Error ', err);
@@ -770,79 +646,25 @@ function insertDataToDatabase1(data1, callback) {
             return;
         }
 
-        //  for(let i=0;i<result.recordset.length;i++) {
         if (result.recordset.length == 0) {
             console.log('Employee does not exist');
             var dbvalue = 'Employee does not exist';
             callback(dbvalue);
         }
-
-        else if (result.recordset.length != 0) {
-            console.log('1')
-            mssql.query(`select user_id from asset.dbo.Users where user_id='${data1.user_id}' or user_name='${data1.email}'`, function (err, result1) {
+        else {
+            mssql.query(`INSERT INTO Users (first_name,middle_name,last_name,user_id,user_name,email,password,user_type,Parent_org) VALUES ('${data1.first_name}','${data1.middle_name}','${data1.last_name}','${data1.user_id}', '${data1.email}', '${data1.email}','${data1.password}','${data1.user_type}','${data1.Parent_org}')`, function (err) {
                 if (err) {
-                    console.error('Error: ', err);
+                    console.error('Error inserting data into the database1: ', err);
                     callback(null);
                     return;
                 }
-                if (result1.recordset.length != 0) {
-                    console.log('2');
-                    console.log('user alredy exist');
-                    callback('user alredy exist');
-                }
-                else {
-                    console.log('3')
-                    mssql.query(`INSERT INTO Users (first_name,middle_name,last_name,user_id,user_name,email,password,user_type,Parent_org) VALUES ('${data1.first_name}','${data1.middle_name}','${data1.last_name}','${data1.user_id}', '${data1.email}', '${data1.email}','${data1.password}','${data1.user_type}','${data1.Parent_org}')`, function (err) {
-                        if (err) {
-                            console.error('Error inserting data into the database1: ', err);
-                            callback(null);
-                            return;
-                        }
-                    });
-                    console.log('data inserted successfully in db');
-                    callback('Data inserted successfully');
-                }
             });
-            // }
+            console.log('data inserted successfully in db');
+            callback('Data inserted successfully');
         }
 
     });
 }
-
-
-
-//advance serach for auditoverview
-app.post('/advanceSearchForAudit',(req,res) =>{
-    //requestQueries
-    let Location_id=req.query.Location_id;
-    let DepartmentId=req.query.DepartmentId;
-    let emp_no=req.query.emp_no;
-
-    //databse query
-    let query=`select * from AuditDetails where 1=1 `;
-   
-    //checking conditions for multiple column data search(advance serching)
-      if(Location_id !=null){
-       query+=`and Location_id =${Location_id}`;
-      }
-
-    //additional field
-      if(DepartmentId !=null){
-        query+=` and DepartmentId =${DepartmentId}`;
-      }
-
-    //additional field
-      if(emp_no !=null){
-        query+=` and emp_no=${emp_no}`
-      }  
-    
-    //query result
-      sql.query(query,(err,result) =>{
-        if (err) throw err;
-         res.send(result);
-      })
-    
-})
 
 
 
@@ -2268,7 +2090,7 @@ app.post('/searchUserAssetsTable', (req, res) => {
 
 app.post('/userDetails', (req, res) => {
     let userID = req.body.userID;
-    let query = `SELECT e.first_name, e.middle_name, e.last_name, e.dept_work, u.user_type, e.contact_no, u.email FROM Employees e INNER JOIN Users u ON e.emp_no = u.user_id WHERE user_id = '${userID}'`;
+    let query = `SELECT first_name, middle_name, last_name, dept_work, user_type, contact_no, email FROM Employees INNER JOIN Users ON Employees.emp_no = Users.user_id WHERE user_id = '${userID}'`;
     let queryResult = mssql.query(query, (err, result) => {
         if (err) throw err
         else {
@@ -3061,4 +2883,127 @@ app.post('/aDeny', (req, res) => {
             res.send('Denied');
         }
     })
+})
+
+app.post('/Advancedsearch', (req, res) => {
+
+    // Extract the inputs from the request
+    const {
+      asset_id,
+      asset_type,
+      asset_name,
+      dept_name,
+      emp_name,
+      emp_no,
+      location_name,
+      page_number,
+      page_size
+    } = req.query;
+// const page_number=2;
+//  const page_size=10;
+  
+
+//   const asset_id=null;
+//               const asset_type='Computer Related';       
+//               const asset_name=null;        
+//          const dept_name='MECHANICAL'; 
+//           const emp_name=null;  
+//         const emp_no=null;
+//   const location_name=null;
+             
+    // Construct the SQL query based on the provided inputs
+    let query1=`SELECT count(*) as TotalRows
+    FROM asset.dbo.assets a
+    INNER JOIN department d ON d.dept_id = a.dept_id
+    INNER JOIN Employees e ON e.emp_no = a.emp_no
+    INNER JOIN location l ON l.location_id = a.location_id
+    WHERE 1=1`;
+    let query = `
+  
+      SELECT a.asset_id,a.asset_type,a.asset_name,d.dept_name,e.emp_no,l.location_name,CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name) AS emp_name from asset.dbo.assets as a 
+      INNER JOIN department d ON d.dept_id = a.dept_id
+      INNER JOIN Employees e ON e.emp_no = a.emp_no
+      INNER JOIN location l ON l.location_id = a.location_id
+      WHERE 1=1
+      `
+
+    if (asset_id) {
+      query += ` AND a.asset_id = ${asset_id}`;
+      query1 += ` AND a.asset_id = ${asset_id}`;
+      console.log(`${asset_id}`)
+    }
+
+    if (asset_type) {
+      query += ` AND a.asset_type = '${asset_type}'`;
+      query1 += ` AND a.asset_type = '${asset_type}'`;
+      console.log(`${asset_type}`)
+    }
+
+    if (asset_name) {
+      query += ` AND a.asset_name = '${asset_name}'`;
+      query1 += ` AND a.asset_name = '${asset_name}'`;
+      console.log(`${asset_name}`)
+    }
+
+    if (dept_name) {
+      query += ` AND d.dept_name = '${dept_name}'`;
+      query1 += ` AND d.dept_name = '${dept_name}'`;
+      console.log(`${dept_name}`)
+    }
+
+    if (emp_name) {
+      query += ` AND e.first_name= '${emp_name.split(" ")[0]}'`;
+      query1 += ` AND e.first_name= '${emp_name.split(" ")[0]}'`;
+      console.log(emp_name.split(" ")[0])
+  
+    }
+
+    if (emp_no) {
+      query += ` AND e.emp_no = ${emp_no}`;
+      query1 += ` AND e.emp_no = ${emp_no}`;
+      console.log(`${emp_no}`)
+    }
+
+    if (location_name) {
+      query += ` AND l.location_name = '${location_name}'`;
+      query1 += ` AND l.location_name = '${location_name}'`;
+      console.log(`${location_name}`)
+    }
+
+
+  let request1 = new mssql.Request();
+    
+  request1.query(query1, (err, result1) => {
+    if (err) {
+      console.log('Error in total rows of assets query:', err);
+      res.sendStatus(500);
+      return;
+    }
+
+    total_rows = result1.recordset[0].TotalRows;
+    console.log('Total Rows:', total_rows);
+
+    let request2 = new  mssql.Request();
+    request2.input('total_rows', mssql.Int, total_rows);
+    request2.input('page_size',  mssql.Int, page_size);
+    request2.input('page_number',  mssql.Int, page_number);
+  
+    request2.query(query, (err, result) => {
+      if (err) {
+        console.log('Error in all assets query:', err);
+        res.sendStatus(500);
+        return;
+      }
+
+      const data = result.recordset;
+  
+      const allPages={total_rows}
+      answer = {
+        answer: data,
+        allPages: allPages
+      };
+      console.log(answer)
+      res.send({ answer: answer });
+    });
+  })
 })
