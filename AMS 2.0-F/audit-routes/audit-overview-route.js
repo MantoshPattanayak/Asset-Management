@@ -1,9 +1,10 @@
 const express = require('express');
 const mssql = require('mssql');
 
-const app = express();
+const router = express.Router();
 
-app.get('/audit_parent',(req,res)=>{
+
+router.get('/audit_parent',(req,res)=>{
     
         let total_rows;
         let page_size = 1;
@@ -63,7 +64,7 @@ app.get('/audit_parent',(req,res)=>{
 
 
 
-app.get('/audit_child',(req,res)=>{
+router.get('/audit_child',(req,res)=>{
     
   let total_rows;
   let page_size = 1;
@@ -120,3 +121,5 @@ app.get('/audit_child',(req,res)=>{
   });
 
 })
+
+module.exports = router;
