@@ -4,18 +4,18 @@ const mssql = require('mssql');
 const router = express.Router();
 
 
-router.get('/audit_parent',(req,res)=>{
+router.post('/audit_parent',(req,res)=>{
     
         let total_rows;
-        let page_size = 1;
+        let page_size = req.body.page_size;
         let answer;
        
-        let page_number = 2;
+        let page_number = req.body.page_number;
         let c = 1;
       
         let query1 =`select count(*) as TotalRows from asset.dbo.AuditDetails`;
       
-        let query = `select * from( select a.AuditorName,l.location_name,d.dept_name,a.EmployeeNo,a.ScheduledStartDate,a.ScheduledEndDate,ROW_NUMBER() OVER (ORDER BY ID) AS RowNum
+        let query = `select * from( select a.id,a.AuditorName,l.location_name,d.dept_name,a.EmployeeNo,a.ScheduledStartDate,a.ScheduledEndDate,a.AuditStatus,ROW_NUMBER() OVER (ORDER BY ID) AS RowNum
          from asset.dbo.AuditDetails a inner join asset.dbo.location l on l.location_id=a.LocationId inner join asset.dbo.department d on d.dept_id=a.DepartmentId )AS SubQuery
         WHERE RowNum BETWEEN ((@page_number - 1) * @page_size + 1) AND (@page_number * @page_size)
         AND RowNum <= @total_rows;
@@ -56,6 +56,7 @@ router.get('/audit_parent',(req,res)=>{
               answer: data,
               allPages: allPages
             };
+            console.log(answer)
             res.send({ answer: answer });
           });
         });
@@ -64,7 +65,7 @@ router.get('/audit_parent',(req,res)=>{
 
 
 
-router.get('/audit_child',(req,res)=>{
+router.post('/audit_child',(req,res)=>{
     
   let total_rows;
   let page_size = 1;
