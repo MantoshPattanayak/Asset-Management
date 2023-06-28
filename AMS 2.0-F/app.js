@@ -2133,7 +2133,7 @@ app.post('/searchUserAssetsTable', (req, res) => {
 
 app.post('/userDetails', (req, res) => {
     let userID = req.body.userID;
-    let query = `SELECT first_name, middle_name, last_name, dept_work, user_type, contact_no, email FROM Employees INNER JOIN Users ON Employees.emp_no = Users.user_id WHERE user_id = '${userID}'`;
+    let query = `SELECT e.first_name, e.middle_name, e.last_name, e.dept_work, u.user_type, e.contact_no, u.email FROM Employees e INNER JOIN Users u ON e.emp_no = u.user_id WHERE u.user_id = '${userID}'`;
     let queryResult = mssql.query(query, (err, result) => {
         if (err) throw err
         else {
