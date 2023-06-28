@@ -669,7 +669,7 @@ function insertDataToDatabase1(data1, callback) {
 
 //advance search for audit
 
-app.post('/advanceSearchForAudit', (req, res) => {
+app.get('/advanceSearchForAudit', (req, res) => {
     //requestQueries
     let LocationId = req.query.LocationId;
     let DepartmentId = req.query.DepartmentId;
@@ -699,6 +699,15 @@ app.post('/advanceSearchForAudit', (req, res) => {
         res.send(result);
     })
 
+})
+
+//progressbar audit overview page
+app.get('/progressbarForAudit', (req, res) => {
+     let query=`select  AuditStatus,count(AuditStatus)as count from asset.dbo.AuditDetails group by AuditStatus `;
+     mssql.query(query, (err, result) => {
+        if (err) throw err;
+        res.send(result);
+     });
 })
 
 

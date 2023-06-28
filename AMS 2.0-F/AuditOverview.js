@@ -13,14 +13,19 @@ $(document).ready(function () {
   
   function fetchChartData() {
     $.ajax({
-      url: 'backend_endpoint_url',
+      url: 'http://localhost:3000/progressbarForAudit',
       method: 'GET',
       dataType: 'json',
       success: function(data) {
-        updateChart('new-audit', data.newAudit);
-        updateChart('inprogress-audit', data.inprogressAudit);
-        updateChart('closed-audit', data.closedAudit);
-        updateChart('expired-audit', data.expiredAudit);
+        // console.log(data);
+        // console.log(data.recordset);
+        // for(var i = 0; i < data.recordset.length; i++) {
+        //   console.log(data.recordset[i]);
+        // }
+        updateChart('new-audit', data.recordset[2].count);
+        updateChart('inprogress-audit', data.recordset[1].count);
+        updateChart('closed-audit', data.recordset[0].count);
+        // updateChart('expired-audit',data.recordset[3].count);
       },
       error: function() {
         console.log('Error occurred while fetching chart data.');
@@ -30,9 +35,9 @@ $(document).ready(function () {
   
   function updateChart(chartId, value) {
     const chartElement = $('#' + chartId + ' .pie-chart');
-    const percentageValue = (value * 100).toFixed(2) + '%';
+    // const percentageValue = (value * 100).toFixed(2) + '%';
     chartElement.css('--p', value);
-    chartElement.text(percentageValue);
+    chartElement.text(value);
   }
   
 
@@ -55,10 +60,12 @@ $(document).ready(function () {
 
 // Using Ajax to fetch data from the Node.js API
 $.ajax({
-    url: 'http://localhost:3000/advanceSearchForAudit',
-    type: 'POST',
+    url: 'http://localhost:3000/advanceSearchForAudit?',
+    
+    type: 'GET',
     dataType: 'json',
     success: function (response) {
+
         // Assuming the response is an array of objects
         if (response && response.length > 0) {
             // Creating the table header
@@ -92,9 +99,6 @@ $.ajax({
         console.error('Error:', error);
     }
 });
-
-
-
 
 
 
