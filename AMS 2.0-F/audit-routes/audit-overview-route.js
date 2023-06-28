@@ -15,8 +15,8 @@ router.get('/audit_parent',(req,res)=>{
       
         let query1 =`select count(*) as TotalRows from asset.dbo.AuditDetails`;
       
-        let query = `select * from(select Locationid,EmployeeNo ,StartDate ,EndDate ,AuditorName,CreatedOn,CreatedBy,LastUpdatedOn,LastUpdatedBy,LastDeletedOn,LastDeletedBy,ScheduledStartDate,ScheduledEndDate,ActualStartDate,ActualEndDate,ROW_NUMBER() OVER (ORDER BY ID) AS RowNum
-         from asset.dbo.AuditDetails)AS SubQuery
+        let query = `select * from( select a.AuditorName,l.location_name,d.dept_name,a.EmployeeNo,a.ScheduledStartDate,a.ScheduledEndDate,ROW_NUMBER() OVER (ORDER BY ID) AS RowNum
+         from asset.dbo.AuditDetails a inner join asset.dbo.location l on l.location_id=a.LocationId inner join asset.dbo.department d on d.dept_id=a.DepartmentId )AS SubQuery
         WHERE RowNum BETWEEN ((@page_number - 1) * @page_size + 1) AND (@page_number * @page_size)
         AND RowNum <= @total_rows;
     

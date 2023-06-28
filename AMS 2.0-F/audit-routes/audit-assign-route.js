@@ -11,7 +11,7 @@ router.get('/loc-dept-fetch',(req,res)=>{
 
     let query1='select dept_name , dept_id from asset.dbo.department'
 
-    let query2='select l.location_id,d.dept_id from asset.dbo.location l inner join asset.dbo.department d on l.location_id=d.dept_id '
+    let query2='select l.location_id,d.dept_id from asset.dbo.location l inner join asset.dbo.department d on l.location_id=d.location_id'
 
  mssql.query(query, (err, result) => {
 
