@@ -68,7 +68,7 @@ router.get('/emp-no-emp-name',(req,res)=>{
 
     if(err) throw err
     if(result.recordset.length!=0){
-        res.send({
+        res.status(200).send({
             answer:result.recordset[0]
         }
             
@@ -81,9 +81,9 @@ router.get('/emp-no-emp-name',(req,res)=>{
 
    
 
-    res.send({
+    res.status(404).send({
 
-    message:"emp_no doesn't exist"
+    message:"Emloyee number doesn't exist"
 
        
 
