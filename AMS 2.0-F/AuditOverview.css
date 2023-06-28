@@ -1756,3 +1756,28 @@ span {
     margin-bottom: 20px;
   }
   
+ /*audit Box*/
+
+     .navbar-audit{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+       
+     }
+
+
+     .onclick-btn{
+        background-color:#21d808; /* Facebook blue color */
+        color: #0f0e0e; /* White text color */
+        border: none;
+        padding: 0 20px;
+        font-size: 16px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        
+     }
+
+     .onclick-btn:hover{
+        background-color: #0a64d9;
+        color: wheat;
+     }
