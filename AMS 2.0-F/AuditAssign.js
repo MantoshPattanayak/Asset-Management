@@ -35,7 +35,7 @@ $(document).ready(function(){
       }
   });
 
-  //  trigger function on input in two dropdown fields: - location name and department name
+  //  trigger function to fetch expected assets based on input in two dropdown fields: - location name and department name
   let locationSelectElement = document.getElementById('location-select');
   let departmentSelectElement = document.getElementById('department-select');
 
@@ -85,6 +85,7 @@ function fetchEmployeeDetails(event){
           },
           error: function(error) {
             console.error("Error fetching data:", error);
+            alert(error.responseJSON.message);
           }
         })
     }
@@ -130,3 +131,50 @@ function filterDeptOptionList(event){
   })
 }
 
+function submitForm() {
+  // Perform the submit action here
+  let employeeNumber = document.getElementById('employee-number');
+  let auditorName = document.getElementById('auditor-name');
+  let locationName = document.getElementById('location-select');
+  let departmentName = document.getElementById('department-select');
+  let scheduledStartDate = document.getElementById('scheduledStartDate');
+  let scheduledEndDate = document.getElementById('scheduledEndDate');
+
+  let nullList = new Array();
+  if(employeeNumber == '')  nullList.push('Employee No');
+  if(auditorName == '')  nullList.push('Auditor Name');
+  if(locationName == '')  nullList.push('Location Name');
+  if(departmentName == '')  nullList.push('Department Name');
+  if(scheduledStartDate.length == 0)  nullList.push('Start Date');
+  if(scheduledEndDate.length == 0)  nullList.push('End Date');
+
+  if(nullList.length > 0){
+    let formData = {
+      'employeeNumber': employeeNumber,
+      'auditorName': auditorName,
+      'locationName': locationName,
+      'departmentName': departmentName,
+      'scheduledStartDate': scheduledStartDate,
+      'scheduledEndDate': scheduledEndDate
+    }
+    console.log('audit assign submiti form data', JSON.stringify(formData));
+  
+    //submit ajax call to submit audit assign form data
+    $.ajax({
+      url: "http://localhost:3000/audit-assign/submitForm",
+      type: 'POST',
+      data: formData,
+      success: function (response){
+        console.log(response);
+        alert("Form submitted successfully!");
+        closeConfirmation();
+      },
+      error: function(error){
+        console.error(error);
+      }
+    })
+  }
+  else{
+    alert('Following fields are empty: - ' + nullList.toString());
+  }
+}

@@ -11,34 +11,38 @@ $(document).ready(function () {
     fetchChartData(); // Fetch initial chart data
     setInterval(fetchChartData, 10000); // Update chart data every 10 seconds
   
-  function fetchChartData() {
-    $.ajax({
-      url: 'http://localhost:3000/progressbarForAudit',
-      method: 'GET',
-      dataType: 'json',
-      success: function(data) {
-        // console.log(data);
-        // console.log(data.recordset);
-        // for(var i = 0; i < data.recordset.length; i++) {
-        //   console.log(data.recordset[i]);
-        // }
-        updateChart('new-audit', data.recordset[2].count);
-        updateChart('inprogress-audit', data.recordset[1].count);
-        updateChart('closed-audit', data.recordset[0].count);
-        // updateChart('expired-audit',data.recordset[3].count);
-      },
-      error: function() {
-        console.log('Error occurred while fetching chart data.');
-      }
-    });
-  }
-  
-  function updateChart(chartId, value) {
-    const chartElement = $('#' + chartId + ' .pie-chart');
-    // const percentageValue = (value * 100).toFixed(2) + '%';
-    chartElement.css('--p', value);
-    chartElement.text(value);
-  }
+    function fetchChartData() {
+      $.ajax({
+        url: 'http://localhost:3000/progressbarForAudit',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          var totalCount = 0;
+          
+          // Calculate the total count
+          for(var i = 0; i < data.recordset.length; i++) {
+            totalCount += data.recordset[i].count;
+          }
+          
+          // Update the chart for each recordset
+          updateChart('new-audit', data.recordset[2].count, totalCount);
+          updateChart('inprogress-audit', data.recordset[1].count, totalCount);
+          updateChart('closed-audit', data.recordset[0].count, totalCount);
+          // updateChart('expired-audit',data.recordset[3].count, totalCount);
+        },
+        error: function() {
+          console.log('Error occurred while fetching chart data.');
+        }
+      });
+    }
+    
+    function updateChart(chartId, value, totalCount) {
+      const chartElement = $('#' + chartId + ' .pie-chart');
+      var percentage = (value / totalCount) * 100;
+      chartElement.css('--p', percentage);
+      chartElement.text(percentage.toFixed(2));
+    }
+    
   
 
 //   function updateChart(chartId, value) {
