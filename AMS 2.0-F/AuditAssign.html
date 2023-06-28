@@ -89,12 +89,12 @@
                           </div>
                           <div class="Aduit-Number">
                             <h7> Emp No*</h7> 
-                            <input type="text" class="aduit-scope-input" oninput="fetchEmployeeDetails(event)" placeholder="Employee Number">
+                            <input type="text" id="employee-number" class="aduit-scope-input" oninput="fetchEmployeeDetails(event)" placeholder="Employee Number (Six digits)">
                           </div>
                        
                           <div class="location">
                             <h7> Auditor Name *</h7> 
-                            <input type="text" class="aduit-scope-input" id="auditor-name" placeholder="Auditor Name" disabled>
+                            <input type="text" id="auditor-name" class="aduit-scope-input" id="auditor-name" placeholder="Auditor Name" disabled>
                           </div>
                           <div class="Aduit-Number">
                             <h7> Location Name*</h7> 
@@ -112,11 +112,11 @@
                           </div>
                           <div class="Scheduled">
                             <h7> Scheduled Start Date *</h7> 
-                            <input type="date" class="aduit-scope-input" placeholder="Scheduled Start Date">
+                            <input type="date" id="scheduledStartDate" class="aduit-scope-input" placeholder="Scheduled Start Date">
                           </div>
                           <div class="Scheduled">
                             <h7> Scheduled End Date *</h7> 
-                            <input type="date" class="aduit-scope-input" placeholder="Scheduled End Date">
+                            <input type="date" id="scheduledEndDate" class="aduit-scope-input" placeholder="Scheduled End Date">
                           </div>
                         </form>
                       </div>
@@ -1178,11 +1178,11 @@
       
     }
 
-    function submitForm() {
-      // Perform the submit action here
-      alert("Form submitted successfully!");
-      closeConfirmation();
-    }
+    // function submitForm() {
+    //   // Perform the submit action here
+    //   alert("Form submitted successfully!");
+    //   closeConfirmation();
+    // }
 
     function cancelSubmit() {
       closeConfirmation();
