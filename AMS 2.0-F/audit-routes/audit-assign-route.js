@@ -57,7 +57,7 @@ mssql.query(query1, (err, result1) => {
 })
 
 router.get('/emp-no-emp-name',(req,res)=>{
-    let emp_no=req.body.emp_no
+    let emp_no=req.query.emp_no
 
     let query=`select CONCAT(first_name, ' ', middle_name, ' ', last_name)  as emp_name from asset.dbo.Employees where emp_no=${emp_no}`
 
