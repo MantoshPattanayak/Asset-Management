@@ -80,38 +80,66 @@
                     <div class="container">
 
                           <!---char bar for show the data-->
-                   <div class="charts">
-                    <div class="title">
-                      <span class="pie-chart" style="--p: 74.32; --c: darkgreen">
-                        74
-                     </span>
-                     <h1 class="title-1">New Audit</h1>
-                    </div>
-                     
-
-                    <div class="title">
-                      <span class="pie-chart" style="--p: 59.44">
-                        59
-                      </span>
-                      <h1 class="title-1" >Inprogress Audit</h1>
-                    </div>
-                    <div class="title">
-                      <span class="pie-chart" style="--p: 31.95; --c: darkred">
-                        32
-                      </span>
-                      <h1 class="title-1">Closed Audit</h1>
-                    </div>
-                    <div class="title">
-                        <span class="pie-chart" class="char-4" style="--p: 31.95; --c: red">
-                          32
-                        </span>
-                        <h1 class="title-1"> Expired Audit</h1>
-                     </div>
-                </div>
+                          <div class="charts">
+                            <div id="new-audit" class="title">
+                              <span class="pie-chart" style="--p: 0; --c: red">
+                                0
+                              </span>
+                              <h1 class="title-1">New Audit</h1>
+                            </div>
+                            <div id="inprogress-audit" class="title">
+                              <span class="pie-chart" style="--p: 0; --c: #747474">
+                                0
+                              </span>
+                              <h1 class="title-1">Inprogress Audit</h1>
+                            </div>
+                            <div id="closed-audit" class="title">
+                              <span class="pie-chart" style="--p: 0; --c: green">
+                                0
+                              </span>
+                              <h1 class="title-1">Closed Audit</h1>
+                            </div>
+                            <div id="expired-audit" class="title">
+                              <span class="pie-chart" class="char-4" style="--p: 0; --c: blue">
+                                0
+                              </span>
+                              <h1 class="title-1">Expired Audit</h1>
+                            </div>
+                          </div>
+                          
                       <!--new and create audit Box-->
                      
                       <!--Advance search part-->
                       
+                     
+                       <!--new and create audit Box-->
+                     
+                      <!--Advance search part-->
+                    <div class="navbar-audit">
+                        <div class="form-group-21"> 
+                          
+                            <h7 class="select-name">Select Number Of Rows</h7>
+                         <select class="form-control" name="state" id="maxRows">
+                            <option value="5000">Show ALL Rows</option>
+
+                            <option value="50" selected>50</option>
+                            <option value="100">100</option>
+                            <option value="150">150</option>
+                            <option value="200">200</option>
+                            <option value="500">500</option>
+                            <option value="700">700</option>
+                            <option value="1000">1000</option>
+                             </select>
+                        </div>
+                      <div class="advnace-search-from">
+
+                        <button class="onclick-btn">
+                            Create Audit
+                        </button>
+                         <button class="onclick-btn">
+                            Audit Report
+                        </button>
+                      </div>
                      
                       <form class="advnace-search-from">
                         <!-- <div id="search-boxes"> -->
@@ -123,37 +151,15 @@
                             <div id="category-section" class="additional-search">
                                 <input type="text" name="category" placeholder="Category"><br>
                             </div>
-                            <button  type="button" id="toggle-department">departmentId+</button>
-                            <button  type="button" id="toggle-category">Category+</button>
+                            <button  type="button" id="toggle-department">departmentId +</button>
+                            <button  type="button" id="toggle-category">Category +</button>
                             <div class="search-btn">
                                 <input type="submit" value="Search">
                             </div>
                         </form>
                         <!-- </div> -->
                      
-                 
-                       
-
-
-
-                      <!---- 👍-->
-                       
-                        
-                        <div class="form-group-21"> 
-                          
-                            <h7 class="select-name">Select Number Of Rows</h7>
-                            <select class="form-control" name="state" id="maxRows">
-                                <option value="5000">Show ALL Rows</option>
-    
-                                <option value="50" selected>50</option>
-                                <option value="100">100</option>
-                                <option value="150">150</option>
-                                <option value="200">200</option>
-                                <option value="500">500</option>
-                                <option value="700">700</option>
-                                <option value="1000">1000</option>
-                            </select>
-                        </div>
+                    </div>
     
                         <div class="table-scroll">
                             <div class="table-wrapper">
@@ -258,6 +264,6 @@ approvedCells.forEach(cell => {
   });
     </script>
    
-    <script scr="parents.js"></script>
+    <script src="AuditOverview.js"></script>
 </body>
 </html>
