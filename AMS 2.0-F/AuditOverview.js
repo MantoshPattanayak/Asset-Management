@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
     console.log("document ready");
     load_data();
@@ -6,7 +7,7 @@ $(document).ready(function() {
       console.log("Loading");
   
       $.ajax({
-        url: "http://localhost:9090/audit_parent",
+        url: "http://localhost:3000/audit_parent",
         method: "POST",
         data: { action: 'fetch' },
         dataType: "JSON",
@@ -44,7 +45,7 @@ $(document).ready(function() {
     function fetchTableData(currentPage, maxRows, tableBodyElement) {
       console.log(currentPage );
       $.ajax({
-        url: "http://localhost:9090/audit_parent",
+        url: "http://localhost:3000/audit_parent",
         method: "POST",
         data: {
           page_number: currentPage,
@@ -307,3 +308,4 @@ $(document).ready(function() {
       limitPagination();
     });
   });
+

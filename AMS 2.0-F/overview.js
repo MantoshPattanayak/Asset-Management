@@ -1,4 +1,7 @@
 $(document).ready(function() {
+  if (sessionStorage.getItem('sessionVar') != 'pass') {
+    window.location.href = `./index.html`;
+  }
   console.log("document ready");
   load_data();
   let asset_id ;
@@ -862,6 +865,8 @@ $(document).ready(function () {
 });
 
 
+
+
 ///edit part
 // function location_atype() {
 
@@ -895,3 +900,18 @@ $(document).ready(function () {
 //     })
 //     .catch(err => console.error(err))
 // }
+
+
+let logout = document.getElementById('logoutBtn');
+logout.addEventListener('click', () => {
+  $.post(
+    "http://127.0.0.1:3000/logout",
+    {
+      userMail: sessionStorage.getItem('userMail')
+    },
+    function (result) {
+      sessionStorage.setItem('sessionVar', null);
+      window.location.href = `./index.html`;
+    }
+  )
+});

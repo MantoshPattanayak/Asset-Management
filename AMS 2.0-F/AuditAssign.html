@@ -8,10 +8,13 @@
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'> 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"
     integrity="sha384-Tv5i09RULyHKMwX0E8wJUqSOaXlyu3SQxORObAI08iUwIalMmN5L6AvlPX2LMoSE" crossorigin="anonymous" />
-   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"
     integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <title>Audit Assign</title>
+    <script src="AuditAssign.js"></script>
 </head>
 <body>
 <!---  Nav side bar-->
@@ -85,23 +88,35 @@
               
                           </div>
                           <div class="Aduit-Number">
-                            <h7> Emp No*</h7> <input type="text" class="aduit-scope-input" placeholder="Audit-Number">
+                            <h7> Emp No*</h7> 
+                            <input type="text" id="employee-number" class="aduit-scope-input" oninput="fetchEmployeeDetails(event)" placeholder="Employee Number (Six digits)">
                           </div>
                        
                           <div class="location">
-                            <h7> Auditor Name *</h7> <input type="text" class="aduit-scope-input" placeholder="Location">
+                            <h7> Auditor Name *</h7> 
+                            <input type="text" id="auditor-name" class="aduit-scope-input" id="auditor-name" placeholder="Auditor Name" disabled>
                           </div>
                           <div class="Aduit-Number">
-                            <h7> Location Name*</h7> <input type="text" class="aduit-scope-input" placeholder="Asset to">
+                            <h7> Location Name*</h7> 
+                            <!-- <input type="text" class="aduit-scope-input" placeholder="Location"> -->
+                            <select class="aduit-scope-input" id="location-select" onchange="filterDeptOptionList(event)">
+                                <option value="">Select Location</option>
+                            </select>
                           </div>
                           <div class="Aduit-scope">
-                            <h7>Dept Name *</h7>  <input type="text" class="aduit-scope-input" placeholder="Status">
+                            <h7>Department Name *</h7>  
+                            <!-- <input type="text" class="aduit-scope-input" placeholder="Department Name"> -->
+                            <select class="aduit-scope-input" id="department-select">
+                                <option value="">Select Department</option>
+                            </select>
                           </div>
                           <div class="Scheduled">
-                            <h7> Scheduled Start Date *</h7> <input type="date" class="aduit-scope-input" placeholder="Scheduled Date">
+                            <h7> Scheduled Start Date *</h7> 
+                            <input type="date" id="scheduledStartDate" class="aduit-scope-input" placeholder="Scheduled Start Date">
                           </div>
                           <div class="Scheduled">
-                            <h7> Scheduled End Date *</h7> <input type="date" class="aduit-scope-input" placeholder="Scheduled Date">
+                            <h7> Scheduled End Date *</h7> 
+                            <input type="date" id="scheduledEndDate" class="aduit-scope-input" placeholder="Scheduled End Date">
                           </div>
                         </form>
                       </div>
@@ -1163,11 +1178,11 @@
       
     }
 
-    function submitForm() {
-      // Perform the submit action here
-      alert("Form submitted successfully!");
-      closeConfirmation();
-    }
+    // function submitForm() {
+    //   // Perform the submit action here
+    //   alert("Form submitted successfully!");
+    //   closeConfirmation();
+    // }
 
     function cancelSubmit() {
       closeConfirmation();

@@ -8,7 +8,7 @@ const multer = require('multer');
 const csvParser = require('csv-parser');
 const fs = require('fs');
 const auditOverviewRouter = require('./audit-routes/audit-overview-route');
-
+const auditAssignRouter=require('./audit-routes/audit-assign-route')
 
 const app = express();
 const port = 3000;
@@ -36,6 +36,7 @@ const sqlConfig = {
 //********************************************AUDIT ROUTES - START***************************************************************************/
 app.use('/audit-overview', auditOverviewRouter);
 
+app.use('/audit-assign', auditAssignRouter);
 
 
 //********************************************AUDIT ROUTES - END***************************************************************************/
@@ -666,6 +667,48 @@ function insertDataToDatabase1(data1, callback) {
     });
 }
 
+//advance search for audit
+
+app.get('/advanceSearchForAudit', (req, res) => {
+    //requestQueries
+    let LocationId = req.query.LocationId;
+    let DepartmentId = req.query.DepartmentId;
+    let EmployeeNo = req.query.EmployeeNo;
+
+    //databse query
+    let query = `select * from AuditDetails where 1=1 `;
+
+    //checking conditions for multiple column data search(advance serching)
+    if (LocationId != null) {
+        query += `and LocationId =${LocationId}`;
+    }
+
+    //additional field
+    if (DepartmentId != null) {
+        query += ` and DepartmentId =${DepartmentId}`;
+    }
+
+    //additional field
+    if (EmployeeNo != null) {
+        query += ` and EmployeeNo=${EmployeeNo}`
+    }
+
+    //query result
+    mssql.query(query, (err, result) => {
+        if (err) throw err;
+        res.send(result);
+    })
+
+})
+
+//progressbar audit overview page
+app.get('/progressbarForAudit', (req, res) => {
+     let query=`select  AuditStatus,count(AuditStatus)as count from asset.dbo.AuditDetails group by AuditStatus `;
+     mssql.query(query, (err, result) => {
+        if (err) throw err;
+        res.send(result);
+     });
+})
 
 
 
@@ -2090,7 +2133,7 @@ app.post('/searchUserAssetsTable', (req, res) => {
 
 app.post('/userDetails', (req, res) => {
     let userID = req.body.userID;
-    let query = `SELECT first_name, middle_name, last_name, dept_work, user_type, contact_no, email FROM Employees INNER JOIN Users ON Employees.emp_no = Users.user_id WHERE user_id = '${userID}'`;
+    let query = `SELECT e.first_name, e.middle_name, e.last_name, e.dept_work, u.user_type, e.contact_no, u.email FROM Employees e INNER JOIN Users u ON e.emp_no = u.user_id WHERE u.user_id = '${userID}'`;
     let queryResult = mssql.query(query, (err, result) => {
         if (err) throw err
         else {
