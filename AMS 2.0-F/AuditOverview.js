@@ -64,7 +64,7 @@ $(document).ready(function () {
 
 // Using Ajax to fetch data from the Node.js API
 $.ajax({
-    url: 'http://localhost:3000/advanceSearchForAudit?',
+    url: 'http://localhost:3000/advanceSearchForAudit',
     
     type: 'GET',
     dataType: 'json',
