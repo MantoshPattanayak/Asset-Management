@@ -93,4 +93,45 @@ router.get('/emp-no-emp-name',(req,res)=>{
 
 })
 
+router.get('/audit-assign-one',(req,res)=>{
+    console.log('1')
+
+    let dept_id=req.body.dept_id;
+
+    let location_id=req.body.location_id;
+
+  let query=`select a.serial,a.asset_id,a.tag_id,a.tag_uuid,a.asset_name,a.asset_type,a.asset_type,d.dept_name,l.location_name from 
+  asset.dbo.assets a inner join asset.dbo.department d on a.dept_id=d.dept_id inner join asset.dbo.location l on a.location_id=l.location_id
+  where a.dept_id=${dept_id} and a.location_id=${location_id}`
+
+  
+ mssql.query(query, (err, result) => {
+
+
+    if(err) throw err
+    
+    if(result.recordset.length!=0){
+
+        res.status(200).send({
+            answer:result.recordset
+        }
+            
+    )
+    }
+    else{
+
+   
+
+        res.status(404).send({
+    
+        message:"No data found"
+    
+           
+    
+        })
+    }
+  
+})
+})
+
 module.exports = router;
