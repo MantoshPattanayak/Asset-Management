@@ -1766,11 +1766,12 @@ span {
 
 
      .onclick-btn{
-        background-color:#21d808; /* Facebook blue color */
-        color: #0f0e0e; /* White text color */
+        background-color:royalblue; /* Facebook blue color */
+        color: #f7f7f7; /* White text color */
         border: none;
         padding: 0 20px;
         font-size: 16px;
+        font-weight: 700;
         border-radius: 10px;
         margin-bottom: 10px;
         cursor: pointer;
