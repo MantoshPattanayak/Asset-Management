@@ -241,7 +241,7 @@ $(document).ready(function(){
           console.log("response pagination", response);
       
           console.log('total rows: ', response.answer.allPages);
-          all_rows=response.answer.allPages;
+          all_rows=response.answer.allPages.total_rows;
           console.log(all_rows);
 
           // Update the table with the fetched data
@@ -272,7 +272,7 @@ $(document).ready(function(){
     evt.stopImmediatePropagation();
     evt.preventDefault();
     var pageNum = $(this).attr('data-page');
-    var maxRows = parseInt($('#maxRows').val());
+    var maxRows = parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value);
     
     if (pageNum == 'prev') {
       if (lastPage == 1) {
@@ -296,6 +296,7 @@ $(document).ready(function(){
     fetchTableData(lastPage, maxRows, tableBodyElement);
   })
 
+  $('#maxRows').on('change', initializePagination('.table-body'));
 })
 /*************************************DOCUMENT READY FUNCTION -  END************************************************************/
 
