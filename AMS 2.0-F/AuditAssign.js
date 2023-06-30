@@ -6,6 +6,9 @@ let all_rows = 0;
 
 /*************************************DOCUMENT READY FUNCTION -  START************************************************************/
 $(document).ready(function(){
+  if (sessionStorage.getItem('sessionVar') != 'pass') {
+    window.location.href = `./index.html`;
+  }
     //ajax call to fetch location and department details on window load
     console.log("audit assign page");
 
@@ -392,7 +395,8 @@ function submitForm() {
       'locationID': locationID,
       'departmentID': departmentID,
       'scheduledStartDate': new Date(scheduledStartDate).toISOString(),
-      'scheduledEndDate': new Date(scheduledEndDate).toISOString()
+      'scheduledEndDate': new Date(scheduledEndDate).toISOString(),
+      'userID': sessionStorage.getItem('userID')
     }
     console.log('audit assign submiti form data', JSON.stringify(formData));
   
