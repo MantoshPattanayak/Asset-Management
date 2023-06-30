@@ -1636,6 +1636,7 @@ span {
     background-color: #f2f3f5; /* Light gray background */
     border: none;
     padding: 10px;
+    height: 40px;
     font-size: 15px;
     border-radius: 4px;
     margin-bottom: 10px;
@@ -1648,7 +1649,7 @@ span {
   #adsearch-boxes .additional-search input[type="text"] {
     background-color: #f2f3f5; /* Light gray background */
     border: none;
-    padding: 10px;
+    padding: 0 10px;
     font-size: 16px;
     border-radius: 4px;
     margin-bottom: 10px;
@@ -1662,7 +1663,8 @@ span {
     background-color:#335d93; /* Facebook blue color */
     color: #fff; /* White text color */
     border: none;
-    padding: 10px 20px;
+    height: 40px;
+    padding: 0 20px;
     font-size: 16px;
     border-radius: 4px;
     margin-bottom: 10px;
@@ -1673,6 +1675,7 @@ span {
     background-color:#0a64d9; /* Facebook blue color */
     color: #fff; /* White text color */
     border: none;
+    
     padding: 10px 20px;
     font-size: 16px;
     border-radius: 4px;
@@ -1756,3 +1759,30 @@ span {
     margin-bottom: 20px;
   }
   
+ /*audit Box*/
+
+     .navbar-audit{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+       
+     }
+
+
+     .onclick-btn{
+        background-color:royalblue; /* Facebook blue color */
+        color: #f7f7f7; /* White text color */
+        border: none;
+        height: 4vh;
+        padding: 0 20px;
+        font-size: 16px;
+        font-weight: 700;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        
+     }
+
+     .onclick-btn:hover{
+        background-color: #0a64d9;
+        color: wheat;
+     }
