@@ -80,7 +80,7 @@ $(document).ready(function() {
        
             html += "<td>" + row.EmployeeNo + "</td>";
             html += "<td>" + row.AuditStatus + "</td>";
-            html += '<td><button class="btn-info edit-btn">Details</button></a></td>';
+            html += `<td><button class="btn-info edit-btn" onclick="sessionStorage.setItem('auditID', ${row.id}); window.location.href='AuditDetails.html';">Details</button></a></td>`;
             html += "</tr>";
             $(tableBodyElement).append(html);
           }
