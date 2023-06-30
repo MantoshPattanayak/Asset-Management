@@ -114,23 +114,24 @@
             <p>Asset Audit Result by Asset Status</p>
             <canvas id="myChart" ></canvas>
           </div>
-          <from>
+          <form>
             <div class="bar-prog">
               <br>
-            <div class="Aduit-Number">
-                <h7> Scanned and Expected *</h7> <input type="text" class="aduit-scope-input" placeholder="Asset to">
+              <div class="Aduit-Number">
+                  <h7> Scanned and Expected *</h7> <input type="text" class="aduit-scope-input" placeholder="Asset to">
+                </div>
+                <div class="Aduit-scope">
+                  <h7>Scanned and Not Expected*</h7>  <input type="text" class="aduit-scope-input" placeholder="Status">
+                </div>
+                <div class="Scheduled">
+                  <h7> Expected and Not found*</h7> <input type="text" class="aduit-scope-input" placeholder="Scheduled Date">
+                </div>
+                <div class="Scheduled">
+                  <h7> New*</h7> <input type="text" class="aduit-scope-input" placeholder="Scheduled Date">
+                </div>
               </div>
-              <div class="Aduit-scope">
-                <h7>Scanned and Not Expected*</h7>  <input type="text" class="aduit-scope-input" placeholder="Status">
-              </div>
-              <div class="Scheduled">
-                <h7> Expected and Not found*</h7> <input type="text" class="aduit-scope-input" placeholder="Scheduled Date">
-              </div>
-              <div class="Scheduled">
-                <h7> New*</h7> <input type="text" class="aduit-scope-input" placeholder="Scheduled Date">
-              </div>
-            </div>
-          </from>
+              </form>
+          </form>
         </div>
 
 
@@ -139,7 +140,7 @@
        <div class="table-container">
         <div class="table-buttons">
           <button class="table-button" id="table-1-button">Expected Assets</button>
-          <button class="table-button" id="table-2-button">Scanned Assets</button>
+          <button class="table-button" id="table-2-button" style="display: none;">Scanned Assets</button>
         </div>
         
         <div class="table-container-scroll">

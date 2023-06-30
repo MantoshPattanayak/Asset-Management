@@ -105,13 +105,13 @@ flex-wrap: wrap;
 justify-content: space-between;
 }
 
-.Aduit-Number,
+/* .Aduit-Number,
 .Aduit-scope,
 .location,
 .Scheduled {
   margin-bottom: 10px;
 
-}
+} */
 
 .Aduit-Number h7,
 .Aduit-scope h7,
@@ -133,12 +133,12 @@ justify-content: space-between;
   box-shadow: #09739c 0.1px 0.2px;
 
 }
-.bar-prog {
+/* .bar-prog {
   grid-column: 1 / span 3;
   height: 5px;
   background-color: #007bff;
   margin-bottom: 20px;
-}
+} */
 
 
 .Result-aduit{
@@ -231,3 +231,143 @@ justify-content: space-between;
     overflow-wrap: normal;
     font-family: Lato, Oxygen, "Open Sans", Montserrat, "PT Sans", Verdana, Arial, sans-serif;
   }
+
+  
+/* Common Styles */
+.Aduit-details-from {
+  margin-bottom: 20px;
+}
+
+.Aduit-details-from .bar-prog {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+}
+
+.Aduit-details-from h7 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.aduit-scope-input {
+  background-color: #f2f3f5;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  width: 100%;
+  box-shadow: 0.1px 0.2px rgba(9, 115, 156, 0.16);
+}
+
+/* .table-container {
+  padding: 20px;
+} */
+
+.table-buttons {
+  margin-bottom: 20px;
+}
+
+.table-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #3a4d63;
+  color: #f0dede;
+  border-radius: 10px;
+  box-shadow: 1.95px 1.95px 2.6px #2e4061;
+  border-color: #2e4061;
+  border-bottom: #2e4061;
+}
+
+.table-container-scroll {
+  max-height: 200px;
+  overflow: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+/* Custom scroll bar */
+.table-container-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.table-container-scroll::-webkit-scrollbar-track {
+  background-color: #f2f3f5;
+}
+
+.table-container-scroll::-webkit-scrollbar-thumb {
+  background-color: #09739c;
+}
+
+.table-boder {
+  background-color: #2e4061;
+  color: white;
+  font-size: large;
+}
+
+.asset-aduit {
+  display: flex;
+  justify-content: center;
+  font-size: 35px;
+  color: rgb(53, 66, 89);
+  font-size: 2em;
+  font-weight: 700;
+  margin: 0.525em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  font-family: Lato, Oxygen, "Open Sans", Montserrat, "PT Sans", Verdana, Arial, sans-serif;
+}
+
+/* Responsive Styles */
+@media (max-width: 767px) {
+  .aduit-details .Aduit-details-from {
+    margin-bottom: 10px;
+  }
+
+  .aduit-details .Aduit-details-from .bar-prog {
+    grid-template-columns: 1fr;
+  }
+
+  .Result-aduit {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .char {
+    width: 100%;
+  }
+
+  .Aduit-details-from .Aduit-Number,
+  .Aduit-details-from .Aduit-scope,
+  .Aduit-details-from .location,
+  .Aduit-details-from .Scheduled {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 479px) {
+  .aduit-details .Aduit-details-from .bar-prog {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .aduit-details .Aduit-details-from h7 {
+    font-size: 12px;
+  }
+
+  .aduit-scope-input {
+    font-size: 14px;
+  }
+}
