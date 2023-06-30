@@ -1636,6 +1636,7 @@ span {
     background-color: #f2f3f5; /* Light gray background */
     border: none;
     padding: 10px;
+    height: 40px;
     font-size: 15px;
     border-radius: 4px;
     margin-bottom: 10px;
@@ -1648,7 +1649,7 @@ span {
   #adsearch-boxes .additional-search input[type="text"] {
     background-color: #f2f3f5; /* Light gray background */
     border: none;
-    padding: 10px;
+    padding: 0 10px;
     font-size: 16px;
     border-radius: 4px;
     margin-bottom: 10px;
