@@ -2,7 +2,7 @@
 
 
 // Function to fetch data from the backend
-
+let auditID = sessionStorage.getItem('auditID');
 // Call the fetchData function when the document is ready
 $(document).ready(function() {
     fetchData();
@@ -12,7 +12,7 @@ $(document).ready(function() {
 function fetchData() {
     // Make an AJAX request
     $.ajax({
-      url: 'backend_url', // Replace 'backend_url' with the actual URL of your backend endpoint
+      url: `http://localhost:3000/audit-asset/fetch-data?auditID=${auditID}`, // Replace 'backend_url' with the actual URL of your backend endpoint
       type: 'GET',
       success: function(response) {
         // Set the values of input fields
