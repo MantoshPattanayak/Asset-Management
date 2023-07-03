@@ -166,9 +166,10 @@ router.get('/audit-assign-one',(req,res)=>{
           };
       if(result.recordset.length!=0){
   
-          res.status(200).send({
-             answer
-          }
+          res.status(200).send(data
+          //   {
+          //    answer
+          // }
               
       )
       }
@@ -192,4 +193,103 @@ router.get('/audit-assign-one',(req,res)=>{
   
 })
 
+
+
+
+
+
+router.post('/submitForm',(req,res)=>{
+  const{employeeNumber,
+  locationID,
+  departmentID,
+  scheduledStartDate,
+  scheduledEndDate,
+  userID,
+AuditorName,
+
+}=req.body
+const AuditStatus='Open'
+
+const currentDatetime = new Date();
+const year = currentDatetime.getFullYear();
+const month = String(currentDatetime.getMonth() + 1).padStart(2, "0");
+const day = String(currentDatetime.getDate()).padStart(2, "0");
+const hours = String(currentDatetime.getHours()).padStart(2, "0");
+const minutes = String(currentDatetime.getMinutes()).padStart(2, "0");
+const seconds = String(currentDatetime.getSeconds()).padStart(2, "0");
+const milliseconds = String(currentDatetime.getMilliseconds()).padStart(3, "0");
+
+const formattedDatetime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+
+
+
+
+
+
+
+
+
+// const employeeNumber= 765432
+// const locationID= 355013
+// const departmentID= 1
+// const scheduledStartDate= '2090-06-26 00:00:00.000'
+// const scheduledEndDate= '2025-06-27 13:45:47.000'
+
+// // const formattedDatetime = '2024-06-27 12:45:47.000'
+// const userID='1007'
+
+
+console.log(employeeNumber,
+  locationID,
+  departmentID,
+  scheduledStartDate,
+  scheduledEndDate,
+  userID,
+  formattedDatetime,
+  )
+
+let query=`insert into AuditDetails(EmployeeNo,LocationId,DepartmentId,CreatedOn,CreatedBy,ScheduledStartDate,ScheduledEndDate,LastUpdatedOn,LastUpdatedBy,AuditStatus,AuditorName) OUTPUT inserted.Id
+  values(${employeeNumber},${locationID},${departmentID},'${formattedDatetime}','${userID}','${scheduledStartDate}','${scheduledEndDate}','${formattedDatetime}',${userID},'${AuditStatus}','${AuditorName}')`
+
+let query2=`select a.serial,a.asset_id,a.tag_id,a.tag_uuid,a.asset_name,a.asset_type,d.dept_name,l.location_name,ROW_NUMBER() OVER (ORDER BY a.serial) AS RowNum from 
+asset.dbo.assets a inner join asset.dbo.department d on a.dept_id=d.dept_id inner join asset.dbo.location l on a.location_id=l.location_id
+where a.dept_id=${departmentID} and a.location_id=${locationID}`
+
+  try{ 
+
+    let queryResult = mssql.query(query, (err, result) => {
+
+      if(err) throw err
+      console.log(result.recordset)
+  
+      let queryResult2 = mssql.query(query2,(err,result2)=>{
+      
+        for(let i in result2.recordset){
+      
+          let queryResult3 = mssql.query(`insert into asset.dbo.AssetAuditDetails(AuditId,AssetSerialId,,CreatedOn,CreatedBy,LastUpdatedOn,LastUpdatedBy,AuditStatusLastUpdatedOn,LastUpdatedBy)
+            values(${result.recordset[0].Id},${result2.recordset[i].serial},'${formattedDatetime}','${userID}','${formattedDatetime}','${userID}')`,(err,result3)=>{
+
+              console.log(9)
+             
+          })
+        }
+        res.status(200).send({
+            
+          message:"Insertion Done"
+      
+        })
+      })
+    })
+  }
+  catch(e){
+    res.status(500).send({
+            
+      message:"Error in insertion of new record!!!"
+  
+    })
+  }
+
+  
+})
 module.exports = router;
