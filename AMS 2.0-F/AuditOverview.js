@@ -88,7 +88,7 @@ $(document).ready(function() {
             
             html += "<td>" + row.EmployeeNo + "</td>";
             html += "<td>" + row.AuditStatus + "</td>";
-            html += `<td><button class="btn-info edit-btn" onclick="sessionStorage.setItem('auditID', ${row.id}); window.location.href='AuditDetails.html';">Details</button></a></td>`;
+            html += `<td><button class="btn-info edit-btn" onclick="sessionStorage.setItem('auditID', ${row.id}); window.location.href='AuditDetails.html';"><i class="fa-solid fa-eye fa-fade fa-2xl" style="color: #38b81e;"></i></button></a></td>`;
             html += "</tr>";
             $(tableBodyElement).append(html);
           }
@@ -501,7 +501,7 @@ function fetchData() {
           // dataRow.append('<td>' + rowData.EndDate + '</td>');
           dataRow.append('<td>' + rowData.EmployeeNo + '</td>');
           dataRow.append('<td>' + rowData.AuditStatus + '</td>');
-          dataRow.append('<td>' + `<button class="btn-info edit-btn" onclick="sessionStorage.setItem('auditID', ${rowData.Id}); window.location.href='AuditDetails.html';">Details</button></a>` + '</td>');
+          dataRow.append('<td>' + `<button class="btn-info edit-btn" onclick="sessionStorage.setItem('auditID', ${rowData.Id}); window.location.href='AuditDetails.html';"><i class="fa-solid fa-eye fa-fade fa-2xl" style="color: #38b81e;"></i></button></a>` + '</td>');
 
           tableBody.append(dataRow);
         }
