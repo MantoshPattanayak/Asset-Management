@@ -88,7 +88,7 @@ $(document).ready(function() {
             
             html += "<td>" + row.EmployeeNo + "</td>";
             html += "<td>" + row.AuditStatus + "</td>";
-            html += '<td><button class="btn-info edit-btn">Details</button></a></td>';
+            html += `<td><button class="btn-info edit-btn" onclick="sessionStorage.setItem('auditID', ${row.id}); window.location.href='AuditDetails.html';">Details</button></a></td>`;
             html += "</tr>";
             $(tableBodyElement).append(html);
           }
@@ -484,13 +484,13 @@ function fetchData() {
           dataRow.append('<td>' + rowData.AuditorName + '</td>');
 
                 // Convert UTC to IST for ScheduledStartDate
-                var startDate = new Date(rowData.StartDate);
-                var istStartDate = startDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+                var startDate = rowData.ScheduledStartDate ? new Date(rowData.ScheduledStartDate):null;
+                var istStartDate = startDate ? startDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) : "null";
                 dataRow.append("<td>" + istStartDate + "</td>");
                 
                 // Convert UTC to IST for ScheduledEndDate
-                var endDate = new Date(rowData.EndDate);
-                var istEndDate = endDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+                var endDate = rowData.ScheduledEndDate ? new Date(rowData.ScheduledEndDate):null;
+                var istEndDate = endDate ? endDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) : "null";
                 dataRow.append ("<td>" + istEndDate + "</td>");
 
 
@@ -518,7 +518,7 @@ function fetchData() {
         $('#no-data-message').hide();
       } else {
         // Hide the table section and show the no-data message
-        $('.table-scroll').hide();
+        $('.table-body').hide();
         $('#no-data-message').show();
       }
     },
