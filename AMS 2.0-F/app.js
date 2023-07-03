@@ -682,7 +682,10 @@ app.get('/advanceSearchForAudit', (req, res) => {
     let EmployeeNo = req.query.EmployeeNo;
 
     //databse query
-    let query = `select * from AuditDetails where 1=1 `;
+    let query = `select * from AuditDetails ad left join location l on l.location_id =ad.LocationId left join department d 
+
+    on d.dept_id  =ad.DepartmentId  where 1=1 `;
+
 
     //checking conditions for multiple column data search(advance serching)
     if (LocationId != null) {
