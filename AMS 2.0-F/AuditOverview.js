@@ -407,78 +407,8 @@ $(document).ready(function() {
         }
     });
 
-    $.ajax({
-        url: 'http://localhost:3000/departments',
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) {
-            response.recordset.map((n) => {
-                $('#DepartmentId')[0].appendChild(new Option(n.dept_name, n.dept_id, false, false))
-            });
-
-        },
-        error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
-    });
-  }
-fetchOptions();
 
 
-// Function to perform the AJAX request and fetch data
-function fetchData() {
-  // Get the parameter values from the input fields
-  var LocationId = $('#LocationId').val();
-  var DepartmentId = $('#DepartmentId').val();
-  var EmployeeNo = $('#EmployeeNo').val();
-
-  // Construct the URL with the parameter values
-  var url = 'http://localhost:3000/advanceSearchForAudit?';
-
-  if (LocationId) {
-    url += 'LocationId=' + LocationId;
-  }
-
-  if (DepartmentId) {
-    if (LocationId) {
-      url += '&';
-    }
-    url += 'DepartmentId=' + DepartmentId;
-  }
-
-  if (EmployeeNo) {
-    if (LocationId || DepartmentId) {
-      url += '&';
-    }
-    url += 'EmployeeNo=' + EmployeeNo;
-  }
-
-  // Perform the AJAX request
-  $.ajax({
-    url: url,
-    type: 'GET',
-    dataType: 'json',
-    success: function(response) {
-      if (response && response.recordset.length > 0) {
-        // Creating the table rows
-        var tableBody = $('#audit-table-body');
-        tableBody.empty(); // Clear any existing rows
-
-        for (var i = 0; i < response.recordset.length; i++) {
-          var rowData = response.recordset[i];
-          var dataRow = $('<tr>');
-          dataRow.append('<td>' + rowData.Id + '</td>');
-          dataRow.append('<td>' + rowData.location_name + '</td>');
-          dataRow.append('<td>' + rowData.dept_name + '</td>');
-          dataRow.append('<td>' + rowData.AuditorName + '</td>');
-          dataRow.append('<td>' + rowData.StartDate + '</td>');          
-          dataRow.append('<td>' + rowData.EndDate + '</td>');
-          dataRow.append('<td>' + rowData.EmployeeNo + '</td>');
-          dataRow.append('<td>' + rowData.AuditStatus + '</td>');
-          dataRow.append('<td>' + '<button class="btn-info edit-btn">Details</button></a>' + '</td>');
-
-          tableBody.append(dataRow);
-        }
 
         // Convert UTC to IST for ScheduledStartDate
         // var startDate = new Date(row.StartDate);
