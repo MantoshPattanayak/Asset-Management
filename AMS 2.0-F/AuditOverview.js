@@ -368,7 +368,7 @@ $(document).ready(function() {
           updateChart('new-audit', c, totalCount);
           updateChart('inprogress-audit', b, totalCount);
           updateChart('closed-audit', a, totalCount);
-          updateChart('expired-audit',d, totalCount);
+          // updateChart('expired-audit',d, totalCount);
         },
         error: function() {
           console.log('Error occurred while fetching chart data.');
@@ -482,11 +482,23 @@ function fetchData() {
           dataRow.append('<td>' + rowData.location_name + '</td>');
           dataRow.append('<td>' + rowData.dept_name + '</td>');
           dataRow.append('<td>' + rowData.AuditorName + '</td>');
-          dataRow.append('<td>' + rowData.StartDate + '</td>');          
-          dataRow.append('<td>' + rowData.EndDate + '</td>');
+
+                // Convert UTC to IST for ScheduledStartDate
+                var startDate = new Date(rowData.StartDate);
+                var istStartDate = startDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+                dataRow.append("<td>" + istStartDate + "</td>");
+                
+                // Convert UTC to IST for ScheduledEndDate
+                var endDate = new Date(rowData.EndDate);
+                var istEndDate = endDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+                dataRow.append ("<td>" + istEndDate + "</td>");
+
+
+          // dataRow.append('<td>' + rowData.StartDate + '</td>');          
+          // dataRow.append('<td>' + rowData.EndDate + '</td>');
           dataRow.append('<td>' + rowData.EmployeeNo + '</td>');
           dataRow.append('<td>' + rowData.AuditStatus + '</td>');
-          dataRow.append('<td>' + '<button class="btn-info edit-btn">Details</button></a>' + '</td>');
+          dataRow.append('<td>' + `<button class="btn-info edit-btn" onclick="sessionStorage.setItem('auditID', ${rowData.Id}); window.location.href='AuditDetails.html';">Details</button></a>` + '</td>');
 
           tableBody.append(dataRow);
         }
