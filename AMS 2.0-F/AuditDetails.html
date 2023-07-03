@@ -74,16 +74,16 @@
 
             </div>
             <div class="Aduit-Number">
-              <h7> Audit Number *</h7> <input type="text" class="aduit-scope-input" placeholder="Audit-Number">
+              <h7> Audit Number *</h7> <input type="text" class="aduit-scope-input" id="aduit-scope-input-no" placeholder="Audit-Number" readonly>
             </div>
-            <div class="Aduit-scope">
-              <h7> Audit scope *&nbsp; &nbsp; </h7>  <input type="text" class="aduit-scope-input" placeholder="Audit scope">
-            </div>
+            <!-- <div class="Aduit-scope">
+              <h7> Audit scope *&nbsp; &nbsp; </h7>  <input type="text" class="aduit-scope-input" placeholder="Audit scope" readonly>
+            </div> -->
             <div class="location">
-              <h7> Location *&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</h7> <input type="text" class="aduit-scope-input" placeholder="Location">
+              <h7> Location *&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</h7> <input type="text" class="aduit-scope-input" id="aduit-scope-input-location" placeholder="Location" readonly>
             </div>
             <div class="Scheduled">
-              <h7> Scheduled End Date *</h7> <input type="text" class="aduit-scope-input" placeholder="Scheduled Date">
+              <h7> Scheduled End Date *</h7> <input type="text" class="aduit-scope-input" id="aduit-scope-input-end-date" placeholder="Scheduled Date" readonly>
             </div>
           </form>
       
@@ -94,13 +94,13 @@
             
             <!-- Form 2 -->
             <div class="Aduit-Number">
-              <h7> Auditor Name *</h7> <input type="text" class="aduit-scope-input" placeholder="Asset to">
+              <h7> Auditor Name *</h7> <input type="text" class="aduit-scope-input" id="aduit-scope-input-name" placeholder="Asset to" readonly>
             </div>
             <div class="Aduit-scope">
-              <h7>Audit Status *</h7>  <input type="text" class="aduit-scope-input" placeholder="Status">
+              <h7>Audit Status *</h7>  <input type="text" class="aduit-scope-input" id="aduit-scope-input-status" placeholder="Status" readonly>
             </div>
             <div class="Scheduled">
-              <h7> Scheduled Start Date *</h7> <input type="text" class="aduit-scope-input" placeholder="Scheduled Date">
+              <h7> Scheduled Start Date *</h7> <input type="text" class="aduit-scope-input" id="aduit-scope-input-start-date" placeholder="Scheduled Date" readonly>
             </div>
             </div>
           </form>
@@ -118,16 +118,16 @@
             <div class="bar-prog">
               <br>
               <div class="Aduit-Number">
-                  <h7> Scanned and Expected *</h7> <input type="text" class="aduit-scope-input" placeholder="Asset to">
+                  <h7> Scanned and Expected *</h7> <input type="text" class="aduit-scope-input" id="scanned-expected" placeholder="Status" readonly>
                 </div>
                 <div class="Aduit-scope">
-                  <h7>Scanned and Not Expected*</h7>  <input type="text" class="aduit-scope-input" placeholder="Status">
+                  <h7>Scanned and Not Expected*</h7>  <input type="text" class="aduit-scope-input"  id="scanned-not-expected"placeholder="Found asset" readonly>
                 </div>
                 <div class="Scheduled">
-                  <h7> Expected and Not found*</h7> <input type="text" class="aduit-scope-input" placeholder="Scheduled Date">
+                  <h7> Expected and Not found*</h7> <input type="text" class="aduit-scope-input"  id="expected-not-found"placeholder="Missing Asset" readonly>
                 </div>
-                <div class="Scheduled">
-                  <h7> New*</h7> <input type="text" class="aduit-scope-input" placeholder="Scheduled Date">
+                <div class="Scheduled" style="display: none;">
+                  <h7> New*</h7> <input type="text" class="aduit-scope-input"  id="new"placeholder="New Asset" readonly>
                 </div>
               </div>
               </form>

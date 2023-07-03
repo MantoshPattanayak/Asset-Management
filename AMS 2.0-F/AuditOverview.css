@@ -802,6 +802,23 @@ span {
     border-radius: 4px;
     margin-bottom: 10px;
   }
+  .advnace-search-from select{
+    background-color: #f2f3f5; /* Light gray background */
+    border: none;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .advnace-search-from >button {
+    background-color: #4f85f0; /* Light gray background */
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
   
   #adsearch-boxes .additional-search {
     display: none;
