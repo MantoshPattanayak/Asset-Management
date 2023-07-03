@@ -49,14 +49,28 @@ $(document).ready(function() {
       $('#expected-not-found').val(response.assetCountData[0].MissingAssetCount);
       // $('#new').val(response.assetCountData.NewAssetCount);
 
-      //function to display data in table
-
-      function dispalyData(data){
-        let html='';
-        for(let i=0;i<data.length;i++){
-          html+=``
-        }
+     // Function to display data in table
+     function displayData(data) {
+      let html = '';
+      for (let i = 0; i < data.assetAuditDetailsData.length; i++) {
+        html += `
+          <tr>
+            <td>${data.assetAuditDetailsData[i].tag_id}</td>
+            <td>${data.assetAuditDetailsData[i].tag_uuid}</td>
+            <td>${data.assetAuditDetailsData[i].asset_id}</td>
+            <td>${data.assetAuditDetailsData[i].asset_class}</td>
+            <td>${data.assetAuditDetailsData[i].asset_type}</td>
+            <td>${data.assetAuditDetailsData[i].asset_name}</td>
+            <td>${data.assetAuditDetailsData[i].location_name}</td>
+            <td>${data.assetAuditDetailsData[i].AssetStatus}</td>
+          </tr>`;
       }
+      $('#table-1 tbody').html(html);
+    }
+
+    // Call the displayData function with the table data
+    displayData(response);
+  
 
 
       // var tableBody = $('#table-1 tbody');
