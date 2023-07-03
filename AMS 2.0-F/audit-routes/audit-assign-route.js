@@ -166,10 +166,10 @@ router.get('/audit-assign-one',(req,res)=>{
           };
       if(result.recordset.length!=0){
   
-          res.status(200).send(data
-          //   {
-          //    answer
-          // }
+          res.status(200).send(
+            {
+             answer
+          }
               
       )
       }
@@ -267,10 +267,10 @@ where a.dept_id=${departmentID} and a.location_id=${locationID}`
       
         for(let i in result2.recordset){
       
-          let queryResult3 = mssql.query(`insert into asset.dbo.AssetAuditDetails(AuditId,AssetSerialId,,CreatedOn,CreatedBy,LastUpdatedOn,LastUpdatedBy,AuditStatusLastUpdatedOn,LastUpdatedBy)
+          let queryResult3 = mssql.query(`insert into asset.dbo.AssetAuditDetails(AuditId,AssetSerialId,CreatedOn,CreatedBy,LastUpdatedOn,LastUpdatedBy)
             values(${result.recordset[0].Id},${result2.recordset[i].serial},'${formattedDatetime}','${userID}','${formattedDatetime}','${userID}')`,(err,result3)=>{
-
-              console.log(9)
+           
+           
              
           })
         }

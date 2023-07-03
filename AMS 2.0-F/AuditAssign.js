@@ -70,6 +70,7 @@ $(document).ready(function(){
             console.log(response);
             
             all_rows = response.answer.allPages.total_rows;
+            console.log("all_row",all_rows);
 
             if(all_rows > 0){
               let html = '';
@@ -241,10 +242,11 @@ $(document).ready(function(){
         success: function(response) {
           var data = response.answer.answer; // Assuming the API response contains the data in the 'data' property
           // var message=response.answer.allPages  // total number of page 
+          console.log(data)
           console.log("response pagination", response);
       
           console.log('total rows: ', response.answer.allPages);
-          all_rows=response.answer.allPages.total_rows;
+          all_rows=response.answer.allPages;
           console.log(all_rows);
 
           // Update the table with the fetched data
@@ -407,9 +409,10 @@ function submitForm() {
       data: formData,
       success: function (response){
         console.log(response);
-        window.location.href = 'audit-assign.html'; //clear form
         alert("Form submitted successfully!");
         closeConfirmation();
+        
+        window.location.href = 'AuditAssign.html'; //clear form
       },
       error: function(error){
         console.error(error);
