@@ -58,16 +58,16 @@ $(document).ready(function() {
           page_number: currentPage,
           page_size: maxRows
         },
-    
+      
         success: function(response) {
-          console.log(response)
+          console.log(response);
           var data = response.answer.answer;
           var message = response.answer.allPages;
           all_rows = message.total_rows;
-  
+      
           $(tableBodyElement).html(""); // Clear the table body
-          console.log(data)
-  
+          console.log(data);
+      
           for (var i = 0; i < data.length; i++) {
             var row = data[i];
             var html = "<tr>";
@@ -75,22 +75,31 @@ $(document).ready(function() {
             html += "<td>" + row.location_name + "</td>";
             html += "<td>" + row.dept_name + "</td>";
             html += "<td>" + row.AuditorName + "</td>";
-            html += "<td>" + row.ScheduledStartDate + "</td>";
-            html += "<td>" + row.ScheduledEndDate + "</td>";
-       
+            
+            // Convert UTC to IST for ScheduledStartDate
+            var startDate = new Date(row.ScheduledStartDate);
+            var istStartDate = startDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+            html += "<td>" + istStartDate + "</td>";
+            
+            // Convert UTC to IST for ScheduledEndDate
+            var endDate = new Date(row.ScheduledEndDate);
+            var istEndDate = endDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+            html += "<td>" + istEndDate + "</td>";
+            
             html += "<td>" + row.EmployeeNo + "</td>";
             html += "<td>" + row.AuditStatus + "</td>";
-            html += '<td><button class="btn-info edit-btn">Details</button></a></td>';
+            html += `<td><button class="btn-info edit-btn" onclick="sessionStorage.setItem('auditID', ${row.id}); window.location.href='AuditDetails.html';">Details</button></a></td>`;
             html += "</tr>";
             $(tableBodyElement).append(html);
           }
-  
+
           limitPagination();
         },
         error: function(error) {
           console.error("Error fetching table data:", error);
         }
       });
+      
     }
   
     function initializePagination(tableBodyElement) {
@@ -407,8 +416,79 @@ $(document).ready(function() {
         }
     });
 
+    $.ajax({
+        url: 'http://localhost:3000/departments',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            response.recordset.map((n) => {
+                $('#DepartmentId')[0].appendChild(new Option(n.dept_name, n.dept_id, false, false))
+            });
+
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+  }
+fetchOptions();
 
 
+// Function to perform the AJAX request and fetch data
+function fetchData() {
+  // Get the parameter values from the input fields
+  var LocationId = $('#LocationId').val();
+  var DepartmentId = $('#DepartmentId').val();
+  var EmployeeNo = $('#EmployeeNo').val();
+
+  // Construct the URL with the parameter values
+  var url = 'http://localhost:3000/advanceSearchForAudit?';
+
+  if (LocationId) {
+    url += 'LocationId=' + LocationId;
+  }
+
+
+  if (DepartmentId) {
+    if (LocationId) {
+      url += '&';
+    }
+    url += 'DepartmentId=' + DepartmentId;
+  }
+
+  if (EmployeeNo) {
+    if (LocationId || DepartmentId) {
+      url += '&';
+    }
+    url += 'EmployeeNo=' + EmployeeNo;
+  }
+
+  // Perform the AJAX request
+  $.ajax({
+    url: url,
+    type: 'GET',
+    dataType: 'json',
+    success: function(response) {
+      if (response && response.recordset.length > 0) {
+        // Creating the table rows
+        var tableBody = $('#audit-table-body');
+        tableBody.empty(); // Clear any existing rows
+
+        for (var i = 0; i < response.recordset.length; i++) {
+          var rowData = response.recordset[i];
+          var dataRow = $('<tr>');
+          dataRow.append('<td>' + rowData.Id + '</td>');
+          dataRow.append('<td>' + rowData.location_name + '</td>');
+          dataRow.append('<td>' + rowData.dept_name + '</td>');
+          dataRow.append('<td>' + rowData.AuditorName + '</td>');
+          dataRow.append('<td>' + rowData.StartDate + '</td>');          
+          dataRow.append('<td>' + rowData.EndDate + '</td>');
+          dataRow.append('<td>' + rowData.EmployeeNo + '</td>');
+          dataRow.append('<td>' + rowData.AuditStatus + '</td>');
+          dataRow.append('<td>' + '<button class="btn-info edit-btn">Details</button></a>' + '</td>');
+
+          tableBody.append(dataRow);
+        }
 
         // Convert UTC to IST for ScheduledStartDate
         // var startDate = new Date(row.StartDate);
@@ -440,6 +520,7 @@ $('#searchButton').click(function() {
   // Call the fetchData function to perform the search
   fetchData();
 });
+
 
 
 let logout = document.getElementById('logoutBtn');

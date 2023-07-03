@@ -8,7 +8,8 @@ const multer = require('multer');
 const csvParser = require('csv-parser');
 const fs = require('fs');
 const auditOverviewRouter = require('./audit-routes/audit-overview-route');
-const auditAssignRouter=require('./audit-routes/audit-assign-route')
+const auditAssignRouter=require('./audit-routes/audit-assign-route');
+const auditAssetRouter= require('./audit-routes/audit-asset-route');
 
 const app = express();
 const port = 3000;
@@ -37,6 +38,8 @@ const sqlConfig = {
 app.use('/audit-overview', auditOverviewRouter);
 
 app.use('/audit-assign', auditAssignRouter);
+
+app.use('/audit-asset', auditAssetRouter);
 
 
 //********************************************AUDIT ROUTES - END***************************************************************************/
