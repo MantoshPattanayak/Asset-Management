@@ -14,16 +14,16 @@ router.post('/submitData', (req, res) => {
     // console.log('To:', req.body.toDate);
     // console.log('Audit:', req.body.auditNumber);
 
-    const fromDate =new Date(req.body.fromDate).toISOString();
-    const toDate = new Date(req.body.toDate).toISOString();
+    const fromDate =new Date(req.body.fromDate);
+    const toDate = new Date(req.body.toDate);
     const auditnumber = req.body.auditNumber;
     const fontSize = req.body.fontSize || 12;
     const fontStyle = req.body.fontStyle || 'normal';
 
     console.log('From:', fromDate);
     console.log('To:', toDate);
-    console.log('Audit:',auditnumber);
-  
+    console.log('Audit:', auditnumber);
+    
     // Generate CSV data
     const fields = ['Asset ID', 'Tag ID', 'Tag UUID', 'Asset Name', 'Asset Type', 'Scanned On', 'Asset Status'];
     const data = [
@@ -100,19 +100,19 @@ router.post('/submitData', (req, res) => {
     res.sendStatus(200);
   });
   
-  router.get('/downloadCSV', (req, res) => {
-    const file = `${__dirname}/data.csv`;
-    res.download(file);
-  });
+router.get('/downloadCSV', (req, res) => {
+const file = `${__dirname}/data.csv`;
+res.download(file);
+});
   
-  router.get('/downloadPDF', (req, res) => {
-    const filePath = path.join(__dirname, 'public', 'data.pdf');
-    res.download(filePath, 'data.pdf', (err) => {
-      if (err) {
-        console.log('Error downloading PDF file:', err);
-        res.sendStatus(500);
-      }
-    });
-  });
+router.get('/downloadPDF', (req, res) => {
+const filePath = path.join(__dirname, 'public', 'data.pdf');
+res.download(filePath, 'data.pdf', (err) => {
+    if (err) {
+    console.log('Error downloading PDF file:', err);
+    res.sendStatus(500);
+    }
+});
+});
 
 module.exports = router;
