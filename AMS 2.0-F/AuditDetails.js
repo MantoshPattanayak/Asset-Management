@@ -114,7 +114,6 @@ $(document).ready(function() {
       console.log('Error fetching data from the backend.');
     }
   });
-<<<<<<< Updated upstream
 });
 
 // Function to format the date
@@ -205,9 +204,3 @@ function formatDate(dateString) {
 //     }
 //   });
     
-=======
-    
-
-
-  
->>>>>>> Stashed changes
