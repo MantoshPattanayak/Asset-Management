@@ -166,10 +166,10 @@ router.get('/audit-assign-one',(req,res)=>{
           };
       if(result.recordset.length!=0){
   
-          res.status(200).send(data
-          //   {
-          //    answer
-          // }
+          res.status(200).send(
+            {
+             answer
+          }
               
       )
       }
@@ -210,20 +210,21 @@ auditorName
 }=req.body
 const AuditStatus='Open'
 
+// const currentDatetime = new Date();
+// const year = currentDatetime.getFullYear();
+// const month = String(currentDatetime.getMonth() + 1).padStart(2, "0");
+// const day = String(currentDatetime.getDate()).padStart(2, "0");
+// const hours = String(currentDatetime.getHours()).padStart(2, "0");
+// const minutes = String(currentDatetime.getMinutes()).padStart(2, "0");
+// const seconds = String(currentDatetime.getSeconds()).padStart(2, "0");
+// const milliseconds = String(currentDatetime.getMilliseconds()).padStart(3, "0");
+
+// const formattedDatetime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+
+
 const currentDatetime = new Date();
-const year = currentDatetime.getFullYear();
-const month = String(currentDatetime.getMonth() + 1).padStart(2, "0");
-const day = String(currentDatetime.getDate()).padStart(2, "0");
-const hours = String(currentDatetime.getHours()).padStart(2, "0");
-const minutes = String(currentDatetime.getMinutes()).padStart(2, "0");
-const seconds = String(currentDatetime.getSeconds()).padStart(2, "0");
-const milliseconds = String(currentDatetime.getMilliseconds()).padStart(3, "0");
-
-const formattedDatetime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
-
-
-
-
+const formattedDatetime = currentDatetime.toISOString();
 
 
 
@@ -267,10 +268,10 @@ where a.dept_id=${departmentID} and a.location_id=${locationID}`
       
         for(let i in result2.recordset){
       
-          let queryResult3 = mssql.query(`insert into asset.dbo.AssetAuditDetails(AuditId,AssetSerialId,,CreatedOn,CreatedBy,LastUpdatedOn,LastUpdatedBy,AuditStatusLastUpdatedOn,LastUpdatedBy)
+          let queryResult3 = mssql.query(`insert into asset.dbo.AssetAuditDetails(AuditId,AssetSerialId,CreatedOn,CreatedBy,LastUpdatedOn,LastUpdatedBy)
             values(${result.recordset[0].Id},${result2.recordset[i].serial},'${formattedDatetime}','${userID}','${formattedDatetime}','${userID}')`,(err,result3)=>{
-
-              console.log(9)
+           
+           
              
           })
         }
