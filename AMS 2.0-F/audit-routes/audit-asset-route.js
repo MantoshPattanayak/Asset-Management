@@ -24,7 +24,8 @@ router.get('/fetch-data', async (req, res) => {
     let query2 = "SELECT "
     +"COUNT(CASE WHEN AssetStatus = 'Found' THEN 1 END) AS FoundAssetCount, "
     +"COUNT(CASE WHEN AssetStatus = 'Missing' THEN 1 END) AS MissingAssetCount, "
-    +"COUNT(CASE WHEN AssetStatus = 'New' THEN 1 END) AS NewAssetCount "
+    +"COUNT(CASE WHEN AssetStatus = 'New' THEN 1 END) AS NewAssetCount, "
+    +"COUNT(*) AS TotalAssets "
     +"FROM AssetAuditDetails "
     +`WHERE AuditId = ${auditID}`
 
