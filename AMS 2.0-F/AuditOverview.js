@@ -77,28 +77,29 @@ $(document).ready(function() {
             html += "<td>" + row.AuditorName + "</td>";
             
             // Convert UTC to IST for ScheduledStartDate
-            var startDate = new Date(row.ScheduledStartDate);
-            var istStartDate = startDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+            var startDate = row.ScheduledStartDate ? new Date(row.ScheduledStartDate) : null;
+            var istStartDate = startDate ? startDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) : "null";
             html += "<td>" + istStartDate + "</td>";
             
             // Convert UTC to IST for ScheduledEndDate
-            var endDate = new Date(row.ScheduledEndDate);
-            var istEndDate = endDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+            var endDate = row.ScheduledEndDate ? new Date(row.ScheduledEndDate) : null;
+            var istEndDate = endDate ? endDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) : "null";
             html += "<td>" + istEndDate + "</td>";
             
             html += "<td>" + row.EmployeeNo + "</td>";
             html += "<td>" + row.AuditStatus + "</td>";
-            html += `<td><button class="btn-info edit-btn" onclick="sessionStorage.setItem('auditID', ${row.id}); window.location.href='AuditDetails.html';">Details</button></a></td>`;
+            html += '<td><button class="btn-info edit-btn">Details</button></a></td>';
             html += "</tr>";
             $(tableBodyElement).append(html);
           }
-
+      
           limitPagination();
         },
         error: function(error) {
           console.error("Error fetching table data:", error);
         }
       });
+      
       
     }
   
