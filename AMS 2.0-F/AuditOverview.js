@@ -333,18 +333,32 @@ $(document).ready(function() {
         method: 'GET',
         dataType: 'json',
         success: function(data) {
+          console.log(data);
           var totalCount = 0;
           
           // Calculate the total count
           for(var i = 0; i < data.recordset.length; i++) {
             totalCount += data.recordset[i].count;
+            if(data.recordset[i].AuditStatus=='Closed'){
+              var a=data.recordset[i].count;
+            }
+            if(data.recordset[i].AuditStatus=='Inprogress'){
+              var b=data.recordset[i].count;
+            }
+            if(data.recordset[i].AuditStatus=='Open'){
+              var c=data.recordset[i].count;
+            }
+            if(data.recordset[i].AuditStatus=='Expired'){
+              var d=data.recordset[i].count;
+            }
           }
+          console.log(a,b,c,d);
           
           // Update the chart for each recordset
-          updateChart('new-audit', data.recordset[2].count, totalCount);
-          updateChart('inprogress-audit', data.recordset[1].count, totalCount);
-          updateChart('closed-audit', data.recordset[0].count, totalCount);
-          // updateChart('expired-audit',data.recordset[3].count, totalCount);
+          updateChart('new-audit', c, totalCount);
+          updateChart('inprogress-audit', b, totalCount);
+          updateChart('closed-audit', a, totalCount);
+          updateChart('expired-audit',d, totalCount);
         },
         error: function() {
           console.log('Error occurred while fetching chart data.');
@@ -378,52 +392,124 @@ $(document).ready(function() {
 
 
 
-// Using Ajax to fetch data from the Node.js API
-$.ajax({
-    url: 'http://localhost:3000/advanceSearchForAudit',
-    
+  function fetchOptions() {
+    $.ajax({
+        url: 'http://localhost:3000/locations',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            let locationSelect = response.recordset.map((n) => {
+                $('#LocationId')[0].appendChild(new Option(n.location_name, n.location_id, false, false))
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+
+    $.ajax({
+        url: 'http://localhost:3000/departments',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            response.recordset.map((n) => {
+                $('#DepartmentId')[0].appendChild(new Option(n.dept_name, n.dept_id, false, false))
+            });
+
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+  }
+fetchOptions();
+
+
+// Function to perform the AJAX request and fetch data
+function fetchData() {
+  // Get the parameter values from the input fields
+  var LocationId = $('#LocationId').val();
+  var DepartmentId = $('#DepartmentId').val();
+  var EmployeeNo = $('#EmployeeNo').val();
+
+  // Construct the URL with the parameter values
+  var url = 'http://localhost:3000/advanceSearchForAudit?';
+
+  if (LocationId) {
+    url += 'LocationId=' + LocationId;
+  }
+
+  if (DepartmentId) {
+    if (LocationId) {
+      url += '&';
+    }
+    url += 'DepartmentId=' + DepartmentId;
+  }
+
+  if (EmployeeNo) {
+    if (LocationId || DepartmentId) {
+      url += '&';
+    }
+    url += 'EmployeeNo=' + EmployeeNo;
+  }
+
+  // Perform the AJAX request
+  $.ajax({
+    url: url,
     type: 'GET',
     dataType: 'json',
-    success: function (response) {
+    success: function(response) {
+      if (response && response.recordset.length > 0) {
+        // Creating the table rows
+        var tableBody = $('#audit-table-body');
+        tableBody.empty(); // Clear any existing rows
 
-        // Assuming the response is an array of objects
-        if (response && response.length > 0) {
-            // Creating the table header
-            console.log(response);
+        for (var i = 0; i < response.recordset.length; i++) {
+          var rowData = response.recordset[i];
+          var dataRow = $('<tr>');
+          dataRow.append('<td>' + rowData.Id + '</td>');
+          dataRow.append('<td>' + rowData.location_name + '</td>');
+          dataRow.append('<td>' + rowData.dept_name + '</td>');
+          dataRow.append('<td>' + rowData.AuditorName + '</td>');
+          dataRow.append('<td>' + rowData.StartDate + '</td>');          
+          dataRow.append('<td>' + rowData.EndDate + '</td>');
+          dataRow.append('<td>' + rowData.EmployeeNo + '</td>');
+          dataRow.append('<td>' + rowData.AuditStatus + '</td>');
+          dataRow.append('<td>' + '<button class="btn-info edit-btn">Details</button></a>' + '</td>');
 
-        //     var table = $('<table>');
-        //     var headerRow = $('<tr>');
-        //     headerRow.append('<th>LocationId</th>');
-        //     headerRow.append('<th>DepartmentId</th>');
-        //     headerRow.append('<th>EmployeeNo</th>');
-        //     table.append(headerRow);
-
-        //     // Populating the table with data
-        //     for (var i = 0; i < response.length; i++) {
-        //         var rowData = response[i];
-        //         var dataRow = $('<tr>');
-        //         dataRow.append('<td>' + rowData.LocationId + '</td>');
-        //         dataRow.append('<td>' + rowData.DepartmentId + '</td>');
-        //         dataRow.append('<td>' + rowData.EmployeeNo + '</td>');
-        //         table.append(dataRow);
-        //     }
-
-        //     // Adding the table to the HTML page
-        //     $('#tableContainer').empty().append(table);
+          tableBody.append(dataRow);
         }
-        //  else {
-        //     $('#tableContainer').text('No data found.');
-        // }
+
+        // Convert UTC to IST for ScheduledStartDate
+        // var startDate = new Date(row.StartDate);
+        // var StartDate = startDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+        //  + "<td>" + StartDate + "</td>";
+        
+        // // Convert UTC to IST for ScheduledEndDate
+        // var endDate = new Date(rowData.EndDate);
+        // var EndDate = endDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+        // + "<td>" + EndDate + "</td>";
+
+        // Show the table section and hide the no-data message
+        $('.table-scroll').show();
+        $('#no-data-message').hide();
+      } else {
+        // Hide the table section and show the no-data message
+        $('.table-scroll').hide();
+        $('#no-data-message').show();
+      }
     },
-    error: function (xhr, status, error) {
-        console.error('Error:', error);
+    error: function(xhr, status, error) {
+      console.error('Error:', error);
     }
+  });
+}
+
+// Bind the click event of the search button
+$('#searchButton').click(function() {
+  // Call the fetchData function to perform the search
+  fetchData();
 });
-
-
-
-
-
 
 
 let logout = document.getElementById('logoutBtn');
