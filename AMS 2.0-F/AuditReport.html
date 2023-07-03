@@ -1,0 +1,277 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <h1> **********UNDER PROGRESS************</h1>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Audit Report Download</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f1f1f1;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .form-row label {
+      flex: 1;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+
+    input[type="date"],
+    input[type="text"] {
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      flex: 1;
+      font-size: 14px;
+    }
+
+    input[type="date"]:focus,
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    h1 {
+      color: #ffffff;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      color: #fff;
+      font-size: 24px;
+      margin: 0;
+    }
+
+    header {
+      background-color: #08134a;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    footer {
+      background-color: #08134a;
+      padding: 10px;
+      position: fixed;
+      left: 0;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    button:hover {
+      background-color: #03376f;
+    }
+
+    .green-button {
+      background-color: rgb(13, 55, 6);
+    }
+
+    .red-button {
+      background-color: rgb(165, 33, 23);
+    }
+
+    .blue-button {
+      background-color: rgb(18, 4, 146);
+    }
+
+    .alert-box {
+      background-color: #ffe5e5;
+      border: 1px solid #ff9999;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .alert-title {
+      color: #ff4d4d;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .alert-message {
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .alert-icon {
+      width: 45px;
+      height: 45px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var form = document.getElementById('myForm');
+
+      form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission behavior
+
+        var fromDate = document.getElementById('fromDate').value;
+        var toDate = document.getElementById('toDate').value;
+        var auditNumber = document.getElementById('auditNumber').value;
+
+        if (fromDate < toDate) {
+          sendData(fromDate, toDate, auditNumber); // Call the function to send the data to the server
+        } else {
+          showAlert("Invalid Date Range", "Please select a valid date range. The start date must be before the end date.", "warning");
+        }
+      });
+
+      async function sendData(fromDate, toDate, auditNumber) {
+        console.log(JSON.stringify({ fromDate: fromDate, toDate: toDate, auditNumber: auditNumber}));
+
+        try {
+          var response = await fetch('http://localhost:3000/audit-report/submitData', {
+            method: 'POST',
+            body: { fromDate: fromDate, toDate: toDate, auditNumber: auditNumber },
+            // headers: {
+            //   'Content-Type': 'application/json'
+            // }
+          });
+
+          if (response.ok) {
+            console.log('Data sent successfully');
+            // Handle the response from the server if needed
+          } else {
+            console.log('Error sending data');
+          }
+        } catch (error) {
+          console.log('Error:', error);
+        }
+      }
+
+      var downloadCsvButton = document.getElementById('downloadCsvButton');
+      downloadCsvButton.addEventListener('click', function() {
+        window.open('http://localhost:3000/audit-report/downloadCSV');
+      });
+
+      var downloadPdfButton = document.getElementById('downloadPdfButton');
+      downloadPdfButton.addEventListener('click', function() {
+        window.open('http://localhost:3000/audit-report/downloadPDF');
+      });
+
+      function showAlert(title, message, type) {
+        var alertBox = document.createElement('div');
+        alertBox.className = 'alert-box';
+
+        var alertTitle = document.createElement('h2');
+        alertTitle.className = 'alert-title';
+        alertTitle.textContent = title;
+
+        var alertMessage = document.createElement('p');
+        alertMessage.className = 'alert-message';
+        alertMessage.textContent = message;
+
+        var alertIcon = document.createElement('img');
+        alertIcon.className = 'alert-icon';
+        alertIcon.src = './images/warning-sign.png';
+        alertIcon.alt = 'Warning Icon';
+
+        alertTitle.insertBefore(alertIcon, alertTitle.firstChild);
+        alertBox.appendChild(alertTitle);
+        alertBox.appendChild(alertMessage);
+
+        var container = document.querySelector('.container');
+        container.insertBefore(alertBox, container.firstChild);
+      }
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Audit Report Download</h1>
+  </header>
+  
+  <div class="container">
+    <form id="myForm">
+      <div class="form-row">
+        <label for="fromDate">Audit Start Date:</label>
+        <input type="date" id="fromDate" name="fromDate" required>
+      </div>
+      <div class="form-row">
+        <label for="toDate">Audit End Date:</label>
+        <input type="date" id="toDate" name="toDate" required>
+      </div>
+      <div class="form-row">
+        <label for="auditNumber">Audit Number:</label>
+        <input type="text" id="auditNumber" name="auditNumber" required>
+      </div>
+      <br>
+        <button type="submit">Submit</button>
+      <br>
+    </form>
+
+    <div class="button-container">
+      <button id="downloadCsvButton" class="green-button">
+        <img src="./images/csv.png" alt="CSV Logo" width="24" height="24"> Download CSV
+      </button>
+      <button id="downloadPdfButton" class="red-button">
+        <img src="./images/pdf.png" alt="PDF Logo" width="24" height="24"> Download PDF
+      </button>
+    </div>
+  </div>
+
+  <footer>
+    &copy; Sustainable Outreach And Universal Leadership (SOUL) Limited
+  </footer>
+  <!-- <script src="AuditReportDownload.js"></script> -->
+</body>
+</html>
