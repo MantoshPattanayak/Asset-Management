@@ -88,7 +88,7 @@ $(document).ready(function() {
             
             html += "<td>" + row.EmployeeNo + "</td>";
             html += "<td>" + row.AuditStatus + "</td>";
-            html += `<td><button class="btn-info edit-btn" onclick="sessionStorage.setItem('auditID', ${row.id}); window.location.href='AuditDetails.html';"><i class="fa-solid fa-eye fa-fade fa-2xl" style="color: #38b81e;"></i></button></a></td>`;
+            html += `<td><button class="btn-info edit-btn" onclick="sessionStorage.setItem('auditID', ${row.id}); window.location.href='AuditDetails.html';"><i class="fa-solid fa-eye fa-2xl" style="color: #000;"></i></button></a></td>`;
             html += "</tr>";
             $(tableBodyElement).append(html);
           }
@@ -501,7 +501,7 @@ function fetchData() {
           // dataRow.append('<td>' + rowData.EndDate + '</td>');
           dataRow.append('<td>' + rowData.EmployeeNo + '</td>');
           dataRow.append('<td>' + rowData.AuditStatus + '</td>');
-          dataRow.append('<td>' + `<button class="btn-info edit-btn" onclick="sessionStorage.setItem('auditID', ${rowData.Id}); window.location.href='AuditDetails.html';"><i class="fa-solid fa-eye fa-fade fa-2xl" style="color: #38b81e;"></i></button></a>` + '</td>');
+          dataRow.append('<td>' + `<button class="btn-info edit-btn" onclick="sessionStorage.setItem('auditID', ${rowData.Id}); window.location.href='AuditDetails.html';"><i class="fa-solid fa-eye fa-2xl" style="color: #000;"></i></button></a>` + '</td>');
 
           tableBody.append(dataRow);
         }
@@ -521,7 +521,7 @@ function fetchData() {
         $('#no-data-message').hide();
       } else {
         // Hide the table section and show the no-data message
-        $('.table-body').hide();
+        $('.table-body').show();
         $('#no-data-message').show();
       }
     },
@@ -534,6 +534,8 @@ function fetchData() {
 // Bind the click event of the search button
 $('#searchButton').click(function() {
   // Call the fetchData function to perform the search
+  var tablebody= $('#audit-table-body');
+  tablebody.empty();
   fetchData();
 });
 
