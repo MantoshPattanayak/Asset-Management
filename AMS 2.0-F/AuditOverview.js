@@ -58,16 +58,16 @@ $(document).ready(function() {
           page_number: currentPage,
           page_size: maxRows
         },
-    
+      
         success: function(response) {
-          console.log(response)
+          console.log(response);
           var data = response.answer.answer;
           var message = response.answer.allPages;
           all_rows = message.total_rows;
-  
+      
           $(tableBodyElement).html(""); // Clear the table body
-          console.log(data)
-  
+          console.log(data);
+      
           for (var i = 0; i < data.length; i++) {
             var row = data[i];
             var html = "<tr>";
@@ -75,22 +75,31 @@ $(document).ready(function() {
             html += "<td>" + row.location_name + "</td>";
             html += "<td>" + row.dept_name + "</td>";
             html += "<td>" + row.AuditorName + "</td>";
-            html += "<td>" + row.ScheduledStartDate + "</td>";
-            html += "<td>" + row.ScheduledEndDate + "</td>";
-       
+            
+            // Convert UTC to IST for ScheduledStartDate
+            var startDate = new Date(row.ScheduledStartDate);
+            var istStartDate = startDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+            html += "<td>" + istStartDate + "</td>";
+            
+            // Convert UTC to IST for ScheduledEndDate
+            var endDate = new Date(row.ScheduledEndDate);
+            var istEndDate = endDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+            html += "<td>" + istEndDate + "</td>";
+            
             html += "<td>" + row.EmployeeNo + "</td>";
             html += "<td>" + row.AuditStatus + "</td>";
-            html += '<td><button class="btn-info edit-btn">Details</button></a></td>';
+            html += `<td><button class="btn-info edit-btn" onclick="sessionStorage.setItem('auditID', ${row.id}); window.location.href='AuditDetails.html';">Details</button></a></td>`;
             html += "</tr>";
             $(tableBodyElement).append(html);
           }
-  
+
           limitPagination();
         },
         error: function(error) {
           console.error("Error fetching table data:", error);
         }
       });
+      
     }
   
     function initializePagination(tableBodyElement) {
@@ -439,6 +448,7 @@ function fetchData() {
     url += 'LocationId=' + LocationId;
   }
 
+
   if (DepartmentId) {
     if (LocationId) {
       url += '&';
@@ -510,6 +520,7 @@ $('#searchButton').click(function() {
   // Call the fetchData function to perform the search
   fetchData();
 });
+
 
 
 let logout = document.getElementById('logoutBtn');

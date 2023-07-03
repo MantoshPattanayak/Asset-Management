@@ -133,15 +133,8 @@
                                 <option value="1000">1000</option>
                             </select>
                         </div>
-                        <div class="advnace-search-from">
 
-                            <button class="onclick-btn">
-                                Create Audit
-                            </button>
-                            <button class="onclick-btn">
-                                Audit Report
-                            </button>
-                        </div>
+
 
                         
                             <!-- <div id="search-boxes"> -->
@@ -165,6 +158,36 @@
                             <!-- HTML code for the table container -->
                             <!-- <div id="audit-table-body"></div> -->
                             <!-- </div> -->
+
+
+                      <div class="advnace-search-from">
+
+                        <a href="AuditAssign.html"><button class="onclick-btn">
+                            Create Audit
+                        </button></a>
+                        <a href="AuditReort.html"><button class="onclick-btn">
+                            Audit Report
+                        </button></a>
+                      </div>
+                     
+                      <form class="advnace-search-from">
+                        <!-- <div id="search-boxes"> -->
+                           
+                            <input type="text" name="location" placeholder="Location Id" required><br>
+                            <div id="department-section" class="additional-search">
+                                <input type="text" name="department" placeholder="Department Id"><br>
+                            </div>
+                            <div id="category-section" class="additional-search">
+                                <input type="text" name="category" placeholder="Category"><br>
+                            </div>
+                            <button  type="button" id="toggle-department">departmentId+</button>
+                            <button  type="button" id="toggle-category">Category+</button>
+                            <div class="search-btn">
+                                <input type="submit" value="Search">
+                            </div>
+                        </form>
+                        <!-- </div> -->
+                     
 
                     </div>
 
