@@ -364,10 +364,17 @@ $(document).ready(function() {
           console.log(a,b,c,d);
           
           // Update the chart for each recordset
+<<<<<<< Updated upstream
           updateChart('new-audit', c, totalCount);
           updateChart('inprogress-audit', b, totalCount);
           updateChart('closed-audit', a, totalCount);
           updateChart('expired-audit',d, totalCount);
+=======
+          updateChart('new-audit', data.recordset[2].count, totalCount);
+          updateChart('inprogress-audit', data.recordset[1].count, totalCount);
+          updateChart('closed-audit', data.recordset[0].count, totalCount);
+          updateChart('expired-audit',data.recordset[3].count, totalCount);
+>>>>>>> Stashed changes
         },
         error: function() {
           console.log('Error occurred while fetching chart data.');
