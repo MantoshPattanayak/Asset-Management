@@ -205,7 +205,7 @@ router.post('/submitForm',(req,res)=>{
   scheduledStartDate,
   scheduledEndDate,
   userID,
-auditorName,
+auditorName
 
 }=req.body
 const AuditStatus='Open'
