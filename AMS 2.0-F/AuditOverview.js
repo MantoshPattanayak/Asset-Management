@@ -368,7 +368,7 @@ $(document).ready(function() {
           updateChart('new-audit', c, totalCount);
           updateChart('inprogress-audit', b, totalCount);
           updateChart('closed-audit', a, totalCount);
-          // updateChart('expired-audit',d, totalCount);
+          updateChart('expired-audit',d, totalCount);
         },
         error: function() {
           console.log('Error occurred while fetching chart data.');
@@ -378,10 +378,13 @@ $(document).ready(function() {
     
     function updateChart(chartId, value, totalCount) {
       const chartElement = $('#' + chartId + ' .pie-chart');
-      var percentage = (value / totalCount) * 100;
+      var percentage = totalCount !== 0 ? (value / totalCount) * 100 : 0;
+      percentage = isNaN(percentage) ? 0 : percentage;
       chartElement.css('--p', percentage);
       chartElement.text(percentage.toFixed(2));
     }
+    
+    
     
   
 
