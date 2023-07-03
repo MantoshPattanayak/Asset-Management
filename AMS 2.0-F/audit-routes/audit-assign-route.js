@@ -205,7 +205,7 @@ router.post('/submitForm',(req,res)=>{
   scheduledStartDate,
   scheduledEndDate,
   userID,
-AuditorName,
+auditorName
 
 }=req.body
 const AuditStatus='Open'
@@ -250,7 +250,7 @@ console.log(employeeNumber,
   )
 
 let query=`insert into AuditDetails(EmployeeNo,LocationId,DepartmentId,CreatedOn,CreatedBy,ScheduledStartDate,ScheduledEndDate,LastUpdatedOn,LastUpdatedBy,AuditStatus,AuditorName) OUTPUT inserted.Id
-  values(${employeeNumber},${locationID},${departmentID},'${formattedDatetime}','${userID}','${scheduledStartDate}','${scheduledEndDate}','${formattedDatetime}',${userID},'${AuditStatus}','${AuditorName}')`
+  values(${employeeNumber},${locationID},${departmentID},'${formattedDatetime}','${userID}','${scheduledStartDate}','${scheduledEndDate}','${formattedDatetime}',${userID},'${AuditStatus}','${auditorName}')`
 
 let query2=`select a.serial,a.asset_id,a.tag_id,a.tag_uuid,a.asset_name,a.asset_type,d.dept_name,l.location_name,ROW_NUMBER() OVER (ORDER BY a.serial) AS RowNum from 
 asset.dbo.assets a inner join asset.dbo.department d on a.dept_id=d.dept_id inner join asset.dbo.location l on a.location_id=l.location_id
