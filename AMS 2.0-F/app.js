@@ -716,6 +716,24 @@ app.get('/progressbarForAudit', (req, res) => {
      });
 })
 
+app.get('/locations',(req,res)=>{
+    let query1 ='select location_id ,location_name  from location order by 1';
+
+    mssql.query(query1,(err,result)=>{
+        if(err) return err;
+        res.send(result);
+    })
+})
+
+app.get('/departments',(req,res)=>{
+    let query1 ='select dept_id ,dept_name  from department order by 1';
+
+    mssql.query(query1,(err,result)=>{
+        if(err) return err;
+        res.send(result);
+    })
+})
+
 
 
 //satyam vivek work end  
