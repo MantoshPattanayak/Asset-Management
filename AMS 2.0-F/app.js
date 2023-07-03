@@ -682,21 +682,22 @@ app.get('/advanceSearchForAudit', (req, res) => {
     let EmployeeNo = req.query.EmployeeNo;
 
     //databse query
-    let query = `select * from AuditDetails where 1=1 `;
+    let query = `select * from AuditDetails ad left join location l on l.location_id =ad.LocationId left join department d 
+    on d.dept_id  =ad.DepartmentId  where 1=1 `;
 
     //checking conditions for multiple column data search(advance serching)
     if (LocationId != null) {
-        query += `and LocationId =${LocationId}`;
+        query += `and ad.LocationId =${LocationId}`;
     }
 
     //additional field
     if (DepartmentId != null) {
-        query += ` and DepartmentId =${DepartmentId}`;
+        query += ` and ad.DepartmentId =${DepartmentId}`;
     }
 
     //additional field
     if (EmployeeNo != null) {
-        query += ` and EmployeeNo=${EmployeeNo}`
+        query += ` and ad.EmployeeNo=${EmployeeNo}`
     }
 
     //query result
@@ -716,6 +717,23 @@ app.get('/progressbarForAudit', (req, res) => {
      });
 })
 
+app.get('/locations',(req,res)=>{
+    let query1 ='select location_id ,location_name  from location order by 1';
+
+    mssql.query(query1,(err,result)=>{
+        if(err) return err;
+        res.send(result);
+    })
+})
+
+app.get('/departments',(req,res)=>{
+    let query1 ='select dept_id ,dept_name  from department order by 1';
+
+    mssql.query(query1,(err,result)=>{
+        if(err) return err;
+        res.send(result);
+    })
+})
 
 
 //satyam vivek work end  
