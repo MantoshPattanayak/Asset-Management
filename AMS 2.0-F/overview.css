@@ -2,12 +2,7 @@
 /*   NAV BAR CSS*/
 
 
-.logoutBtn {
-  background-color: transparent;
-  font-size: 35px;
-  outline: none;
-  border: none;
-}
+
 
 :root{
     --bodyColor : #f4f6fb;
@@ -1554,3 +1549,7 @@ input[type="text"],select{
           margin-top: -15%;
           color: black;
         }
+
+
+
+       
