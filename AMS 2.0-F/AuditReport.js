@@ -44,6 +44,17 @@ $(document).ready(function(){
                                         <td>${item.AuditorName}</td>
                                         <td>${item.location_name}</td>
                                         <td>${item.dept_name}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>${item.FoundAssetCount}</td>
+                                        <td>${item.MissingAssetCount}</td>
+                                        <td>${item.NewAssetCount}</td>
+                                        <td>
+                                            <div class="csv-pdf">
+                                                <button class="csv">CSV</button>
+                                                <button class="pdf">PDF</button>
+                                            </div>
+                                      </td>
                                     </tr>`
                     });
                     tableHTML += '</tbody></table>';
