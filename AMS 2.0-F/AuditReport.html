@@ -1,205 +1,98 @@
-<!--<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="AuditReport.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"
+    integrity="sha384-Tv5i09RULyHKMwX0E8wJUqSOaXlyu3SQxORObAI08iUwIalMmN5L6AvlPX2LMoSE" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"
+    integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <title>Audit Report</title>
 </head>
 <body>
-   <h1> **********UNDER PROGRESS************</h1>
-</body>
-</html> -->
+
+    <div class="nav-bar-height">
+        <section class="sidebar">
+            <section class="imageSet">
+                <img src="./img/soul_ltd.jpg" alt="" class="companyLogo">
+            </section>
+            <nav class="navbar">
+                <ul>
+                    <li>
+                        <!-- Dashboard -->
+                        <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a>
+                    </li>
+                    <li>
+                        <!-- Alerts -->
+                        <a href="./alert.html"><i class='bx bxs-bell'></i></a>
+                    </li>
+                    <li>
+                        <!-- Assets -->
+                        <a href="./asset.html"><i class='bx bxs-cube-alt'></i></a>
+                    </li>
+                    <li>
+                        <!-- Requests -->
+                        <a href="./request.html"><i class='bx bxs-layer'></i></a>
+                    </li>
+
+                    <li>
+                        <!-- Dashboard -->
+                        <a href="http://127.0.0.1:5500/overview.html?#"><i class='bx bx-table'></i></a>
+                    </li>
+                    <li>
+                      <!-- Profile -->
+                      <a href="./parents.html"><i class='bx bx-edit' ></i></a>
+                  </li>
+                    <li>
+                        <!-- Profile -->
+                        <a href="./profile.html"><i class='bx bxs-user'></i></a>
+                    </li>
+                   
 
 
-<!DOCTYPE html>
-<html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script
-      src="https://code.jquery.com/jquery-3.6.0.min.js"
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-      crossorigin="anonymous"
-    ></script>
+                </ul>
+            </nav>
+            <section class="navOpts">
 
-  <title>Audit Report Download</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f1f1f1;
-    }
-
-    h1 {
-      color: #333;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .container {
-      max-width: 500px;
-      margin: 0 auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    form {
-      margin-bottom: 20px;
-    }
-
-    .form-row {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .form-row label {
-      flex: 1;
-      margin-right: 10px;
-      font-weight: bold;
-    }
-
-    input[type="date"],
-    input[type="text"] {
-      padding: 8px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      flex: 1;
-      font-size: 14px;
-    }
-
-    input[type="date"]:focus,
-    input[type="text"]:focus {
-      outline: none;
-      border-color: #007bff;
-    }
-
-    button {
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    h1 {
-      color: #ffffff;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    header h1 {
-      color: #fff;
-      font-size: 24px;
-      margin: 0;
-    }
-
-    header {
-      background-color: #08134a;
-      padding: 10px;
-      margin-bottom: 20px;
-    }
-
-    footer {
-      background-color: #08134a;
-      padding: 10px;
-      position: fixed;
-      left: 0;
-      bottom: 20px;
-      width: 100%;
-      text-align: center;
-      color: #fff;
-    }
-
-    .button-container {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    button:hover {
-      background-color: #03376f;
-    }
-
-    .green-button {
-      background-color: rgb(13, 55, 6);
-    }
-
-    .red-button {
-      background-color: rgb(165, 33, 23);
-    }
-
-    .blue-button {
-      background-color: rgb(18, 4, 146);
-    }
-
-    .alert-box {
-      background-color: #ffe5e5;
-      border: 1px solid #ff9999;
-      border-radius: 5px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .alert-title {
-      color: #ff4d4d;
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
-
-    .alert-message {
-      color: #555;
-      margin-bottom: 20px;
-    }
-
-    .alert-icon {
-      width: 45px;
-      height: 45px;
-      margin-right: 10px;
-      vertical-align: middle;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Audit Report Download</h1>
-  </header>
-  
-  <div class="container">
-    <form id="myForm">
-      <div class="form-row">
-        <label for="fromDate">Audit Start Date:</label>
-        <input type="date" id="fromDate" name="fromDate" required>
-      </div>
-      <div class="form-row">
-        <label for="toDate">Audit End Date:</label>
-        <input type="date" id="toDate" name="toDate" required>
-      </div>
-      <div class="form-row">
-        <label for="auditNumber">Audit Number:</label>
-        <input type="text" id="auditNumber" name="auditNumber" required>
-      </div>
-      <br>
-        <button type="submit" id="audit-report-submit" click="sendData(event)">Submit</button>
-      <br>
-    </form>
-
-    <div class="button-container">
-      <button id="downloadCsvButton" class="green-button">
-        <img src="./images/csv.png" alt="CSV Logo" width="24" height="24"> Download CSV
-      </button>
-      <button id="downloadPdfButton" class="red-button">
-        <img src="./images/pdf.png" alt="PDF Logo" width="24" height="24"> Download PDF
-      </button>
+                <button class="logoutBtn" id="logoutBtn"><i class='bx bx-log-out-circle'></i></button>
+            </section>
+        </section>
     </div>
-  </div>
 
-  <footer>
-    &copy; Sustainable Outreach And Universal Leadership (SOUL) Limited
-  </footer>
-  <script src="AuditReport.js"></script>
+    <!--   Audit Report-->
+    <div class="Audit-report">
+     <div class="container">
+        <h1>Audit Report</h1>
+        <div class="summery-aduit-Report">
+          <h2>Auditor Summary Report</h2>
+          <form id="auditForm">
+            <label for="fieldName">Auditor Employe Number:</label>
+            <input type="text" id="fieldName" onkeypress="return checkInputValue(event)">
+            <label for="startDate">Start Date:*</label>
+            <input type="date" id="startDate" required>
+            <label for="endDate">End Date:*</label>
+            <input type="date" id="endDate" required>
+            <input type="submit" id="audit-submit" value="Submit">
+          </form>
+          
+        </div>
+       
+      </div>
+      <div class="sumary-table">
+        <div class="table-container">
+          <div id="tableContainer"></div>
+        </div>
+      </div>
+      <div class="csv-pdf">
+        <button class="csv">CSV</button>
+        <button class="pdf">PDF</button>
+      </div>
+    </div>
+    <script src="AuditReport.js"></script>
 </body>
 </html>
