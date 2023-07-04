@@ -393,6 +393,8 @@ function submitForm() {
   let scheduledStartDate = document.getElementById('scheduledStartDate').value;
   let scheduledEndDate = document.getElementById('scheduledEndDate').value;
 
+ 
+
   console.log('submit Form inputs: ',employeeNumber, auditorName, locationID, departmentID, scheduledStartDate, scheduledEndDate)
 
   let nullList = new Array();
@@ -413,6 +415,15 @@ function submitForm() {
       'scheduledEndDate': new Date(scheduledEndDate).toISOString(),
       'userID': sessionStorage.getItem('userID')
     }
+
+     // Convert the date strings to Date objects
+  let startDate = new Date(scheduledStartDate);
+  let endDate = new Date(scheduledEndDate);
+
+  if (startDate > endDate) {
+    alert("Start date cannot be greater than end date");
+    return; // Stop form submission
+  }
     console.log('audit assign submiti form data', JSON.stringify(formData));
   
     //submit ajax call to submit audit assign form data
