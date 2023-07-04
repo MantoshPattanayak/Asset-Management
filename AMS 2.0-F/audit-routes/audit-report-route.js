@@ -1,118 +1,108 @@
 const express = require('express');
 const mssql = require('mssql');
-const fs = require('fs');
-const { Parser } = require('json2csv');
-const path = require('path');
-const { jsPDF } = require('jspdf');
-require('jspdf-autotable');
-
 const router = express.Router();
 
-router.post('/submitData', (req, res) => {
-    console.log('req.body', req.body);
-    // console.log('From:', req.body.fromDate);
-    // console.log('To:', req.body.toDate);
-    // console.log('Audit:', req.body.auditNumber);
+router.get('/submitData', (req, res) => {
+  let fromDate = new Date(req.query.fromDate).toISOString();
+  let toDate = new Date(req.query.toDate).toISOString();
+  let employeeNumber = req.query.employeeNumber;
 
-    const fromDate =new Date(req.body.fromDate);
-    const toDate = new Date(req.body.toDate);
-    const auditnumber = req.body.auditNumber;
-    const fontSize = req.body.fontSize || 12;
-    const fontStyle = req.body.fontStyle || 'normal';
+  let total_rows;
+  let page_size = req.query.page_size;
+  let page_number = req.query.page_number;
+  console.log(fromDate, toDate, employeeNumber, page_number, page_size);
 
-    console.log('From:', fromDate);
-    console.log('To:', toDate);
-    console.log('Audit:', auditnumber);
+  let c = 1;
+  let query1 = '';
+  let query = '';
+
+  if (employeeNumber){
+    console.log("emp no");
+    query1 = `SELECT count(*) AS TotalRows
+    FROM AuditDetails ad 
+    INNER JOIN location l ON ad.LocationId = l.location_id 
+    INNER JOIN department d ON ad.DepartmentId = d.dept_id
+    INNER JOIN Employees e ON e.emp_no = ad.EmployeeNo 
+    WHERE CAST(ad.ScheduledStartDate as date) >= '${fromDate}' AND CAST(ad.ScheduledEndDate as Date) <= '${toDate}' AND ad.EmployeeNo = ${employeeNumber}`
+
+    query = `SELECT * FROM (SELECT ad.Id, ad.EmployeeNo,
+    CASE 
+        WHEN e.middle_name IS NULL OR e.middle_name = '' THEN CONCAT(e.first_name, ' ', e.last_name)
+        ELSE CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name)
+    END AS AuditorName, d.dept_name, l.location_name,
+    (SELECT COUNT(CASE WHEN AssetStatus = 'Found' THEN 1 END) FROM AssetAuditDetails WHERE AuditId = ad.Id) AS FoundAssetCount,
+    (SELECT COUNT(CASE WHEN AssetStatus = 'Missing' THEN 1 END) FROM AssetAuditDetails WHERE AuditId = ad.Id) AS MissingAssetCount,
+    (SELECT COUNT(CASE WHEN AssetStatus = 'New' THEN 1 END) FROM AssetAuditDetails WHERE AuditId = ad.Id) AS NewAssetCount,
+    ROW_NUMBER() OVER (ORDER BY ID) AS RowNum
+    FROM AuditDetails ad 
+    INNER JOIN location l ON ad.LocationId = l.location_id 
+    INNER JOIN department d ON ad.DepartmentId = d.dept_id
+    INNER JOIN Employees e ON e.emp_no = ad.EmployeeNo 
+    WHERE CAST(ad.ScheduledStartDate as date) >= '${fromDate}' AND CAST(ad.ScheduledEndDate as Date) <= '${toDate}' AND ad.EmployeeNo = ${employeeNumber}) AS SubQuery
+    WHERE RowNum BETWEEN ((@page_number - 1) * @page_size + 1) AND (@page_number * @page_size)
+    AND RowNum <= @total_rows;
     
-    // Generate CSV data
-    const fields = ['Asset ID', 'Tag ID', 'Tag UUID', 'Asset Name', 'Asset Type', 'Scanned On', 'Asset Status'];
-    const data = [
-      { 'From': fromDate, 'To': toDate },
-      {'Asset ID':'DataRow1', 'Tag ID':'DataRow1', 'Tag UUID':'DataRow1', 'Asset Name':'DataRow1', 'Asset Type':'DataRow1', 'Scanned On':'DataRow1', 'Asset Status':'DataRow1'},
-      {'Asset ID':'DataRow2', 'Tag ID':'DataRow2', 'Tag UUID':'DataRow2', 'Asset Name':'DataRow2', 'Asset Type':'DataRow2', 'Scanned On':'DataRow2', 'Asset Status':'DataRow2'}
-    ];
-  
-    const json2csvParser = new Parser({ fields });
-    const csv = json2csvParser.parse(data);
-  
-    // Write CSV data to file
-    fs.writeFileSync('data.csv', csv);
-  
-    // Generate PDF data
-    const doc = new jsPDF();
-  
-    // Add additional data
-    doc.setFontSize(fontSize);
-    doc.setFont('helvetica', fontStyle, 'bold');
-  
-    doc.text(`Audit Number:  ${auditnumber}                                                     Location Name:      .....................`, 20, 45);
-    doc.text(`Auditor Name:  .................                                             Department Name:  .....................`, 20, 55);
-    doc.text(`Start Date: ${fromDate}                                                    End Date:    ${toDate}`, 20, 65);
-    //doc.text(`To: ${toDate}`, 20, 50);
-    //doc.text('Additional Data:', 20, 60);
-    //doc.text('Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 20, 70);
-  
-    doc.setFont('helvetica', fontStyle, 'bold');
-    doc.setFontSize(fontSize+5);
-    doc.setTextColor('#006400'); // Set the text color to red
-    doc.text('Audit Report', doc.internal.pageSize.getWidth() / 2, 30, { align: 'center' });
+    SELECT @total_rows AS TotalRows`;
+  }
+  else{
+    query1 = `SELECT count(*) AS TotalRows
+    FROM AuditDetails ad 
+    INNER JOIN location l ON ad.LocationId = l.location_id 
+    INNER JOIN department d ON ad.DepartmentId = d.dept_id
+    INNER JOIN Employees e ON e.emp_no = ad.EmployeeNo 
+    WHERE CAST(ad.ScheduledStartDate as date) >= '${fromDate}' AND CAST(ad.ScheduledEndDate as Date) <= '${toDate}'`
+
+    query = `SELECT * FROM (SELECT ad.Id, ad.EmployeeNo,
+    CASE 
+        WHEN e.middle_name IS NULL OR e.middle_name = '' THEN CONCAT(e.first_name, ' ', e.last_name)
+        ELSE CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name)
+    END AS AuditorName, d.dept_name, l.location_name,
+    (SELECT COUNT(CASE WHEN AssetStatus = 'Found' THEN 1 END) FROM AssetAuditDetails WHERE AuditId = ad.Id) AS FoundAssetCount,
+    (SELECT COUNT(CASE WHEN AssetStatus = 'Missing' THEN 1 END) FROM AssetAuditDetails WHERE AuditId = ad.Id) AS MissingAssetCount,
+    (SELECT COUNT(CASE WHEN AssetStatus = 'New' THEN 1 END) FROM AssetAuditDetails WHERE AuditId = ad.Id) AS NewAssetCount,
+    ROW_NUMBER() OVER (ORDER BY ID) AS RowNum
+    FROM AuditDetails ad 
+    INNER JOIN location l ON ad.LocationId = l.location_id 
+    INNER JOIN department d ON ad.DepartmentId = d.dept_id
+    INNER JOIN Employees e ON e.emp_no = ad.EmployeeNo 
+    WHERE CAST(ad.ScheduledStartDate as date) >= '${fromDate}' AND CAST(ad.ScheduledEndDate as Date) <= '${toDate}') AS SubQuery
+    WHERE RowNum BETWEEN ((@page_number - 1) * @page_size + 1) AND (@page_number * @page_size)
+    AND RowNum <= @total_rows;
     
-    //doc.text('Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 20, 10);
-  
-    const tableData = [
-      ['Asset ID', 'Tag ID', 'Tag UUID', 'Asset Name', 'Asset Type', 'Scanned On', 'Asset Status'],
-      ['DataRow1', 'DataRow1', 'DataRow1', 'DataRow1', 'DataRow1', 'DataRow1', 'DataRow1'],
-      ['DataRow2', 'DataRow2', 'DataRow2', 'DataRow2', 'DataRow2', 'DataRow2', 'DataRow2'],
-      ['DataRow3', 'DataRow3', 'DataRow3', 'DataRow3', 'DataRow3', 'DataRow3', 'DataRow3'],
-    ];
-  
-    doc.autoTable({
-      head: tableData.slice(0, 1),
-      body: tableData.slice(1),
-      startY: 70,
-      styles: {
-        cellPadding: 5,
-        fontSize: fontSize,
-        fontStyle: fontStyle
-      },
-      headStyles: {
-        fillColor: '#CCCCCC',
-        fontStyle: 'bold'
-      },
-      columnStyles: {
-        0: { fontStyle: 'bold' }
-      }
-    });
-  
-    // Additional user settings
-    doc.setProperties({
-      title: 'Data Report',
-      subject: 'From-To Dates',
-      author: 'Your Name',
-      keywords: 'data, report, from, to',
-      creator: 'Your Organization'
-    });
-  
-    // Write PDF data to file
-    const filePath = path.join(__dirname, 'public', 'data.pdf');
-    doc.save(filePath);
-  
-    res.sendStatus(200);
-  });
-  
-router.get('/downloadCSV', (req, res) => {
-const file = `${__dirname}/data.csv`;
-res.download(file);
-});
-  
-router.get('/downloadPDF', (req, res) => {
-const filePath = path.join(__dirname, 'public', 'data.pdf');
-res.download(filePath, 'data.pdf', (err) => {
+    SELECT @total_rows AS TotalRows`;
+  }
+
+
+  let request1 = new mssql.Request();
+
+  request1.query(query1, (err, result1) => {
     if (err) {
-    console.log('Error downloading PDF file:', err);
-    res.sendStatus(500);
+      console.log('Error in total rows of assets query:', err);
+      res.sendStatus(500);
+      return;
     }
-});
-});
+    console.log('total rows response: ', result1)
+    total_rows = result1.recordset[0].TotalRows;
+    console.log('Total Rows:', total_rows);
 
+    let request2 = new  mssql.Request();
+    request2.input('total_rows', mssql.Int, total_rows);
+    request2.input('page_size',  mssql.Int, page_size);
+    request2.input('page_number',  mssql.Int, page_number);
+    request2.input('c',  mssql.Int, c);
+
+    request2.query(query, (err, result) => {
+      if (err) {
+        console.log('Error in audit assets query:', err);
+        res.sendStatus(500);
+        return;
+      }
+      const data = result.recordset;
+      res.status(200).send(
+        {total_rows: total_rows,
+        tableData: data}
+      );
+    });
+  });
+});
 module.exports = router;
