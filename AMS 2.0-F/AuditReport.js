@@ -7,7 +7,18 @@ $(document).ready(function(){
         let fromDate = $('#startDate').val();
         let toDate = $('#endDate').val();
     
-    
+        // Function to format the date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            let month = (date.getMonth() + 1).toString().padStart(2, '0');
+            let day = date.getDate().toString().padStart(2, '0');
+            let hours = date.getHours().toString().padStart(2, '0');
+            let minutes = date.getMinutes().toString().padStart(2, '0');
+            let seconds = date.getSeconds().toString().padStart(2, '0');
+            return `${day}/${month}/${year} ${hours}:${minutes}`;
+        }
+
         if(new Date($('#startDate').val()).toISOString() < new Date($('#endDate').val()).toISOString()){
             $.ajax({
                 url: `http://localhost:3000/audit-report/submitData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
@@ -44,8 +55,8 @@ $(document).ready(function(){
                                         <td>${item.AuditorName}</td>
                                         <td>${item.location_name}</td>
                                         <td>${item.dept_name}</td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>${item.ScheduledStartDate ? formatDate(item.ScheduledStartDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })) : "null"}</td>
+                                        <td>${item.ScheduledEndDate ? formatDate(item.ScheduledStartDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })) : "null"}</td>
                                         <td>${item.FoundAssetCount}</td>
                                         <td>${item.MissingAssetCount}</td>
                                         <td>${item.NewAssetCount}</td>

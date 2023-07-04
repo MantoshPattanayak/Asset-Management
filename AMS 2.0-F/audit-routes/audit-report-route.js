@@ -29,7 +29,7 @@ router.get('/submitData', (req, res) => {
       CASE 
           WHEN e.middle_name IS NULL OR e.middle_name = '' THEN CONCAT(e.first_name, ' ', e.last_name)
           ELSE CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name)
-      END AS AuditorName, d.dept_name, l.location_name,
+      END AS AuditorName, d.dept_name, l.location_name, ad.ScheduledStartDate, ad.ScheduledEndDate,
       (SELECT COUNT(CASE WHEN AssetStatus = 'Found' THEN 1 END) FROM AssetAuditDetails WHERE AuditId = ad.Id) AS FoundAssetCount,
       (SELECT COUNT(CASE WHEN AssetStatus = 'Missing' THEN 1 END) FROM AssetAuditDetails WHERE AuditId = ad.Id) AS MissingAssetCount,
       (SELECT COUNT(CASE WHEN AssetStatus = 'New' THEN 1 END) FROM AssetAuditDetails WHERE AuditId = ad.Id) AS NewAssetCount,
@@ -56,7 +56,7 @@ router.get('/submitData', (req, res) => {
       CASE 
           WHEN e.middle_name IS NULL OR e.middle_name = '' THEN CONCAT(e.first_name, ' ', e.last_name)
           ELSE CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name)
-      END AS AuditorName, d.dept_name, l.location_name,
+      END AS AuditorName, d.dept_name, l.location_name, ad.ScheduledStartDate, ad.ScheduledEndDate,
       (SELECT COUNT(CASE WHEN AssetStatus = 'Found' THEN 1 END) FROM AssetAuditDetails WHERE AuditId = ad.Id) AS FoundAssetCount,
       (SELECT COUNT(CASE WHEN AssetStatus = 'Missing' THEN 1 END) FROM AssetAuditDetails WHERE AuditId = ad.Id) AS MissingAssetCount,
       (SELECT COUNT(CASE WHEN AssetStatus = 'New' THEN 1 END) FROM AssetAuditDetails WHERE AuditId = ad.Id) AS NewAssetCount,
