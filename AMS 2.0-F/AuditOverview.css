@@ -1122,6 +1122,7 @@ table {
  .table-head {
     font-family: Lato, Oxygen, "Open Sans", Montserrat, "PT Sans", Verdana, Arial,
         sans-serif;
+    position: sticky;    
 } 
 
 .table-title {
