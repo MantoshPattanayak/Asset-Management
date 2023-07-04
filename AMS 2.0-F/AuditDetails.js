@@ -31,6 +31,7 @@
 let auditID = sessionStorage.getItem('auditID');
 
 $(document).ready(function() {
+
   $.ajax({
     url: `http://localhost:3000/audit-asset/fetch-data?auditID=${auditID}`,
     type: 'GET',
@@ -70,7 +71,7 @@ $(document).ready(function() {
 
     // Call the displayData function with the table data
     displayData(response);
-  
+ 
 
 
       // var tableBody = $('#table-1 tbody');
