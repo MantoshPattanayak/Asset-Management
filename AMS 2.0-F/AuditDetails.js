@@ -56,8 +56,9 @@ $(document).ready(function() {
       $('#scanned-not-expected').val(response.assetCountData[0].NewAssetCount);
       $('#expected-not-found').val(response.assetCountData[0].MissingAssetCount);
       // $('#new').val(response.assetCountData.NewAssetCount);
-
-      chartRender(response);  //display chart
+ 
+      
+     chartRender(response);  //display chart
 
      // Function to display data in table
     //  function displayData(data) {
