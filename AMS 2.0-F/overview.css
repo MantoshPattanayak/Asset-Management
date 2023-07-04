@@ -671,7 +671,7 @@ table {
 /* Styling buttons & webpage */
 
 
-/* 
+
 button {
     margin-top: 50px;
     background-color: rgba(255, 255, 255, 0.3);
@@ -687,7 +687,7 @@ button:hover {
     color: #FFF;
     border: 3px solid #354259;
     transition: all 0.3s ease 0s;
-} */
+}
 
 p {
     margin: 1em 0;
@@ -855,7 +855,7 @@ body {
     color: #999;
   }
   
-  /* button {
+  button {
     height: 40px;
     padding: 0 20px;
     border: none;
@@ -865,7 +865,7 @@ body {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-  } */
+  }
   
   
   .search1{

@@ -193,21 +193,31 @@ $.ajax({
     // Update the table with the fetched data
     
     $(tableBodyElement).html(""); // Clear the table body
+if(data && data.length>0){
+  for (var i = 0; i < data.length; i++) {
+    var row = data[i];
+    var html = "<tr>";
+    html += "<td>" + row.asset_id + "</td>";
+            html += "<td>" + row.asset_type + "</td>";
+            html += "<td>" + row.asset_name + "</td>";
+            html += "<td>" + row.dept_name + "</td>";
+            html += "<td>" + row.emp_name + "</td>";
+            html += "<td>" + row.emp_no + "</td>";
+            html += "<td>" + row.location_name + "</td>";
+            html += `<td><button class="btn-info edit-btn">Edit</button></td></tr>`;
+    html += "</tr>";
+    $(tableBodyElement).append(html);
+  }
+  $('.table-scroll').show();
+  $('#no-data-message').hide();
+  // $('.col-head').val("").hide();
 
-    for (var i = 0; i < data.length; i++) {
-      var row = data[i];
-      var html = "<tr>";
-      html += "<td>" + row.asset_id + "</td>";
-              html += "<td>" + row.asset_type + "</td>";
-              html += "<td>" + row.asset_name + "</td>";
-              html += "<td>" + row.dept_name + "</td>";
-              html += "<td>" + row.emp_name + "</td>";
-              html += "<td>" + row.emp_no + "</td>";
-              html += "<td>" + row.location_name + "</td>";
-              html += `<td><button class="btn-info edit-btn">Edit</button></td></tr>`;
-      html += "</tr>";
-      $(tableBodyElement).append(html);
-    }
+}else{
+  $('.table-body').show();
+  $('#no-data-message').show();
+  // $('#filter-location-name').val("").hide();
+
+}
   },
   error: function(error) {
     console.error("Error fetching table data:", error);
