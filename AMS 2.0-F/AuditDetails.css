@@ -109,7 +109,7 @@ body{
 
 .aduit-details {
 display: flex;
-flex-wrap: wrap;
+/* flex-wrap: wrap; */
 justify-content: space-between;
 }
 
@@ -141,12 +141,12 @@ justify-content: space-between;
   box-shadow: #09739c 0.1px 0.2px;
 
 }
-/* .bar-prog {
-  grid-column: 1 / span 3;
+.bar-prog {
+  /* grid-column: 1 / span 3; */
   height: 5px;
   background-color: #007bff;
   margin-bottom: 20px;
-} */
+}
 
 
 .Result-aduit{
