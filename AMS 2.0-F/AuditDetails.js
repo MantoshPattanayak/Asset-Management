@@ -1,6 +1,11 @@
 //**************************************Audit Status********************************************************************************* */
+
 let all_rows;
 var lastPage = 1;
+  if (sessionStorage.getItem('sessionVar') != 'pass') {
+    window.location.href = `./index.html`;
+  }
+
 
 // Function to fetch data from the backend
 // let auditID = sessionStorage.getItem('auditID');
@@ -722,4 +727,21 @@ function formatDate(dateString) {
 //     });
 //     limitPagination();
 //   });
+
 // });
+
+    
+let logout = document.getElementById('logoutBtn');
+logout.addEventListener('click', () => {
+    $.post(
+        "http://127.0.0.1:3000/logout",
+        {
+            userMail: sessionStorage.getItem('userMail')
+        },
+        function (result) {
+            sessionStorage.setItem('sessionVar', null);
+            window.location.href = `./index.html`;
+        }
+    )
+});
+
