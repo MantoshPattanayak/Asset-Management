@@ -8,7 +8,9 @@ const multer = require('multer');
 const csvParser = require('csv-parser');
 const fs = require('fs');
 const auditOverviewRouter = require('./audit-routes/audit-overview-route');
-const auditAssignRouter=require('./audit-routes/audit-assign-route')
+const auditAssignRouter=require('./audit-routes/audit-assign-route');
+const auditAssetRouter= require('./audit-routes/audit-asset-route');
+const auditReportRouter = require('./audit-routes/audit-report-route');
 
 const app = express();
 const port = 3000;
@@ -37,6 +39,10 @@ const sqlConfig = {
 app.use('/audit-overview', auditOverviewRouter);
 
 app.use('/audit-assign', auditAssignRouter);
+
+app.use('/audit-asset', auditAssetRouter);
+
+app.use('/audit-report', auditReportRouter);
 
 
 //********************************************AUDIT ROUTES - END***************************************************************************/
@@ -676,21 +682,22 @@ app.get('/advanceSearchForAudit', (req, res) => {
     let EmployeeNo = req.query.EmployeeNo;
 
     //databse query
-    let query = `select * from AuditDetails where 1=1 `;
+    let query = `select * from AuditDetails ad left join location l on l.location_id =ad.LocationId left join department d 
+    on d.dept_id  =ad.DepartmentId  where 1=1 `;
 
     //checking conditions for multiple column data search(advance serching)
     if (LocationId != null) {
-        query += `and LocationId =${LocationId}`;
+        query += `and ad.LocationId =${LocationId}`;
     }
 
     //additional field
     if (DepartmentId != null) {
-        query += ` and DepartmentId =${DepartmentId}`;
+        query += ` and ad.DepartmentId =${DepartmentId}`;
     }
 
     //additional field
     if (EmployeeNo != null) {
-        query += ` and EmployeeNo=${EmployeeNo}`
+        query += ` and ad.EmployeeNo=${EmployeeNo}`
     }
 
     //query result
@@ -710,6 +717,23 @@ app.get('/progressbarForAudit', (req, res) => {
      });
 })
 
+app.get('/locations',(req,res)=>{
+    let query1 ='select location_id ,location_name  from location order by 1';
+
+    mssql.query(query1,(err,result)=>{
+        if(err) return err;
+        res.send(result);
+    })
+})
+
+app.get('/departments',(req,res)=>{
+    let query1 ='select dept_id ,dept_name  from department order by 1';
+
+    mssql.query(query1,(err,result)=>{
+        if(err) return err;
+        res.send(result);
+    })
+})
 
 
 //satyam vivek work end  

@@ -1,5 +1,11 @@
 
 /*   NAV BAR CSS*/
+.logoutBtn {
+  background-color: transparent;
+  font-size: 35px;
+  outline: none;
+  border: none;
+}
 
 :root{
     --bodyColor : #f4f6fb;
@@ -35,6 +41,7 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
 }
 .sidebar{
     width: 75px;
@@ -95,23 +102,24 @@ body{
 /** from**/
 .container {
   width: 90%;
+  height: 100%;
   margin: 0 auto;
   padding: 10px;
 }
 
 .aduit-details {
 display: flex;
-flex-wrap: wrap;
+/* flex-wrap: wrap; */
 justify-content: space-between;
 }
 
-.Aduit-Number,
+/* .Aduit-Number,
 .Aduit-scope,
 .location,
 .Scheduled {
   margin-bottom: 10px;
 
-}
+} */
 
 .Aduit-Number h7,
 .Aduit-scope h7,
@@ -134,7 +142,7 @@ justify-content: space-between;
 
 }
 .bar-prog {
-  grid-column: 1 / span 3;
+  /* grid-column: 1 / span 3; */
   height: 5px;
   background-color: #007bff;
   margin-bottom: 20px;
@@ -144,6 +152,7 @@ justify-content: space-between;
 .Result-aduit{
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   width: 100%;
+  height: 30vh;
 }
 .char{
     width: 20%;
@@ -167,6 +176,8 @@ justify-content: space-between;
   
   .table-buttons {
     margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
   }
   
   .table-button {
@@ -184,7 +195,7 @@ justify-content: space-between;
   
   .table-container-scroll {
     max-height: 200px; /* Adjust the maximum height as needed */
-    overflow: auto;
+    /* overflow: auto; */
   }
   
   .data-table {
@@ -196,6 +207,7 @@ justify-content: space-between;
   .data-table td {
     padding: 8px;
     border: 1px solid #ddd;
+    
   }
   
   /* Custom scroll bar */
@@ -231,3 +243,217 @@ justify-content: space-between;
     overflow-wrap: normal;
     font-family: Lato, Oxygen, "Open Sans", Montserrat, "PT Sans", Verdana, Arial, sans-serif;
   }
+/* Common Styles */
+.Aduit-details-from {
+  margin-bottom: 20px;
+}
+
+.Aduit-details-from .bar-prog {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+}
+
+.Aduit-details-from h7 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.aduit-scope-input {
+  background-color: #f2f3f5;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  width: 100%;
+  box-shadow: 0.1px 0.2px rgba(9, 115, 156, 0.16);
+}
+
+/* .table-container {
+  padding: 20px;
+} */
+
+.table-buttons {
+  margin-bottom: 20px;
+}
+
+.table-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #3a4d63;
+  color: #f0dede;
+  border-radius: 10px;
+  box-shadow: 1.95px 1.95px 2.6px #2e4061;
+  border-color: #2e4061;
+  border-bottom: #2e4061;
+}
+
+.table-container-scroll {
+  max-height: 200px;
+  overflow: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+/* Custom scroll bar */
+.table-container-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.table-container-scroll::-webkit-scrollbar-track {
+  background-color: #f2f3f5;
+}
+
+.table-container-scroll::-webkit-scrollbar-thumb {
+  background-color: #09739c;
+}
+
+.table-boder {
+  background-color: #2e4061;
+  color: white;
+  font-size: large;
+}
+
+.asset-aduit {
+  display: flex;
+  justify-content: center;
+  font-size: 35px;
+  color: rgb(53, 66, 89);
+  font-size: 2em;
+  font-weight: 700;
+  margin: 0.525em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  font-family: Lato, Oxygen, "Open Sans", Montserrat, "PT Sans", Verdana, Arial, sans-serif;
+}
+
+/* Responsive Styles */
+@media (max-width: 767px) {
+  .aduit-details .Aduit-details-from {
+    margin-bottom: 10px;
+  }
+
+  .aduit-details .Aduit-details-from .bar-prog {
+    grid-template-columns: 1fr;
+  }
+
+  .Result-aduit {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .char {
+    width: 100%;
+  }
+
+  .Aduit-details-from .Aduit-Number,
+  .Aduit-details-from .Aduit-scope,
+  .Aduit-details-from .location,
+  .Aduit-details-from .Scheduled {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 479px) {
+  .container {
+   overflow-y: scroll;
+  }
+  .aduit-details .Aduit-details-from .bar-prog {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .aduit-details .Aduit-details-from h7 {
+    font-size: 12px;
+  }
+
+  .aduit-scope-input {
+    font-size: 14px;
+  }
+}
+
+
+/* code for aproved**/
+/* Styling for the pagination container */
+.pagination-container {
+  /* display: flex;
+  justify-content: center; */
+  margin-top: 20px;
+  font-size: 30px;
+  float: right;
+}
+/* Styling for the pagination */
+.pagination {
+  list-style-type: none;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 10px;
+  /* margin: -5px; */
+  font-size: 30px;
+}
+/* Styling for the pagination buttons */
+.pagination li {
+  margin: 2px 5px;
+  padding-left: 10px;
+}
+.pagination li:hover {
+    border: 1px solid black;
+    border-radius: 50%;  
+    padding-right: 10px;
+}
+/* Styling for the previous and next buttons */
+.pagination li[data-page="prev"],
+.pagination li[data-page="next"] {
+  padding: 0 6px;
+  width: 50%;
+  /* height: 40%; */
+  border: 1px solid #1b1a1a;
+  border-radius: 50%;
+  background-color:#73a5d6;
+  cursor: pointer;
+}
+/* Styling for the close appearance of the buttons */
+.pagination li[data-page="prev"] span:before,
+.pagination li[data-page="next"] span:after {
+  font-weight: bold;
+}
+
+/* Styling for the current page indicator */
+.pagination .sr-only {
+  display: none;
+}
+
+/* span {
+  color: rgb(13, 13, 14);
+  border: 1px;
+  font-size: 30px;
+  text-decoration: none;
+  cursor: pointer;
+} */
+
+
+.form-group-21 select{
+  background-color: #f2f3f5;
+  border: none;
+  padding: 10px 30px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100px;
+}

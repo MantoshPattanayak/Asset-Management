@@ -802,6 +802,23 @@ span {
     border-radius: 4px;
     margin-bottom: 10px;
   }
+  .advnace-search-from select{
+    background-color: #f2f3f5; /* Light gray background */
+    border: none;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .advnace-search-from >button {
+    background-color: #4f85f0; /* Light gray background */
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
   
   #adsearch-boxes .additional-search {
     display: none;
@@ -1105,6 +1122,7 @@ table {
  .table-head {
     font-family: Lato, Oxygen, "Open Sans", Montserrat, "PT Sans", Verdana, Arial,
         sans-serif;
+    position: sticky;    
 } 
 
 .table-title {
@@ -1154,7 +1172,24 @@ table {
  
     
 }
+#no-data-message{
+    text-align: center;
+    padding: 0;
+    margin-top: -50vh;
+    font-size: 32px;
+    font-weight: 900;
+    /* justify-content: center; */
+}
 
+
+/* details button*/
+.edit-btn{
+    width: 4vw;
+    height: 3vh;
+    border: none;
+    background-color: #fff;
+    cursor: pointer;
+}
 
 /* Ensure the default cursor on table body <tbody> and footer <tfoot> */
 
@@ -1769,7 +1804,7 @@ span {
 
 
      .onclick-btn{
-        background-color:royalblue; /* Facebook blue color */
+        background-color:rgb(32, 40, 55); /* Facebook blue color */
         color: #f7f7f7; /* White text color */
         border: none;
         height: 4vh;
@@ -1786,3 +1821,6 @@ span {
         background-color: #0a64d9;
         color: wheat;
      }
+
+
+     
