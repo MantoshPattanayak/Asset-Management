@@ -35,6 +35,7 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
 }
 .sidebar{
     width: 75px;
@@ -95,6 +96,7 @@ body{
 /** from**/
 .container {
   width: 90%;
+  height: 100%;
   margin: 0 auto;
   padding: 10px;
 }
@@ -144,6 +146,7 @@ justify-content: space-between;
 .Result-aduit{
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   width: 100%;
+  height: 30vh;
 }
 .char{
     width: 20%;
@@ -167,6 +170,8 @@ justify-content: space-between;
   
   .table-buttons {
     margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
   }
   
   .table-button {
@@ -184,7 +189,7 @@ justify-content: space-between;
   
   .table-container-scroll {
     max-height: 200px; /* Adjust the maximum height as needed */
-    overflow: auto;
+    /* overflow: auto; */
   }
   
   .data-table {
@@ -196,6 +201,7 @@ justify-content: space-between;
   .data-table td {
     padding: 8px;
     border: 1px solid #ddd;
+    
   }
   
   /* Custom scroll bar */
@@ -356,6 +362,9 @@ justify-content: space-between;
 }
 
 @media (max-width: 479px) {
+  .container {
+   overflow-y: scroll;
+  }
   .aduit-details .Aduit-details-from .bar-prog {
     grid-template-columns: 1fr;
     gap: 5px;
@@ -368,4 +377,77 @@ justify-content: space-between;
   .aduit-scope-input {
     font-size: 14px;
   }
+}
+
+
+/* code for aproved**/
+/* Styling for the pagination container */
+.pagination-container {
+  /* display: flex;
+  justify-content: center; */
+  margin-top: 20px;
+  font-size: 30px;
+  float: right;
+}
+/* Styling for the pagination */
+.pagination {
+  list-style-type: none;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 10px;
+  /* margin: -5px; */
+  font-size: 30px;
+}
+/* Styling for the pagination buttons */
+.pagination li {
+  margin: 2px 5px;
+  padding-left: 10px;
+}
+.pagination li:hover {
+    border: 1px solid black;
+    border-radius: 50%;  
+    padding-right: 10px;
+}
+/* Styling for the previous and next buttons */
+.pagination li[data-page="prev"],
+.pagination li[data-page="next"] {
+  padding: 0 6px;
+  width: 50%;
+  /* height: 40%; */
+  border: 1px solid #1b1a1a;
+  border-radius: 50%;
+  background-color:#73a5d6;
+  cursor: pointer;
+}
+/* Styling for the close appearance of the buttons */
+.pagination li[data-page="prev"] span:before,
+.pagination li[data-page="next"] span:after {
+  font-weight: bold;
+}
+
+/* Styling for the current page indicator */
+.pagination .sr-only {
+  display: none;
+}
+
+/* span {
+  color: rgb(13, 13, 14);
+  border: 1px;
+  font-size: 30px;
+  text-decoration: none;
+  cursor: pointer;
+} */
+
+
+.form-group-21 select{
+  background-color: #f2f3f5;
+  border: none;
+  padding: 10px 30px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100px;
 }

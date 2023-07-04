@@ -3,13 +3,14 @@ const mssql = require('mssql');
 
 const router = express.Router();
 
-router.get('/fetch-data', async (req, res) => {
+router.post('/fetch-data', async (req, res) => {
   
-    let auditID = 25
+    let auditID = req.query.auditID
 
-    const page_number=2
+    const page_number=req.query.page_number;
 
-    const page_size=10
+    const page_size=req.query.page_size;
+    console.log("page number", page_number);
 
     let query = "select ad.Id as AuditNumber, CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name) as NameOfAuditor, "
     +"ad.AuditStatus, l.location_name, ad.ScheduledStartDate, ad.ScheduledEndDate "
