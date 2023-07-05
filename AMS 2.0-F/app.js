@@ -2955,43 +2955,45 @@ app.post('/aDeny', (req, res) => {
 app.post('/Advancedsearch', (req, res) => {
 
     // Extract the inputs from the request
-    const {
-      asset_id,
-      asset_type,
-      asset_name,
-      dept_name,
-      emp_name,
-      emp_no,
-      location_name,
-      page_number,
-      page_size
-    } = req.query;
+    // const {
+    //   asset_id,
+    //   asset_type,
+    //   asset_name,
+    //   dept_name,
+    //   emp_name,
+    //   emp_no,
+    //   location_name
+    // } = req.query;
 // const page_number=2;
 //  const page_size=10;
   
 
-//   const asset_id=null;
-//               const asset_type='Computer Related';       
-//               const asset_name=null;        
-//          const dept_name='MECHANICAL'; 
-//           const emp_name=null;  
-//         const emp_no=null;
-//   const location_name=null;
+  const asset_id=null;
+              const asset_type='Computer Related';       
+              const asset_name=null;        
+         const dept_name='MECHANICAL'; 
+          const emp_name=null;  
+        const emp_no=null;
+  const location_name=null;
              
-    // Construct the SQL query based on the provided inputs
+    // Construct the SQL query based on the provided inputs   parseInt(req.query.page) || parseInt(req.query.limit) || 
+
+
+    let page =  1; // Default page is 1
+    let limit = 50; // Number of records per page, default is 50
+    let offset = (page - 1) * limit; // Offset calculation
+  
     let query1=`SELECT count(*) as TotalRows
     FROM asset.dbo.assets a
     INNER JOIN department d ON d.dept_id = a.dept_id
     INNER JOIN Employees e ON e.emp_no = a.emp_no
     INNER JOIN location l ON l.location_id = a.location_id
     WHERE 1=1`;
-    let query = `
-  
-      SELECT a.asset_id,a.asset_type,a.asset_name,d.dept_name,e.emp_no,l.location_name,CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name) AS emp_name from asset.dbo.assets as a 
+    let query = `SELECT a.asset_id,a.asset_type,a.asset_name,d.dept_name,e.emp_no,l.location_name,CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name) AS emp_name from asset.dbo.assets as a 
       INNER JOIN department d ON d.dept_id = a.dept_id
       INNER JOIN Employees e ON e.emp_no = a.emp_no
       INNER JOIN location l ON l.location_id = a.location_id
-      WHERE 1=1
+      WHERE 1=1 
       `
 
     if (asset_id) {
@@ -3037,6 +3039,9 @@ app.post('/Advancedsearch', (req, res) => {
       console.log(`${location_name}`)
     }
 
+    if(page!= null) {
+        query += ` ORDER BY a.asset_id OFFSET ${offset} ROWS FETCH NEXT ${limit} ROWS ONLY`;
+        }
 
   let request1 = new mssql.Request();
     
@@ -3051,9 +3056,9 @@ app.post('/Advancedsearch', (req, res) => {
     console.log('Total Rows:', total_rows);
 
     let request2 = new  mssql.Request();
-    request2.input('total_rows', mssql.Int, total_rows);
-    request2.input('page_size',  mssql.Int, page_size);
-    request2.input('page_number',  mssql.Int, page_number);
+    // request2.input('total_rows', mssql.Int, total_rows);
+    // request2.input('page_size',  mssql.Int, page_size);
+    // request2.input('page_number',  mssql.Int, page_number);
   
     request2.query(query, (err, result) => {
       if (err) {

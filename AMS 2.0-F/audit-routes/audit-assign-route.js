@@ -59,7 +59,9 @@ mssql.query(query1, (err, result1) => {
 router.get('/emp-no-emp-name',(req,res)=>{
     let emp_no=req.query.emp_no
 
-    let query=`select CONCAT(first_name, ' ', middle_name, ' ', last_name)  as emp_name from asset.dbo.Employees where emp_no=${emp_no}`
+    let query=`select CASE WHEN middle_name IS NULL OR middle_name = '' THEN CONCAT(first_name, ' ', last_name)
+    ELSE CONCAT(first_name, ' ', middle_name, ' ', last_name)
+END AS emp_name from asset.dbo.Employees where emp_no=${emp_no}`
 
     
 
