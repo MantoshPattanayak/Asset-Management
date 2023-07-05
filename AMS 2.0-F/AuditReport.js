@@ -6,6 +6,13 @@ $(document).ready(function(){
         let employeeNumber = $('#fieldName').val();
         let fromDate = $('#startDate').val();
         let toDate = $('#endDate').val();
+
+         // Check if fromDate and toDate are empty
+         if (fromDate === '' || toDate === '') {
+            alert('Please select both Start Date and End Date.');
+            return; // Stop further execution
+        }
+    
     
         // Function to format the date
         function formatDate(dateString) {
