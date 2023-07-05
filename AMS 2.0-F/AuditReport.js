@@ -128,22 +128,124 @@ function downloadAsPDFFile(e, element){
     })
 }
 
-function exportTable(event){
+// function exportTable(event){
+//     event.preventDefault();
+//     console.log('export func');
+
+//     let employeeNumber = $('#fieldName').val();
+//     let fromDate = $('#startDate').val();
+//     let toDate = $('#endDate').val();
+
+//     $.ajax({
+//         url: `http://localhost:3000//audit-report/downloadAuditData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
+//         type: 'GET',
+//         success: function (reponse){
+
+//         },
+//         error: function(error){
+//             console.log(error);
+//         }
+//     })
+// }
+
+/***Export Table */
+function exportTable(event) {
     event.preventDefault();
     console.log('export func');
-
+  
     let employeeNumber = $('#fieldName').val();
     let fromDate = $('#startDate').val();
     let toDate = $('#endDate').val();
+  
+    // Generate PDF report
+    if(fromDate != '' && toDate != ''){
+        generatePDFReport(employeeNumber, fromDate, toDate);
+    }
+  }
+  
+function generatePDFReport(employeeNumber, fromDate, toDate) {
+    // Create a new jsPDF instance
+    var doc = new jsPDF();
 
+    // Fetch the data from the server
     $.ajax({
-        url: `http://localhost:3000//audit-report/downloadAuditData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
+        url: `http://localhost:3000/audit-report/downloadAuditData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
         type: 'GET',
-        success: function (reponse){
+        success: function(response) {
+        // Handle the data
+        console.log(response);
+        var tableData = response.auditTableData;
 
-        },
-        error: function(error){
-            console.log(error);
+        // Format the date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            let month = (date.getMonth() + 1).toString().padStart(2, '0');
+            let day = date.getDate().toString().padStart(2, '0');
+            let hours = date.getHours().toString().padStart(2, '0');
+            let minutes = date.getMinutes().toString().padStart(2, '0');
+            let seconds = date.getSeconds().toString().padStart(2, '0');
+            return `${day}/${month}/${year} ${hours}:${minutes}`;
         }
-    })
+
+        // Set the table header
+        var tableHeader = ['Audit No', 'Emp No', 'Auditor Name', 'Location Name', 'Department Name', 'Scheduled Start Date', 'Scheduled End Date', 'Total Assets Found', 'Total Assets Missing', 'Total Assets New'];
+
+        // Set the table rows
+        var tableRows = tableData.map(function(item) {
+            return [
+            item.Id,
+            item.EmployeeNo,
+            item.AuditorName,
+            item.location_name,
+            item.dept_name,
+            item.ScheduledStartDate ? formatDate(item.ScheduledStartDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })) : "null",
+            item.ScheduledEndDate ? formatDate(item.ScheduledStartDate.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })) : "null",
+            item.FoundAssetCount,
+            item.MissingAssetCount,
+            item.NewAssetCount
+            ];
+        });
+
+        // Set the table options
+        var tableOptions = {
+            theme: 'grid',
+            styles: {
+            overflow: 'linebreak'
+            },
+            headStyles: {
+            fillColor: [41, 128, 185],
+            textColor: 255,
+            fontStyle: 'bold'
+            },
+            footStyles: {
+            fillColor: [41, 128, 185],
+            textColor: 255,
+            fontStyle: 'bold'
+            },
+            columnStyles: {
+            0: { cellWidth: 15 },
+            1: { cellWidth: 15 },
+            2: { cellWidth: 30 },
+            3: { cellWidth: 30 },
+            4: { cellWidth: 30 },
+            5: { cellWidth: 25 },
+            6: { cellWidth: 25 },
+            7: { cellWidth: 20 },
+            8: { cellWidth: 20 },
+            9: { cellWidth: 20 }
+            }
+        };
+
+        // Add the table to the document
+        doc.text('Audit Report', 10, 10);
+        doc.autoTable(tableHeader, tableRows, tableOptions);
+
+        // Save and download the PDF file
+        doc.save('audit_report.pdf');
+        },
+        error: function(error) {
+        console.log(error);
+        }
+    });
 }
