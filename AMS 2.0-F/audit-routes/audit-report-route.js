@@ -72,7 +72,21 @@ router.get('/submitData', (req, res) => {
       SELECT @total_rows AS TotalRows`;
     }
   
-  
+    let query3 = `SELECT ad.Id, ad.EmployeeNo,
+    CASE 
+        WHEN e.middle_name IS NULL OR e.middle_name = '' THEN CONCAT(e.first_name, ' ', e.last_name)
+        ELSE CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name)
+    END AS AuditorName, d.dept_name, l.location_name, ad.ScheduledStartDate, ad.ScheduledEndDate,
+    (SELECT COUNT(CASE WHEN AssetStatus = 'Found' THEN 1 END) FROM AssetAuditDetails WHERE AuditId = ad.Id) AS FoundAssetCount,
+    (SELECT COUNT(CASE WHEN AssetStatus = 'Missing' THEN 1 END) FROM AssetAuditDetails WHERE AuditId = ad.Id) AS MissingAssetCount,
+    (SELECT COUNT(CASE WHEN AssetStatus = 'New' THEN 1 END) FROM AssetAuditDetails WHERE AuditId = ad.Id) AS NewAssetCount,
+    ROW_NUMBER() OVER (ORDER BY ID) AS RowNum
+    FROM AuditDetails ad 
+    INNER JOIN location l ON ad.LocationId = l.location_id 
+    INNER JOIN department d ON ad.DepartmentId = d.dept_id
+    INNER JOIN Employees e ON e.emp_no = ad.EmployeeNo 
+    WHERE CAST(ad.ScheduledStartDate as date) >= '${fromDate}' AND CAST(ad.ScheduledEndDate as Date) <= '${toDate}'`;
+    
     let request1 = new mssql.Request();
   
     request1.query(query1, (err, result1) => {
@@ -155,7 +169,8 @@ router.get('/downloadAuditData', async (req, res) => {
     mssql.query(query, (err, result) => {
       if(err) throw err;
 
-      auditTableData = result.recordset[0];
+      auditTableData = result.recordsets[0];
+      //res.send(result);
       res.status(200).send({auditTableData: auditTableData});
     });
   }
