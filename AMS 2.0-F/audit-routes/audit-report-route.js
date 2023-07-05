@@ -123,4 +123,55 @@ router.get('/downloadAuditData', async (req, res) => {
     res.status(500).send(e);
   }
 });
+
+router.get('/downloadData', async (req, res) => {
+  let auditID = req.query.auditID;
+
+  let query = `select ad.Id as AuditNumber, 
+    CASE WHEN e.middle_name IS NULL OR e.middle_name = '' THEN CONCAT(e.first_name, ' ', e.last_name)
+    ELSE CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name)
+    END AS AuditorName, `
+    +"ad.AuditStatus, l.location_name, ad.ScheduledStartDate, ad.ScheduledEndDate, ad.ActualStartDate, ad.ActualEndDate "
+    +"from AuditDetails ad "
+    +"inner join location l on ad.LocationId = l.location_id "
+    +"inner join department d on ad.DepartmentId = d.dept_id "
+    +"inner join Employees e on ad.EmployeeNo = e.emp_no "
+    +`where ad.Id = ${auditID}`
+
+    let query1 = `select a.tag_id, a.tag_uuid, a.asset_id, a.asset_class, a.asset_type, a.asset_name,l.location_name, aad.AssetStatus,
+    ROW_NUMBER() OVER (ORDER BY a.asset_id) AS RowNum from AuditDetails ad 
+    inner join AssetAuditDetails aad on ad.Id = aad.AuditId
+    inner join assets a on a.serial = aad.AssetSerialId 
+    inner join location l ON l.location_id = a.location_id
+    where ad.Id = ${auditID}`
+
+    let query3 = "select "
+    + "count(*) as TotalRows "
+    +"from AuditDetails ad "
+    +"inner join AssetAuditDetails aad on ad.Id = aad.AuditId "
+    +"inner join assets a on a.serial = aad.AssetSerialId "
+    +"inner join location l ON l.location_id = a.location_id "
+    +`where ad.Id = ${auditID}`
+    
+    let query2 = "SELECT "
+    +"COUNT(CASE WHEN AssetStatus = 'Found' THEN 1 END) AS FoundAssetCount, "
+    +"COUNT(CASE WHEN AssetStatus = 'Missing' THEN 1 END) AS MissingAssetCount, "
+    +"COUNT(CASE WHEN AssetStatus = 'New' THEN 1 END) AS NewAssetCount, "
+    +"COUNT(*) AS TotalAssets "
+    +"FROM AssetAuditDetails "
+    +`WHERE AuditId = ${auditID}`
+
+    try{
+      mssql.query(query, (err, result) => {
+        if(err) throw err;
+
+        console.log('audit-form-data',result);
+        res.status(200).json(result);
+      })
+    }
+    catch(e){
+      res.status(500).send(e)
+    }
+})
+
 module.exports = router;
