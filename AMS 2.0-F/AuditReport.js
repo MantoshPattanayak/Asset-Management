@@ -62,8 +62,8 @@ $(document).ready(function(){
                                         <td>${item.NewAssetCount}</td>
                                         <td>
                                             <div class="csv-pdf">
-                                                <button class="csv">CSV</button>
-                                                <button class="pdf">PDF</button>
+                                                <button class="csv" onclick="downloadAsCSVFile(event, $(this))">CSV</button>
+                                                <button class="pdf" onclick="downloadAsPDFFile(event, $(this))">PDF</button>
                                             </div>
                                       </td>
                                     </tr>`
@@ -90,4 +90,60 @@ function checkInputValue(event){
         event.preventDefault();
         return false;
     }
+}
+
+function downloadAsCSVFile(e, element){
+    console.log('download CSV File!!!');
+    e.preventDefault();
+    
+    let auditID = $(element).closest('tr').find('td').eq(0).text();
+
+    $.ajax({
+        url: `http://localhost:3000/audit-report/downloadData?auditID=${auditID}`,
+        type: 'GET',
+        success: function (response){
+
+        },
+        error: function (error){
+            console.log('At downloadAsCSVFile: ',error);
+        }
+    })
+}
+
+function downloadAsPDFFile(e, element){
+    console.log('download PDF File!!!');
+    e.preventDefault();
+    
+    let auditID = $(element).closest('tr').find('td').eq(0).text();
+
+    $.ajax({
+        url: `http://localhost:3000/audit-report/downloadData?auditID=${auditID}`,
+        type: 'GET',
+        success: function (response){
+
+        },
+        error: function (error){
+            console.log('At downloadAsCSVFile: ',error);
+        }
+    })
+}
+
+function exportTable(event){
+    event.preventDefault();
+    console.log('export func');
+
+    let employeeNumber = $('#fieldName').val();
+    let fromDate = $('#startDate').val();
+    let toDate = $('#endDate').val();
+
+    $.ajax({
+        url: `http://localhost:3000//audit-report/downloadAuditData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
+        type: 'GET',
+        success: function (reponse){
+
+        },
+        error: function(error){
+            console.log(error);
+        }
+    })
 }
