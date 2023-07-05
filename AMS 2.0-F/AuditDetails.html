@@ -88,8 +88,8 @@
           </form>
       
           <!-- Assigned to -->
-          <form class="Aduit-details-from">
-            <div class="bar-prog">
+          <!-- <form class="Aduit-details-from"> -->
+          <div class="bar-prog">
               <br>
             
             <!-- Form 2 -->
@@ -102,8 +102,8 @@
             <div class="Scheduled">
               <h7> Scheduled Start Date *</h7> <input type="text" class="aduit-scope-input" id="aduit-scope-input-start-date" placeholder="Scheduled Date" readonly>
             </div>
-            </div>
-          </form>
+          </div>
+          <!-- </form> -->
         </div>
 
 
@@ -111,7 +111,7 @@
         <div class="Result-aduit">
           <h1 class="audit-res">Audit Result</h1> 
           <div class="char">
-            <p>Asset Audit Result by Asset Status</p>
+            <!-- <p>Asset Audit Result by Asset Status</p> -->
             <canvas id="myChart" ></canvas>
           </div>
           <form>
@@ -140,151 +140,66 @@
        <div class="table-container">
         <div class="table-buttons">
           <button class="table-button" id="table-1-button">Expected Assets</button>
-          <button class="table-button" id="table-2-button" style="display: none;">Scanned Assets</button>
+          <!-- <button class="table-button" id="table-2-button" style="display: none;">Scanned Assets</button> -->
+          <div class="form-group-21">
+          <h7 class="select-name">Select Number Of Rows</h7>
+            <select class="form-control" name="state" id="maxRows">
+                <option value="5000">Show ALL Rows</option>
+
+                <option value="50" selected>50</option>
+                <option value="100">100</option>
+                <option value="150">150</option>
+                <option value="200">200</option>
+                <option value="500">500</option>
+                <option value="700">700</option>
+                <option value="1000">1000</option>
+            </select> 
+          </div>
         </div>
+        
+          
         
         <div class="table-container-scroll">
-          <table id="table-1" class="data-table">
-            <!-- Table 1 Data -->
-            <thead class="table-boder">
-              <tr>
-                <th>Tag Id</th>
-                <th>Tag UU Id</th>
-                <th>Asset ID</th>
-                <th>Asset Class</th>
-                <th>Asset Type</th>
-                <th>Asset Name</th>
-                <th>Asset Location</th>
-                <th>Asset Status</th>
-              </tr>
+          <table  class="data-table" id="example">
+
+            <thead  class="table-boder"title="Click to sort">
+                <tr class="table-row">
+                    <th class="col-head" scope="col">Tag Id<br></th>
+                    <th class="col-head" scope="col">Tag UU Id<br></th>
+                    <th class="col-head" scope="col">Asset Id<br></th>
+                    <th class="col-head" scope="col">Asset Class<br></th>
+                    <th class="col-head" scope="col">Asset Type<br></th>
+                    <th class="col-head" scope="col">Asset Name<br></th>
+                
+                    <th class="col-head" scope="col">Asset Location</th>
+                    <th class="col-head" scope="col">Asset Status<br></th>
+                 
+                </tr>
             </thead>
-          
-            <tbody>
-              <!-- Table rows will be dynamically generated here -->
+            <tbody class="table-body" id="audit-table-body">
+               
+                
             </tbody>
-          </table>
-          <div id="pagination-container">
-            <div class="pagination">
-              <button id="prev-page" class="prev-page">Previous</button>
-              <button id="next-page" class="next-page">Next</button>
-            </div>
-            
-          </div>
+        </table>
           
-          
-        
-        
-          <table id="table-2" class="data-table" style="display: none;">
-            <!-- Table 2 Data -->
-            <thead class="table-boder">
-              <tr>
-                <th>Tag Id</th>
-                <th>Asset Id</th>
-                <th>Asset Class</th>
-                <th>Asset Type</th>
-                <th>Asset Name</th>
-                <th>Asset Location</th>
-                <th>Scanned Date / Time</th>
-                <th>Scanned By</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Data A</td>
-                <td>Data B</td>
-                <td>Data C</td>
-                <td>Data D</td>
-                <td>Data E</td>
-                <td>Data F</td>
-                <td>Data G</td>
-                <td>Data H</td>
-              </tr>
-              <tr>
-                <td>Data A</td>
-                <td>Data B</td>
-                <td>Data C</td>
-                <td>Data D</td>
-                <td>Data E</td>
-                <td>Data F</td>
-                <td>Data G</td>
-                <td>Data H</td>
-              </tr>
-              <tr>
-                <td>Data A</td>
-                <td>Data B</td>
-                <td>Data C</td>
-                <td>Data D</td>
-                <td>Data E</td>
-                <td>Data F</td>
-                <td>Data G</td>
-                <td>Data H</td>
-              </tr>
-              
-            </thead>
-            <tbody>
-              <tr>
-                <td>Data A</td>
-                <td>Data B</td>
-                <td>Data C</td>
-                <td>Data D</td>
-                <td>Data E</td>
-                <td>Data F</td>
-                <td>Data G</td>
-                <td>Data H</td>
-              </tr>
-              <tr>
-                <td>Data A</td>
-                <td>Data B</td>
-                <td>Data C</td>
-                <td>Data D</td>
-                <td>Data E</td>
-                <td>Data F</td>
-                <td>Data G</td>
-                <td>Data H</td>
-              </tr>
-              <tr>
-                <td>Data A</td>
-                <td>Data B</td>
-                <td>Data C</td>
-                <td>Data D</td>
-                <td>Data E</td>
-                <td>Data F</td>
-                <td>Data G</td>
-                <td>Data H</td>
-              </tr>
-              <tr>
-                <td>Data A</td>
-                <td>Data B</td>
-                <td>Data C</td>
-                <td>Data D</td>
-                <td>Data E</td>
-                <td>Data F</td>
-                <td>Data G</td>
-                <td>Data H</td>
-              </tr>
-              <tr>
-                <td>Data A</td>
-                <td>Data B</td>
-                <td>Data C</td>
-                <td>Data D</td>
-                <td>Data E</td>
-                <td>Data F</td>
-                <td>Data G</td>
-                <td>Data H</td>
-              </tr>
-              <!-- Add more rows as needed -->
-            </tbody>
-          </table>
         </div>
-        
-      </div>
-      
+        <div class='pagination-container'>
+          <nav>
+              <ul class="pagination">
+                  <li data-page="prev">
+                      <span>
+                          < <span class="sr-only">(current)
+                      </span></span>
+                  </li>
+                  <!--	Here the JS Function Will Add the Rows -->
+                  <li data-page="next" id="prev">
+                      <span> > <span class="sr-only">(current)</span></span>
+                  </li>
+              </ul>
+          </nav>
+        </div> 
     
       </div>
-     
-     
-
-
       <!---cHART JS GRAPH-->
       <script>
  var ctx = document.getElementById("myChart").getContext('2d');
@@ -308,55 +223,7 @@ var myChart = new Chart(ctx, {
 });
       </script>
 
-<!--script for color-->
-<script >
-  // Get the table
-const table = document.getElementById('table-1');
 
-// Get all the rows in the table body
-const rows = table.getElementsByTagName('tbody')[0].rows;
-
-// Loop through each row
-for (let i = 0; i < rows.length; i++) {
-  const cell = rows[i].cells[7]; // Get the cell in the "Asset Status" column
-
-  // Get the value of the cell
-  const assetStatus = cell.textContent.trim();
-
-  // Apply the corresponding color based on the asset status
-  if (assetStatus === 'Open') {
-    cell.style.color = 'red';
-  } else if (assetStatus === 'Closed') {
-    cell.style.color = 'green';
-  } else if (assetStatus === 'In progress') {
-    cell.style.color = 'blue';
-  } else if (assetStatus === 'Expired') {
-    cell.style.backgroundColor = '#008000';
-    cell.style.color = 'white';
-  }
-}
-
-</script>
-<!---script for table-->
-      <script>
-         const table1 = document.getElementById('table-1');
-  const table2 = document.getElementById('table-2');
-  const table1Button = document.getElementById('table-1-button');
-  const table2Button = document.getElementById('table-2-button');
-
-  // Add click event listeners to the buttons
-  table1Button.addEventListener('click', function() {
-    // Show Table 1 and hide Table 2
-    table1.style.display = 'table';
-    table2.style.display = 'none';
-  });
-
-  table2Button.addEventListener('click', function() {
-    // Show Table 2 and hide Table 1
-    table2.style.display = 'table';
-    table1.style.display = 'none';
-  });
-      </script>
      
   <script src="AuditDetails.js"></script>
 </body>
