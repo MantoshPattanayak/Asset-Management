@@ -255,6 +255,13 @@ table {
     background-color: #45a049; /* Darken the background color on hover */
   }
 
+
+  .logoutBtn {
+    background-color: transparent;
+    font-size: 35px;
+    outline: none;
+    border: none;
+
 .export-pdf{
   padding: 10px 20px;
   font-size: 16px;
@@ -295,4 +302,5 @@ table {
     width: auto;
     table-layout: auto;
   }
+
 }
