@@ -127,3 +127,23 @@ function downloadAsPDFFile(e, element){
         }
     })
 }
+
+function exportTable(event){
+    event.preventDefault();
+    console.log('export func');
+
+    let employeeNumber = $('#fieldName').val();
+    let fromDate = $('#startDate').val();
+    let toDate = $('#endDate').val();
+
+    $.ajax({
+        url: `http://localhost:3000//audit-report/downloadAuditData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
+        type: 'GET',
+        success: function (reponse){
+
+        },
+        error: function(error){
+            console.log(error);
+        }
+    })
+}
