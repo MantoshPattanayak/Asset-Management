@@ -255,7 +255,17 @@ table {
     background-color: #45a049; /* Darken the background color on hover */
   }
 
-
+.export-pdf{
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #3a4d63;
+  color: #ebe7e7;
+  border-radius: 10px;
+  /* box-shadow: 1.95px 1.95px 2.6px #2e4061; */
+  border-color: #2e4061;
+  border-bottom: #2e4061;
+}
   /* Modify existing styles */
 
 
@@ -275,9 +285,9 @@ table {
   }
 }
 
-@media (max-width: 1500px) {
+@media (max-width: 1700px) {
   .table-container {
-    width: 95%;
+    width: 100%;
     overflow-x: auto;
   }
 
