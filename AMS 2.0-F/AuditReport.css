@@ -226,3 +226,10 @@ table {
     /* Button hover styles */
     background-color: #45a049; /* Darken the background color on hover */
   }
+
+  .logoutBtn {
+    background-color: transparent;
+    font-size: 35px;
+    outline: none;
+    border: none;
+}
