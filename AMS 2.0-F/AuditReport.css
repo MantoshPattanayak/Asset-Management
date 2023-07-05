@@ -97,11 +97,31 @@ body{
     
   }
   
+ .container h1{
+  text-align: center;
+  color: rgb(53, 66, 89);
+  font-size: 38px;
+  font-weight: 700;
+  
+ } 
+ .bar-progress {
+  /* grid-column: 1 / span 3; */
+  height: 5px;
+  background-color: #007bff;
+  margin-bottom: 20px;
+}
+
   .summery-aduit-Report {
     background-color: #f2f2f2;
     padding: 20px;
     margin-top: 20px;
  
+  }
+  .summery-aduit-Report h2{
+    text-align: center;
+    /* background-color: #3d3d3d; */
+
+    margin-bottom: 50px;
   }
   
   form {
@@ -210,16 +230,24 @@ table {
   
   .csv {
     /* CSV button styles */
-    background-color: #4CAF50;
+    background-color: #0d7ee9;
+    width: 50%;
     color: white;
     border: none;
+    text-align: center;
+    cursor: pointer;
   }
   
   .pdf {
     /* PDF button styles */
     background-color: #d81818;
+    width: 50%;
     color: white;
     border: none;
+    justify-content: center;
+    text-align: center;
+
+    cursor: pointer;
   }
   
   .csv:hover, .pdf:hover {
@@ -227,9 +255,52 @@ table {
     background-color: #45a049; /* Darken the background color on hover */
   }
 
+
   .logoutBtn {
     background-color: transparent;
     font-size: 35px;
     outline: none;
     border: none;
+
+.export-pdf{
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #3a4d63;
+  color: #ebe7e7;
+  border-radius: 10px;
+  /* box-shadow: 1.95px 1.95px 2.6px #2e4061; */
+  border-color: #2e4061;
+  border-bottom: #2e4061;
+}
+  /* Modify existing styles */
+
+
+/* Add new styles for responsiveness */
+
+/* CSS for small devices */
+
+@media (max-width: 767px) {
+  .table-container {
+    /* width: 90%; */
+    overflow-x: scroll;
+  }
+
+  table {
+    width: auto;
+    table-layout: auto;
+  }
+}
+
+@media (max-width: 1700px) {
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    width: auto;
+    table-layout: auto;
+  }
+
 }
