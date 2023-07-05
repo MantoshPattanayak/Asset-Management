@@ -275,6 +275,5 @@ logout.addEventListener('click', () => {
     )
 });
 
-    });
-}
+
 
