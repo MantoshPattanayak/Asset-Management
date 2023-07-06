@@ -37,6 +37,12 @@ $(document).ready(function(){
                     // Handle the data
                     var tableContainer = document.getElementById('tableContainer');
                     tableContainer.innerHTML = ''; // Clear previous content
+
+                     // Show the table and export button
+                     $('.sumary-table').show();
+                     $('.csv-pdf').show();
+
+                     
                 
                     // Generate HTML content for the table
                     var tableHTML = `<table>
