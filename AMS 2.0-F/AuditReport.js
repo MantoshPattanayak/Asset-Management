@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
     if (sessionStorage.getItem('sessionVar') != 'pass') {
         window.location.href = `./index.html`;
@@ -9,6 +8,13 @@ $(document).ready(function(){
         let employeeNumber = $('#fieldName').val();
         let fromDate = $('#startDate').val();
         let toDate = $('#endDate').val();
+
+         // Check if fromDate and toDate are empty
+         if (fromDate === '' || toDate === '') {
+            alert('Please select both Start Date and End Date.');
+            return; // Stop further execution
+        }
+    
     
         // Function to format the date
         function formatDate(dateString) {
@@ -131,18 +137,53 @@ function downloadAsPDFFile(e, element){
     })
 }
 
-function exportTable(event){
+// function exportTable(event){
+//     event.preventDefault();
+//     console.log('export func');
+
+//     let employeeNumber = $('#fieldName').val();
+//     let fromDate = $('#startDate').val();
+//     let toDate = $('#endDate').val();
+
+//     $.ajax({
+//         url: `http://localhost:3000//audit-report/downloadAuditData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
+//         type: 'GET',
+//         success: function (reponse){
+
+//         },
+//         error: function(error){
+//             console.log(error);
+//         }
+//     })
+// }
+
+/***Export Table */
+function exportTable(event) {
     event.preventDefault();
     console.log('export func');
-
+  
     let employeeNumber = $('#fieldName').val();
     let fromDate = $('#startDate').val();
     let toDate = $('#endDate').val();
+  
+    // Generate PDF report
+    if(fromDate != '' && toDate != ''){
+        generatePDFReport(employeeNumber, fromDate, toDate);
+    }
+  }
+  
+function generatePDFReport(employeeNumber, fromDate, toDate) {
+    // Create a new jsPDF instance
+    var doc = new jsPDF();
 
+    // Fetch the data from the server
     $.ajax({
-        url: `http://localhost:3000//audit-report/downloadAuditData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
+        url: `http://localhost:3000/audit-report/downloadAuditData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
         type: 'GET',
-        success: function (reponse){
+        success: function(response) {
+        // Handle the data
+        console.log(response);
+        var tableData = response.auditTableData;
 
         // Format the date
         function formatDate(dateString) {
@@ -212,8 +253,8 @@ function exportTable(event){
         // Save and download the PDF file
         doc.save('audit_report.pdf');
         },
-        error: function(error){
-            console.log(error);
+        error: function(error) {
+        console.log(error);
         }
 
     })
@@ -232,7 +273,3 @@ logout.addEventListener('click', () => {
         }
     )
 });
-
-
-
-
