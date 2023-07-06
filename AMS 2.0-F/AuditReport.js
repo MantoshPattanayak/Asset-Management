@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
     if (sessionStorage.getItem('sessionVar') != 'pass') {
         window.location.href = `./index.html`;
@@ -274,6 +273,3 @@ logout.addEventListener('click', () => {
         }
     )
 });
-
-
-
