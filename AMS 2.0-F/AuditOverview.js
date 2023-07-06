@@ -1,12 +1,35 @@
 /**alok */
 
+var user_type;
 
 $(document).ready(function() {
   if (sessionStorage.getItem('sessionVar') != 'pass') {
     window.location.href = `./index.html`;
   }
 
+    // *** Debasish Code ***
+    // Data send for send user type to API
+    $.ajax({
+      url: "http://localhost:3000/audit-overview/audit_roll_check?employeeID="+sessionStorage.getItem('userID'),
+      method: "GET",
+      data: {
+      },
 
+      dataType: "",
+      success: function(user_type) {
+        console.log(user_type)
+      },
+      error: function(error) {
+        console.error("Error fetching table data:", error);
+      },
+      complete: function() {
+        // Disable the button
+        if (user_type == 'user')
+          {$('#create_audit').hide()};
+      }
+    });
+
+    // 
     console.log("document ready");
     load_data();
   
