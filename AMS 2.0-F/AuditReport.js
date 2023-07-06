@@ -71,7 +71,6 @@ $(document).ready(function(){
                                         <td>${item.NewAssetCount}</td>
                                         <td>
                                             <div class="csv-pdf">
-                                                <button class="csv" onclick="downloadAsCSVFile(event, $(this))">CSV</button>
                                                 <button class="pdf" onclick="downloadAsPDFFile(event, $(this))">PDF</button>
                                             </div>
                                       </td>
