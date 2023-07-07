@@ -24,7 +24,7 @@ $(document).ready(function() {
       },
       complete: function() {
         // Disable the button
-        if (user_type == 'user')
+        if (user)
           {$('#create_audit').hide()};
       }
     });
