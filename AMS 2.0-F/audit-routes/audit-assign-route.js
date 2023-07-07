@@ -83,7 +83,7 @@ router.get('/emp-no-emp-name',(req,res)=>{
 
     res.status(404).send({
 
-    message:"Emloyee number doesn't exist"
+    message:"Employee number doesn't exist"
 
        
 

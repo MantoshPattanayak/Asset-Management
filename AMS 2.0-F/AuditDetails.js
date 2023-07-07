@@ -82,7 +82,7 @@ $(document).ready(function() {
       var html = '';
       //console.log(data)
 
-      all_rows = response.all_rows.allPages;   //set total number of assets
+      all_rows = response.all_rows.all_pages;   //set total number of assets
 
       console.log('response length on doc ready function', all_rows);
 
@@ -112,7 +112,7 @@ $(document).ready(function() {
             console.log(currentPage);
             var data = response.assetAuditDetailsData;
             var message = response.all_rows.all_Pages;
-            all_rows = response.all_rows.allPages;
+            all_rows = response.all_rows.all_pages;
     
             $(tableBodyElement).html(""); // Clear the table body
     
@@ -328,6 +328,9 @@ $(document).ready(function() {
               .show();
             i++;
           }
+        }
+        else{
+          console.log('all_rows < maxRows', all_rows, maxRows);
         }
     
         fetchTableData(1, parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value), '.table-body');
