@@ -1447,14 +1447,14 @@ body {
           padding: 30px;
           border-radius: 15px;
           box-shadow: 0px 15px 20px rgba(0,0,0,0.1); 
-       
          margin-left: 25%;
        
       
         }
     .form-group-21{
        width: 20vw;
-       font-size: 20px;
+       font-size: 1em;
+       font-weight: 900;
       /* margin-top: -4%;
       margin-left: 5%; */ 
       float: right;
@@ -1463,54 +1463,51 @@ body {
     }
 /**css for nav bar*/
 
+/* code for aproved**/
 /* Styling for the pagination container */
 .pagination-container {
   /* display: flex;
   justify-content: center; */
-  margin-top: 20px;
+  margin-top: 2px;
   font-size: 20px;
   float: right;
-
 }
-
 /* Styling for the pagination */
 .pagination {
   list-style-type: none;
   display: flex;
+  width: 100%;
   justify-content: center;
   align-items: center;
   border: 2px solid black;
   border-radius: 10px;
-  margin: -5px;
+  /* margin: -5px; */
+  font-size: 30px;
 }
-
 /* Styling for the pagination buttons */
 .pagination li {
   margin: 2px 5px;
   padding-left: 10px;
 }
-
 .pagination li:hover {
     border: 1px solid black;
-    border-radius: 50%;  
+    border-radius: 40%;  
     padding-right: 10px;
 }
-
 /* Styling for the previous and next buttons */
 .pagination li[data-page="prev"],
 .pagination li[data-page="next"] {
-  padding: 5px;
-  width: 3vw;
+  padding: 0 6px;
+  width: 50%;
+  /* height: 40%; */
   border: 1px solid #1b1a1a;
   border-radius: 50%;
   background-color:#73a5d6;
   cursor: pointer;
 }
-
 /* Styling for the close appearance of the buttons */
 .pagination li[data-page="prev"] span:before,
 .pagination li[data-page="next"] span:after {
- 
   font-weight: bold;
 }
 
@@ -1519,10 +1516,11 @@ body {
   display: none;
 }
 
+
 span {
   color: rgb(13, 13, 14);
   border: 1px;
-  font-size: 30px;
+  font-size: 20px;
   text-decoration: none;
   cursor: pointer;
 }
@@ -1531,6 +1529,23 @@ input[type="text"],select{
   box-sizing: border-box;
   padding: 5px;
   border-radius: 10px;
+  }
+
+  .form-group-21 .form-control{
+    width: 30%;
+    box-sizing: border-box;
+    padding: 5px;
+    border-radius: 10px;
+    appearance: none;
+    /* -webkit-appearance: none; */
+    /* -moz-appearance: none; */
+    background-color: #f2f3f5; /* Light gray background */
+    border: none;
+    /* padding: 10px 30px 10px 10px; */
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    /* width: 200px; */
   }
   
 
