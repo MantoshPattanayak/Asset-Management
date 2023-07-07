@@ -539,6 +539,7 @@ main{
 }
 .imagePanel img{
     height: 80%;
+    width: 100%;
 }
 footer{
     width: 100%;

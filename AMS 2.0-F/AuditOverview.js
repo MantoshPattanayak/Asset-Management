@@ -174,6 +174,9 @@ $(document).ready(function() {
             i++;
           }
         }
+        else{
+          console.log('all_rows < maxRows', all_rows, maxRows);
+        }
   
         fetchTableData(1, parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value), tableBodyElement);
   
