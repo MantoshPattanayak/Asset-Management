@@ -2,9 +2,9 @@
 
 let all_rows;
 var lastPage = 1;
-  if (sessionStorage.getItem('sessionVar') != 'pass') {
-    window.location.href = `./index.html`;
-  }
+if (sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass') {
+  window.location.href = `./index.html`;
+}
 
 
 // Function to fetch data from the backend

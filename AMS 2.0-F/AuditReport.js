@@ -1,7 +1,7 @@
 $(document).ready(function(){
-    if (sessionStorage.getItem('sessionVar') != 'pass') {
+    if (sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass') {
         window.location.href = `./index.html`;
-      }
+    }
     $('#audit-submit').on('click', function(event) {
         event.preventDefault(); // Prevent form submission
     

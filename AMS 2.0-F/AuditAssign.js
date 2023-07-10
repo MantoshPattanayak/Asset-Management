@@ -6,7 +6,7 @@ let all_rows = 0;
 
 /*************************************DOCUMENT READY FUNCTION -  START************************************************************/
 $(document).ready(function(){
-  if (sessionStorage.getItem('sessionVar') != 'pass') {
+  if (sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass') {
     window.location.href = `./index.html`;
   }
   let logout = document.getElementById('logoutBtn');
