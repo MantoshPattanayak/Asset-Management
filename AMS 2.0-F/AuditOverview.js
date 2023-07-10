@@ -3,7 +3,7 @@
 var user_type;
 
 $(document).ready(function() {
-  if (sessionStorage.getItem('sessionVar') != 'pass') {
+  if (sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass') {
     window.location.href = `./index.html`;
   }
 
@@ -18,15 +18,24 @@ $(document).ready(function() {
       dataType: "",
       success: function(user_type) {
         console.log(user_type)
+        if (user_type == "user"){
+          //$('#create_audit').hide();
+          $('#button-div-audit').html('');
+          $('#button-div-audit').html(`<a href="AuditReport.html">
+                                            <button class="onclick-btn">
+                                              Audit Report
+                                            </button>
+                                        </a>`);
+        };
       },
       error: function(error) {
         console.error("Error fetching table data:", error);
       },
-      complete: function() {
-        // Disable the button
-        if (user)
-          {$('#create_audit').hide()};
-      }
+      // complete: function() {
+      //   // Disable the button
+      //   if (user)
+      //     {$('#create_audit').hide()};
+      // }
     });
 
     // 
