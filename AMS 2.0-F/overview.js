@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  if(sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass'){
+  if(sessionStorage.getItem('sessionVar') != 'pass'){
     window.location.href = `./index.html`;
   }
   console.log("document ready");
