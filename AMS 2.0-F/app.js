@@ -678,37 +678,49 @@ function insertDataToDatabase1(data1, callback) {
 //advance search for audit
 
 app.get('/advanceSearchForAudit', (req, res) => {
-    //requestQueries
+    // requestQueries
     let LocationId = req.query.LocationId;
     let DepartmentId = req.query.DepartmentId;
     let EmployeeNo = req.query.EmployeeNo;
-
-    //databse query
-    let query = `select * from AuditDetails ad left join location l on l.location_id =ad.LocationId left join department d 
-    on d.dept_id  =ad.DepartmentId  where 1=1 `;
-
-    //checking conditions for multiple column data search(advance serching)
+  
+    // Pagination parameters
+    let page = parseInt(req.query.page) || 1; // Default page is 1
+    let limit = parseInt(req.query.limit) || 50; // Number of records per page, default is 50
+    let offset = (page - 1) * limit; // Offset calculation
+  
+    // database query
+    let query = `SELECT *,(select count(*) as count from AuditDetails ad left join location l on l.location_id =ad.LocationId left join department d 
+    on d.dept_id  =ad.DepartmentId )as totalrows FROM AuditDetails ad
+                 LEFT JOIN location l ON l.location_id = ad.LocationId
+                 LEFT JOIN department d ON d.dept_id = ad.DepartmentId
+                 WHERE 1 = 1`;
+  
+    // checking conditions for multiple column data search (advanced searching)
     if (LocationId != null) {
-        query += `and ad.LocationId =${LocationId}`;
+      query += ` AND ad.LocationId = ${LocationId}`;
     }
-
-    //additional field
+  
+    // additional field
     if (DepartmentId != null) {
-        query += ` and ad.DepartmentId =${DepartmentId}`;
+      query += ` AND ad.DepartmentId = ${DepartmentId}`;
     }
-
-    //additional field
+  
+    // additional field
     if (EmployeeNo != null) {
-        query += ` and ad.EmployeeNo=${EmployeeNo}`
+      query += ` AND ad.EmployeeNo = ${EmployeeNo}`;
     }
 
-    //query result
+    // Pagination
+    if(page!= null) {
+    query += ` ORDER BY ad.Id OFFSET ${offset} ROWS FETCH NEXT ${limit} ROWS ONLY`;
+    }
+  
+    // query result
     mssql.query(query, (err, result) => {
-        if (err) throw err;
-        res.send(result);
-    })
-
-})
+      if (err) throw err;
+      res.send(result);
+    });
+  });
 
 //progressbar audit overview page
 app.get('/progressbarForAudit', (req, res) => {

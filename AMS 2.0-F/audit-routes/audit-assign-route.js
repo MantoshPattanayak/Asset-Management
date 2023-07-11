@@ -85,7 +85,7 @@ END AS emp_name from asset.dbo.Employees where emp_no=${emp_no}`
 
     res.status(404).send({
 
-    message:"Emloyee number doesn't exist"
+    message:"Employee number doesn't exist"
 
        
 

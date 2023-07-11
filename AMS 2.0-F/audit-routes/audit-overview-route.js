@@ -121,6 +121,33 @@ router.post('/audit_child',(req,res)=>{
     });
   });
 
+  
+
 })
 
+// *** Debasish Code ***
+// API for fetch Audit User Type
+router.get('/audit_roll_check',(req,res)=>{
+    
+  console.log(req.body.employeeID);
+  employeeID = req.query.employeeID;
+  let query = `SELECT user_type FROM users WHERE user_id=${employeeID}`;
+
+  let request1 = new mssql.Request();
+
+  request1.query(query, (err, result) => {
+    if (err) {
+      console.log('Error in total rows of assets query:', err);
+      res.sendStatus(500);
+      return;
+    }
+      console.log(result)
+      const data = result.recordset;
+      //const data = req.body;
+      console.log(data)
+      //res.send({ data });
+     res.send(data[0].user_type);
+    });
+    
+  });
 module.exports = router;

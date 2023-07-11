@@ -1,12 +1,44 @@
 /**alok */
 
+var user_type;
 
 $(document).ready(function() {
-  if (sessionStorage.getItem('sessionVar') != 'pass') {
+  if (sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass') {
     window.location.href = `./index.html`;
   }
 
+    // *** Debasish Code ***
+    // Data send for send user type to API
+    $.ajax({
+      url: "http://localhost:3000/audit-overview/audit_roll_check?employeeID="+sessionStorage.getItem('userID'),
+      method: "GET",
+      data: {
+      },
 
+      dataType: "",
+      success: function(user_type) {
+        console.log(user_type)
+        if (user_type == "user"){
+          //$('#create_audit').hide();
+          $('#button-div-audit').html('');
+          $('#button-div-audit').html(`<a href="AuditReport.html">
+                                            <button class="onclick-btn">
+                                              Audit Report
+                                            </button>
+                                        </a>`);
+        };
+      },
+      error: function(error) {
+        console.error("Error fetching table data:", error);
+      },
+      // complete: function() {
+      //   // Disable the button
+      //   if (user)
+      //     {$('#create_audit').hide()};
+      // }
+    });
+
+    // 
     console.log("document ready");
     load_data();
   
@@ -150,6 +182,9 @@ $(document).ready(function() {
               .show();
             i++;
           }
+        }
+        else{
+          console.log('all_rows < maxRows', all_rows, maxRows);
         }
   
         fetchTableData(1, parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value), tableBodyElement);

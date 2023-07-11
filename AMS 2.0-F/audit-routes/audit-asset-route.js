@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/fetch-data', async (req, res) => {
   
     let auditID = req.query.auditID
-
+    let total_rows = '';
     const page_number=req.query.page_number;
 
     const page_size=req.query.page_size;
@@ -104,6 +104,106 @@ router.post('/fetch-data', async (req, res) => {
     }
     catch(e){
         res.status(500).send({message: "Error in fetching data"});
+    }
+})
+
+router.get('/fetch-scanned-data', async (req, res) => {
+    let tag_uuid = req.query.tag_uuid;
+    let auditID = req.query.auditID;
+    let userID = req.query.userID;
+
+    const currentDatetime = new Date();
+    const formattedDatetime = currentDatetime.toISOString();
+
+    let initialQuery = `IF EXISTS (
+                            SELECT *
+                            from AssetAuditDetails aad 
+                            INNER JOIN assets a ON a.serial = aad.AssetSerialId
+                            WHERE a.tag_uuid = '${tag_uuid}' and aad.AuditId = ${auditID}
+                        ) 
+                            SELECT 'FOUND' AS Status
+                        ELSE
+                            SELECT 'NEW' AS Status`
+
+    try{
+        mssql.query(initialQuery, (err, resultStatus) => {
+
+            let status = resultStatus.recordset[0].Status;
+            //res.send(status);
+            
+            if(status == "FOUND"){     //asset found in the location, asset status changes to "Found"
+
+                let query = `select count(*) as count, aad.AssetSerialId 
+                            from AssetAuditDetails aad 
+                            INNER JOIN assets a ON a.serial = aad.AssetSerialId
+                            WHERE a.tag_uuid = '${tag_uuid}' and aad.AuditId = ${auditID} GROUP BY aad.AssetSerialId `;
+                mssql.query(query, (err, result) => {
+                    if(err) throw err;
+
+                    let count = result.recordset[0].count;
+                    let assetSerialId = result.recordset[0].AssetSerialId;
+
+                    let query1 = `update AssetAuditDetails
+                    set AssetStatus = 'Found', LastUpdatedOn = '${formattedDatetime}', LastUpdatedBy = ${userID},
+                    ScannedOn = '${formattedDatetime}' 
+                    where AssetSerialId = ${assetSerialId} and AuditId = ${auditID}`;
+
+                    mssql.query(query1, (err, result1) => {
+                        if(err) throw err;
+
+                        let query2 = `select a.tag_id, a.tag_uuid, a.asset_id, a.asset_class, a.asset_type, 
+                        a.asset_name, l.location_name, aad.AssetStatus, aad.ScannedOn
+                        from AssetAuditDetails aad 
+                        INNER JOIN assets a ON a.serial = aad.AssetSerialId
+                        INNER JOIN location l ON l.location_id = a.location_id
+                        WHERE aad.AssetSerialId  = ${assetSerialId} and aad.AuditId = ${auditID}`;
+
+                        mssql.query(query2, (err, result2) => {
+                            if(err) throw err;
+
+                            res.status(200).json(result2.recordset[0]);
+                        })
+                    })
+                })
+            }
+            else if(status == "NEW"){           //asset found in the location but not expected, asset status changes to "New"
+
+                let query = `select a.serial as AssetSerialId
+                            from assets a 
+                            WHERE a.tag_uuid = '${tag_uuid}'`;
+
+                mssql.query(query, (err, result) => {
+                    if(err) throw err;
+
+                    let assetSerialId = result.recordset[0].AssetSerialId;
+
+                    let query1 = `INSERT INTO AssetAuditDetails(AuditId, AssetSerialId, AssetStatus, LastUpdatedOn, LastUpdatedBy, CreatedOn, CreatedBy, ScannedOn) OUTPUT inserted.Id
+                            VALUES(${auditID}, ${assetSerialId},'New','${formattedDatetime}', ${userID}, '${formattedDatetime}', ${userID}, '${formattedDatetime}')`;
+
+                    mssql.query(query1, (err, result1) => {
+                        if(err) throw err;
+
+                        let Id = result1.recordset[0].Id;
+
+                        let query2 = `select a.tag_id, a.tag_uuid, a.asset_id, a.asset_class, a.asset_type, 
+                        a.asset_name, l.location_name, aad.AssetStatus, aad.ScannedOn
+                        from AssetAuditDetails aad 
+                        INNER JOIN assets a ON a.serial = aad.AssetSerialId
+                        INNER JOIN location l ON l.location_id = a.location_id
+                        WHERE aad.Id = ${Id}`;
+
+                        mssql.query(query2, (err, result2) => {
+                            if(err) throw err;
+
+                            res.status(200).json(result2.recordset[0]);
+                        })
+                    })
+                })
+            }
+        })
+    }
+    catch(e){
+        res.status(500).send(e);
     }
 })
 

@@ -82,14 +82,16 @@
                   <div class="container-asset-assgin">
                  
                       <div class="aduit-details">
-                        <form class="Aduit-details-from">
                           <!-- Form 1 -->
+                        <form class="Aduit-details-from">
                           <div class="bar-prog">
               
                           </div>
                           <div class="Aduit-Number">
-                            <h7> Emp No*</h7> 
-                            <input type="text" id="employee-number" class="aduit-scope-input" oninput="fetchEmployeeDetails(event)" placeholder="Employee Number (Six digits)">
+                            <h7> Employee No*</h7> 
+                            <!-- <input type="text" id="employee-number" class="aduit-scope-input" oninput="fetchEmployeeDetails(event)" placeholder="Employee Number (Six digits)"> -->
+                            <input type="text" id="employee-number" class="aduit-scope-input" oninput="fetchEmployeeDetails(event)" onkeypress="return allowOnlyDigits(event)" maxlength="6" placeholder="Employee Number (Six digits)">
+
                           </div>
                        
                           <div class="location">
