@@ -429,13 +429,13 @@ var filterEmpNameInput = document.getElementById("filter-emp-name");
 var filterEmpNoInput = document.getElementById("filter-emp-no");
 var filterLocationNameSelect = document.getElementById("filter-location-name");
 ///here filter the data
-filterAssetIdInput.addEventListener("input", filterTable);
-filterAssetTypeSelect.addEventListener("change", filterTable);
-filterAssetNameInput.addEventListener("input", filterTable);
-filterDeptNameSelect.addEventListener("change", filterTable);
-filterEmpNameInput.addEventListener("input", filterTable);
-filterEmpNoInput.addEventListener("input", filterTable);
-filterLocationNameSelect.addEventListener("change", filterTable);
+// filterAssetIdInput.addEventListener("input", filterTable);
+// filterAssetTypeSelect.addEventListener("change", filterTable);
+// filterAssetNameInput.addEventListener("input", filterTable);
+// filterDeptNameSelect.addEventListener("change", filterTable);
+// filterEmpNameInput.addEventListener("input", filterTable);
+// filterEmpNoInput.addEventListener("input", filterTable);
+// filterLocationNameSelect.addEventListener("change", filterTable);
 ///Pop
 function populateDropdown(selectElement, options) {
   options.forEach(function(option) {
