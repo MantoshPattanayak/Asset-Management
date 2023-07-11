@@ -40,13 +40,20 @@ $(document).ready(function() {
 
     // 
     console.log("document ready");
+    
+function load_all_data(){
+
     load_data();
   
     function load_data() {
+      let  location_name= $('#LocationId').val();
+      let employee_no=$('#EmployeeId').val();
+      let department_name=$('#DepartmentId').val();
+
       console.log("Loading");
   
       $.ajax({
-        url: "http://localhost:3000/audit-overview/audit_parent",
+        url: `http://localhost:3000/audit-overview/audit_parent?location_name=${location_name}&department_name=${department_name}&employee_no=${employee_no}`,
         method: "POST",
         data: { action: 'fetch' },
         dataType: "JSON",
@@ -82,9 +89,13 @@ $(document).ready(function() {
     }
   
     function fetchTableData(currentPage, maxRows, tableBodyElement) {
+      let  location_name= $('#LocationId').val();
+      let employee_no=$('#EmployeeId').val();
+      let department_name=$('#DepartmentId').val();
+      console.log(location_name)
       console.log(currentPage );
       $.ajax({
-        url: "http://localhost:3000/audit-overview/audit_parent",
+        url: `http://localhost:3000/audit-overview/audit_parent?location_name=${location_name}&department_name=${department_name}&employee_no=${employee_no}`,
         method: "POST",
         data: {
           page_number: currentPage,
@@ -359,7 +370,17 @@ $(document).ready(function() {
       });
       limitPagination();
     });
-  });
+  };
+  load_all_data();
+
+$('#searchButton').on('click', function(evt) {
+  evt.preventDefault();
+  // Call the load_all_data() function to fetch data with updated filter parameters
+  load_all_data();
+});
+
+})
+
 
 
 
