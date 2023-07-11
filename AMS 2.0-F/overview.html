@@ -393,6 +393,7 @@
                         <h1 class="table-title"> Asset &amp; Management Overview</h1>
                         <div class="table-scroll">
                             <div class="table-wrapper">
+                                <form id="overview-advance">
                                 <table class="sticky-table" id="example">
 
                                     <thead class="table-head" title="Click to sort">
@@ -419,14 +420,19 @@
                                                 </select></th>
                                             <th class="col-head" scope="col">Update</th>
                                         </tr>
+                                        
                                     </thead>
 
-
+                                    
                                     <tbody class="table-body">
 
                                     </tbody>
+                                    <tr>
+                                          <input type="submit" value="filter" id="advancefilter">
+                                        </td>
+                                      </tr>
                                 </table>
-
+                            </form>
                             </div> <!-- /.table-scroll -->
                             <div id="no-data-message" style="display: none;">Data is not available</div> 
                         </div> <!-- /.table-wrapoer -->
@@ -441,7 +447,7 @@
                                     </li>
                                     <!--	Here the JS Function Will Add the Rows -->
                                     <li data-page="next" id="prev">
-                                        <span> next<span class="sr-only">(current)</span></span>
+                                        <span> next <span class="sr-only">(current)</span></span>
                                     </li>
                                 </ul>
                             </nav>
