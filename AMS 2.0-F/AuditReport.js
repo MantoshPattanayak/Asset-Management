@@ -74,6 +74,7 @@ $(document).ready(function(){
                                         <td>
                                             <div class="csv-pdf">
                                                 <button class="pdf" onclick="downloadAsPDFFile(event, $(this))">PDF</button>
+                                                <button class="csv" onclick="downloadAsCSVFile(event, $(this))">CSV</button>
                                             </div>
                                       </td>
                                     </tr>`
@@ -192,7 +193,7 @@ function generateCSVReportRow(auditID) {
 
 function downloadAsPDFFile(e, element){
   
-    event.preventDefault();
+    e.preventDefault();
     console.log('export func');
   
     let auditID = $(element).closest('tr').find('td').eq(0).text();
@@ -249,8 +250,16 @@ function generatePDFReportRow(auditID) {
         });
   
         console.log(tableRows1);
+
+        doc.text(`Audit Number: ${response.auditFormData.AuditNumber}`, 15, 35);
+        doc.text(`Auditor Name: ${response.auditFormData.AuditorName}`, 160, 35);
   
-        doc.text(`Start Date  ${formatDate(response.auditFormData.ScheduledStartDate)}                                                                                           End Date ${formatDate(response.auditFormData.ScheduledEndDate)}   `, 10, 40);
+        doc.text(`Start Date:  ${formatDate(response.auditFormData.ScheduledStartDate)}`, 15, 45);
+        doc.text(`End Date: ${formatDate(response.auditFormData.ScheduledEndDate)}`, 160, 45);
+
+        doc.text(`No. of Assets Found:  ${response.assetStatusList.FoundAssetCount}`, 15, 55);
+        doc.text(`No. of Assets Missing: ${response.assetStatusList.MissingAssetCount}`, 160, 55);
+        doc.text(`No. of Assets New:  ${response.assetStatusList.NewAssetCount}`, 15, 65);
   
         var reportTitle = 'AUDIT REPORT';
   
@@ -354,8 +363,8 @@ function generatePDFReportRow(auditID) {
        var nameX = signatureX;
        var nameY = signatureY + 15;
        // Set the text color to green
-doc.setTextColor('#006400');
-doc.text(nameText, nameX, nameY);
+        doc.setTextColor('#006400');
+        doc.text(nameText, nameX, nameY);
           // Add footer
           var totalPages = doc.internal.getNumberOfPages();
           for (var i = 1; i <= totalPages; i++) {
@@ -363,7 +372,11 @@ doc.text(nameText, nameX, nameY);
             doc.setFontSize(10);
             doc.text('Page ' + i + ' of ' + totalPages, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 10);
           }
-  
+          
+          //Reported Generated Date
+          doc.setFontSize(12);
+          doc.text(`Report generated on ${formatDate(Date())}`, 230, 185);
+
           // Add the "Soul Ltd" footer
           doc.setFontSize(12);
           doc.setTextColor('#006400'); // Set the text color to green
@@ -434,6 +447,8 @@ function generatePDFReport(employeeNumber, fromDate, toDate) {
             item.AuditorName,
             item.location_name,
             item.dept_name,
+            formatDate(item.ScheduledStartDate),
+            formatDate(item.ScheduledEndDate),
             item.FoundAssetCount,
             item.MissingAssetCount,
             item.NewAssetCount
@@ -442,8 +457,7 @@ function generatePDFReport(employeeNumber, fromDate, toDate) {
 
         console.log('tableRows', tableRows);
 
-
-        doc.text(`Start Date  ${formatDate(response.auditTableData.ScheduledStartDate)}                                                                                           End Date ${formatDate(response.auditTableData.ScheduledEndDate)}   `, 10, 40);
+        doc.text(`Start Date  ${formatDate($('#startDate').val())}                                                                                           End Date ${formatDate($('#endDate').val())}   `, 10, 40);
     
       
         // Add the table to the document
