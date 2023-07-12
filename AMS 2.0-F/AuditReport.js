@@ -8,8 +8,15 @@ $(document).ready(function(){
         let employeeNumber = $('#fieldName').val();
         let fromDate = $('#startDate').val();
         let toDate = $('#endDate').val();
-        
-        /** ************************************Function to format the date************************************************** ✈️✈️**/
+
+         // Check if fromDate and toDate are empty
+         if (fromDate === '' || toDate === '') {
+            alert('Please select both Start Date and End Date.');
+            return; // Stop further execution
+        }
+    
+    
+        // Function to format the date
         function formatDate(dateString) {
             const date = new Date(dateString);
             const year = date.getFullYear();
@@ -74,6 +81,7 @@ $(document).ready(function(){
                                         <td>
                                             <div class="csv-pdf">
                                                 <button class="pdf" onclick="downloadAsPDFFile(event, $(this))">PDF</button>
+                                                <button class="csv" onclick="downloadAsCSVFile(event, $(this))">csv</button>
                                             </div>
                                       </td>
                                     </tr>`
