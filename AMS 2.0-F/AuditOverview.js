@@ -26,6 +26,24 @@ $(document).ready(function() {
                                               Audit Report
                                             </button>
                                         </a>`);
+          $('#side-nav-bar').html('');
+          $('#side-nav-bar').html(`
+              <ul>
+                <li>
+                    <!-- Dashboard -->
+                    <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a>
+                </li>
+                <li>
+                    <!-- Profile -->
+                    <a href="./AuditOverview.html"><i class='bx bx-edit'></i></a>
+                </li>
+                <li>
+                    <!-- Profile -->
+                    <a href="./profile.html"><i class='bx bxs-user'></i></a>
+                </li>
+
+            </ul>
+          `);
         };
       },
       error: function(error) {
