@@ -217,18 +217,20 @@ tbody tr:nth-child(even) {
 
 /*download file*/
 .csv-pdf {
-  
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-gap: 2px;
   text-align: center; /* Align buttons in the center */
   margin-bottom: 10px;  
 }
 
 .csv, .pdf {
   /* Shared button styles */
-  display: inline-block;
+  /* display: grid; */
   padding: 10px 20px;
   font-size: 16px;
   text-align: center;
-  width: 7%;
+  /* width: 100%; */
   text-decoration: none;
   border-radius: 4px;
   transition: background-color 0.3s ease;
@@ -239,7 +241,7 @@ tbody tr:nth-child(even) {
 .csv {
   /* CSV button styles */
   background-color: #0d7ee9;
-  width: 50%;
+  width: 100%;
   color: white;
   border: none;
   text-align: center;
@@ -249,7 +251,7 @@ tbody tr:nth-child(even) {
 .pdf {
   /* PDF button styles */
   background-color: #d81818;
-  width: 80%;
+  width: 100%;
   color: white;
   border: none;
   /* justify-content: center; */
@@ -294,6 +296,84 @@ border-bottom: #0c79f5;
   background-color: #05864ada;
   border-color: #05864a6b;
 border-bottom: #05864a6b;
+}
+
+.export-CSV{
+position: absolute;
+top: 0;
+right: 0;
+padding: 10px 20px;
+margin-top: 25em;
+margin-right: 13em;
+font-size: 16px;
+font-weight: bold;
+background-color: #0c79f5;
+cursor: pointer;
+color: #ebe7e7;
+border-radius: 10px;
+transition: background-color 0.3s ease;
+
+/* box-shadow: 1.95px 1.95px 2.6px #2e4061; */
+border-color: #0c79f5;
+border-bottom: #0c79f5;
+}
+.export-CSV:hover{
+background-color: #05864ada;
+border-color: #05864a6b;
+border-bottom: #05864a6b;
+}
+
+/* code for aproved**/
+/* Styling for the pagination container */
+.pagination-container {
+  /* display: flex;
+  justify-content: center; */
+  margin-top: 20px;
+  font-size: 30px;
+  float: right;
+}
+/* Styling for the pagination */
+.pagination {
+  list-style-type: none;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 10px;
+  /* margin: -5px; */
+  font-size: 30px;
+}
+/* Styling for the pagination buttons */
+.pagination li {
+  margin: 2px 5px;
+  padding-left: 10px;
+}
+.pagination li:hover {
+    border: 1px solid black;
+    border-radius: 50%;  
+    padding-right: 10px;
+}
+/* Styling for the previous and next buttons */
+.pagination li[data-page="prev"],
+.pagination li[data-page="next"] {
+  padding: 0 6px;
+  width: 50%;
+  /* height: 40%; */
+  border: 1px solid #1b1a1a;
+  border-radius: 50%;
+  background-color:#73a5d6;
+  cursor: pointer;
+}
+/* Styling for the close appearance of the buttons */
+.pagination li[data-page="prev"] span:before,
+.pagination li[data-page="next"] span:after {
+  font-weight: bold;
+}
+
+/* Styling for the current page indicator */
+.pagination .sr-only {
+  display: none;
 }
 /* Modify existing styles */
 

@@ -82,7 +82,7 @@ $(document).ready(function(){
                      // Show the table and export button
                      $('.sumary-table').show();
                      $('.csv-pdf').show();
-
+                     $('.pagination-container').show();
                      
                 
 /**************************************** Generate HTML content for the table****************************************************✈️✈️*/
