@@ -214,6 +214,10 @@ function load_all_data(){
         }
         else{
           console.log('all_rows < maxRows', all_rows, maxRows);
+          $('#prev').attr('disabled','disabled');
+          $('#prev').css('pointer-events', 'none');
+          $('#prev1').css('pointer-events', 'none');
+          $('#prev1').attr('disabled','disabled');
         }
   
         fetchTableData(1, parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value), tableBodyElement);
