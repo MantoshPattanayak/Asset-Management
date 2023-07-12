@@ -347,48 +347,4 @@ table {
   table-layout: auto;
 }
 
-  table {
-    width: auto;
-    table-layout: auto;
-  }
 }
-
-  /* Styling for the pagination buttons */
-  .pagination li {
-    margin: 2px 5px;
-    padding-left: 10px;
-  }
-  .pagination li:hover {
-      border: 1px solid black;
-      border-radius: 50%;  
-      padding-right: 10px;
-  }
-  /* Styling for the previous and next buttons */
-  .pagination li[data-page="prev"],
-  .pagination li[data-page="next"] {
-    padding: 5px;
-    width: 3vw;
-    border: 1px solid #1b1a1a;
-    border-radius: 50%;
-    background-color:#73a5d6;
-    cursor: pointer;
-  }
-  /* Styling for the close appearance of the buttons */
-  .pagination li[data-page="prev"] span:before,
-  .pagination li[data-page="next"] span:after {
-    font-weight: bold;
-  }
-  
-  /* Styling for the current page indicator */
-  .pagination .sr-only {
-    display: none;
-  }
-  
-span {
-    color: rgb(13, 13, 14);
-    border: 1px;
-    font-size: 30px;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  
