@@ -8,15 +8,8 @@ $(document).ready(function(){
         let employeeNumber = $('#fieldName').val();
         let fromDate = $('#startDate').val();
         let toDate = $('#endDate').val();
-
-         // Check if fromDate and toDate are empty
-         if (fromDate === '' || toDate === '') {
-            alert('Please select both Start Date and End Date.');
-            return; // Stop further execution
-        }
-    
-    
-        // Function to format the date
+        
+        /** ************************************Function to format the date************************************************** ✈️✈️**/
         function formatDate(dateString) {
             const date = new Date(dateString);
             const year = date.getFullYear();
@@ -44,7 +37,7 @@ $(document).ready(function(){
 
                      
                 
-                    // Generate HTML content for the table
+/**************************************** Generate HTML content for the table****************************************************✈️✈️*/
                     var tableHTML = `<table>
                                         <thead class="head">
                                             <tr>
@@ -60,6 +53,9 @@ $(document).ready(function(){
                                                 <th>Total Assets New</th>
                                                 <th>Download</th>
                                             </tr>
+
+
+
                                         </thead>
                                         <tbody>`;
                     response.tableData.forEach(function(item) {
@@ -81,10 +77,13 @@ $(document).ready(function(){
                                             </div>
                                       </td>
                                     </tr>`
+
+
+                                    
                     });
                     tableHTML += '</tbody></table>';
                 
-                    // Update the HTML content in the table container
+                    /************ Update the HTML content in the table container**********************/
                     tableContainer.innerHTML = tableHTML;
                 },
                 error: function(error){
@@ -98,6 +97,7 @@ $(document).ready(function(){
     });
 })
 
+/***********************************************✈️✈️✈️*******************************************************************************/
 
 function checkInputValue(event){
     if (!(event.keyCode >= 48 && event.keyCode <= 57)) {
@@ -106,63 +106,284 @@ function checkInputValue(event){
     }
 }
 
+//*******************************Download the csv file of according to  Audit Number (Report page )**************************************✈️✈️ */
+
 function downloadAsCSVFile(e, element){
     console.log('download CSV File!!!');
     e.preventDefault();
     
     let auditID = $(element).closest('tr').find('td').eq(0).text();
 
-    $.ajax({
-        url: `http://localhost:3000/audit-report/downloadData?auditID=${auditID}`,
-        type: 'GET',
-        success: function (response){
-
-        },
-        error: function (error){
-            console.log('At downloadAsCSVFile: ',error);
-        }
-    })
+  console.log("autid id 1", auditID);
+  if(auditID!= ''){
+    generateCSVReportRow(auditID);
 }
+}
+
+function generateCSVReportRow(auditID) {
+    // Fetch the data from the server
+    $.ajax({
+      url: `http://localhost:3000/audit-report/downloadData?auditID=${auditID}`,
+      type: 'GET',
+      success: function (response) {
+        // Handle the data
+        console.log(response);
+        let tableData1 = response.assetAuditDetails;
+        console.log("tableData1", tableData1);
+  
+        // Set the table header
+        var tableHeader = ['Asset Status', 'Asset class', 'Asset Id', 'Asset Name', 'Asset Type', 'Location Name', 'Tag Id', 'Tag uuid'];
+  
+        // Set the table rows
+        var tableRows1 = tableData1.map(function (item) {
+          return [
+            item.AssetStatus,
+            item.asset_class,
+            item.asset_id,
+            item.asset_name,
+            item.asset_type,
+            item.location_name,
+            item.tag_id,
+            item.tag_uuid
+          ];
+        });
+  
+        // Concatenate header and rows
+        var csvData = [tableHeader].concat(tableRows1);
+  
+        // Calculate the maximum width for each column
+        var columnWidths = csvData.reduce(function (widths, row) {
+          return row.map(function (cell, index) {
+            var cellWidth = (cell !== null && cell !== undefined) ? cell.toString().length : 0;
+            return Math.max(widths[index] || 0, cellWidth);
+          });
+        }, []);
+  
+        // Generate the formatted CSV content
+        var csvContent = csvData.map(function (row) {
+          return row.map(function (cell, index) {
+            var cellValue = (cell !== null && cell !== undefined) ? cell.toString() : '';
+            var paddedCell = cellValue.padEnd(columnWidths[index]);
+            return '"' + paddedCell + '"';
+          }).join(",");
+        }).join("\n");
+  
+        // Create a temporary link element
+        const link = document.createElement('a');
+        link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent));
+        link.setAttribute('download', 'audit_report.csv');
+  
+        // Simulate a click to trigger the download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      },
+      error: function (error) {
+        console.log('At generateCSVReportRow:', error);
+      }
+    });
+  }
+  
+
+/********************************Download the pdf of each Audi_no details**************************************************✈️✈️✈️*****/
+
+
+
 
 function downloadAsPDFFile(e, element){
-    console.log('download PDF File!!!');
-    e.preventDefault();
-    
+  
+    event.preventDefault();
+    console.log('export func');
+  
     let auditID = $(element).closest('tr').find('td').eq(0).text();
-
-    $.ajax({
-        url: `http://localhost:3000/audit-report/downloadData?auditID=${auditID}`,
-        type: 'GET',
-        success: function (response){
-
-        },
-        error: function (error){
-            console.log('At downloadAsCSVFile: ',error);
-        }
-    })
+   console.log(auditID);
+  
+  
+    // Generate PDF report
+    if(auditID!= ''){
+        generatePDFReportRow(auditID);
+    }
+   
 }
 
-// function exportTable(event){
-//     event.preventDefault();
-//     console.log('export func');
+function generatePDFReportRow(auditID) {
+    // Create a new jsPDF instance
+    var doc = new jsPDF('landscape');
+  
+    // Fetch the data from the server
+    $.ajax({
+      url: `http://localhost:3000/audit-report/downloadData?auditID=${auditID}`,
+      type: 'GET',
+      success: function(response) {
+        // Handle the data
+        console.log(response);
+        let tableData1 = response.assetAuditDetails;
+        console.log("5".tableData1);
+  
+        // Format the date
+        function formatDate(dateString) {
+          const date = new Date(dateString);
+          const year = date.getFullYear();
+          let month = (date.getMonth() + 1).toString().padStart(2, '0');
+          let day = date.getDate().toString().padStart(2, '0');
+  
+          return `${day}/${month}/${year} `;
+        }
+  
+        // Set the table header
+        var tableHeader = [['Asset Status', 'Asset class', 'Asset Id', 'Asset Name', 'Asset Type', 'Location Name', 'Tag Id', 'Tag uuid']];
+  
+        // Set the table rows
+        console.log('1', tableData1);
+        var tableRows1 = tableData1.map(function(item) {
+          return [
+            item.AssetStatus,
+            item.asset_class,
+            item.asset_id,
+            item.asset_name,
+            item.asset_type,
+            item.location_name,
+            item.tag_id,
+            item.tag_uuid
+          ];
+        });
+  
+        console.log(tableRows1);
+  
+        doc.text(`Start Date  ${formatDate(response.auditFormData.ScheduledStartDate)}                                                                                           End Date ${formatDate(response.auditFormData.ScheduledEndDate)}   `, 10, 40);
+  
+        var reportTitle = 'AUDIT REPORT';
+  
+        // Set the report title
+        var reportTitle = 'AUDIT REPORT';
 
-//     let employeeNumber = $('#fieldName').val();
-//     let fromDate = $('#startDate').val();
-//     let toDate = $('#endDate').val();
+        // Add Image to PDF code
+        var imageUrlLeft = './images/soul_logo.jpg'; // Path to the left logo image
+        var imageUrlRight = './images/kiit-logo-1.jpg'; // Path to the right logo image
+  
+  
+        var getImageFromUrl = function(url, callback) {
+            var img = new Image();
+            img.onload = function() {
+              callback(img);
+            };
+            img.src = url;
+          };
+  
+          getImageFromUrl(imageUrlLeft, function(leftImg) {
+            var leftCanvas = document.createElement('canvas');
+            var leftContext = leftCanvas.getContext('2d');
+            leftCanvas.width = leftImg.width;
+            leftCanvas.height = leftImg.height;
+            leftContext.drawImage(leftImg, 0, 0);
+            var leftImgData = leftCanvas.toDataURL('image/jpeg');
+  
+          // Calculate the position and size for the image
+          var leftX = 8;
+          var leftY = 8;
+          var leftWidth = 20;
+          var leftHeight = (leftImg.height * leftWidth) / leftImg.width;
+          // Add the image to the PDF
+          doc.addImage(leftImgData, 'JPEG', leftX, leftY, leftWidth, leftHeight);
 
-//     $.ajax({
-//         url: `http://localhost:3000//audit-report/downloadAuditData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
-//         type: 'GET',
-//         success: function (reponse){
 
-//         },
-//         error: function(error){
-//             console.log(error);
-//         }
-//     })
-// }
 
-/***Export Table */
+
+          /*******right */
+          getImageFromUrl(imageUrlRight, function(rightImg) {
+            var rightCanvas = document.createElement('canvas');
+            var rightContext = rightCanvas.getContext('2d');
+            rightCanvas.width = rightImg.width;
+            rightCanvas.height = rightImg.height;
+            rightContext.drawImage(rightImg, 0, 0);
+            var rightImgData = rightCanvas.toDataURL('image/jpeg');
+  
+            // Calculate the position and size for the right logo image
+            var rightWidth = 20;
+            var rightHeight = (rightImg.height * rightWidth) / rightImg.width;
+            var rightX = doc.internal.pageSize.width - rightWidth - 8;
+            var rightY = 8;
+  
+            // Add the right logo image to the PDF
+            doc.addImage(rightImgData, 'JPEG', rightX, rightY, rightWidth, rightHeight);
+  
+        // Calculate the center position
+        var pageWidth = doc.internal.pageSize.width;
+        var textWidth = doc.getStringUnitWidth(reportTitle) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+        var centerX = (pageWidth - textWidth) / 2;
+  
+        // Add the report title
+        doc.setTextColor('#006400'); // Set the text color to green
+        doc.setFontSize(18); // Set the font size
+        doc.text(reportTitle, centerX, 15);
+  
+        doc.autoTable({
+          head: tableHeader,
+          body: tableRows1.slice(1),
+          startY: 70,
+          styles: {
+            cellPadding: 5,
+            fontStyle: 'normal'
+          },
+          headStyles: {
+            fillColor: [41, 128, 185],
+            textColor: 255,
+            fontStyle: 'bold'
+          },
+          columnStyles: {
+            0: { fontStyle: 'bold' }
+          }
+        });
+  
+  
+          // Add signature option
+          var signatureText = 'Signature:';
+          var signatureX = 20;
+          var signatureY = 170; // Adjust the vertical position as needed
+          var signatureLineHeight = 10;
+  
+          // Add the signature text and line
+          doc.setFontSize(12);
+          doc.setTextColor('#000000'); // Set the text color to black
+          doc.text(signatureText, signatureX, signatureY);
+          doc.setLineWidth(0.5);
+          doc.line(signatureX, signatureY + 5, signatureX + 50, signatureY + 5);
+           
+           // Add the name below the signature
+       var nameText = 'KIIT University Bhubaneswar';
+       var nameX = signatureX;
+       var nameY = signatureY + 15;
+       // Set the text color to green
+doc.setTextColor('#006400');
+doc.text(nameText, nameX, nameY);
+          // Add footer
+          var totalPages = doc.internal.getNumberOfPages();
+          for (var i = 1; i <= totalPages; i++) {
+            doc.setPage(i);
+            doc.setFontSize(10);
+            doc.text('Page ' + i + ' of ' + totalPages, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 10);
+          }
+  
+          // Add the "Soul Ltd" footer
+          doc.setFontSize(12);
+          doc.setTextColor('#006400'); // Set the text color to green
+          doc.text('Copyright © 2023 All Rights Reserved by Soul Limited ', doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 10, 'center');
+  
+          // Save and download the PDF file
+          doc.save('audit_report.pdf');
+        });
+    });
+
+    // Rest of the code...
+  },
+      error: function(error) {
+        console.log(error);
+      }
+    });
+  }
+  
+
+/**************************************Export Table  INOT PDF FILE**************************************************************✈️✈️✈️**/
 function exportTable(event) {
     event.preventDefault();
     console.log('export func');
@@ -179,7 +400,7 @@ function exportTable(event) {
   
 function generatePDFReport(employeeNumber, fromDate, toDate) {
     // Create a new jsPDF instance
-    var doc = new jsPDF();
+    var doc = new jsPDF ('landscape');
 
     // Fetch the data from the server
     $.ajax({
@@ -191,7 +412,188 @@ function generatePDFReport(employeeNumber, fromDate, toDate) {
         var tableData = response.auditTableData;
 
         // Format the date
+        // Format the date
         function formatDate(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            let month = (date.getMonth() + 1).toString().padStart(2, '0');
+            let day = date.getDate().toString().padStart(2, '0');
+    
+            return `${day}/${month}/${year} `;
+          }
+    
+
+        // Set the table header
+        var tableHeader = [['Audit No', 'Emp No', 'Auditor Name', 'Location Name', 'Department Name', 'Scheduled Start Date', 'Scheduled End Date', 'Total Assets Found', 'Total Assets Missing', 'Total Assets New']];
+        
+        // Set the table rows
+        var tableRows = tableData.map(function(item) {
+            return [
+            item.Id,
+            item.EmployeeNo,
+            item.AuditorName,
+            item.location_name,
+            item.dept_name,
+            item.FoundAssetCount,
+            item.MissingAssetCount,
+            item.NewAssetCount
+            ];
+        });
+
+        console.log('tableRows', tableRows);
+
+
+        doc.text(`Start Date  ${formatDate(response.auditTableData.ScheduledStartDate)}                                                                                           End Date ${formatDate(response.auditTableData.ScheduledEndDate)}   `, 10, 40);
+    
+      
+        // Add the table to the document
+        //doc.text('Audit Report', 10, 40,'center');
+        //doc.autoTable(tableHeader, tableRows, tableOptions);
+        // Set the report title
+        var reportTitle = 'Audit Report';
+
+        //Logo add
+       // ...
+
+// Set the report title
+var reportTitle = 'Audit Report';
+
+   // Add Image to PDF code
+   var imageUrlLeft = './images/soul_logo.jpg'; // Path to the left logo image
+   var imageUrlRight = './images/kiit-logo-1.jpg'; // Path to the right logo image
+
+
+   var getImageFromUrl = function(url, callback) {
+       var img = new Image();
+       img.onload = function() {
+         callback(img);
+       };
+       img.src = url;
+     };
+
+     getImageFromUrl(imageUrlLeft, function(leftImg) {
+       var leftCanvas = document.createElement('canvas');
+       var leftContext = leftCanvas.getContext('2d');
+       leftCanvas.width = leftImg.width;
+       leftCanvas.height = leftImg.height;
+       leftContext.drawImage(leftImg, 0, 0);
+       var leftImgData = leftCanvas.toDataURL('image/jpeg');
+
+     // Calculate the position and size for the image
+     var leftX = 8;
+     var leftY = 8;
+     var leftWidth = 20;
+     var leftHeight = (leftImg.height * leftWidth) / leftImg.width;
+     // Add the image to the PDF
+     doc.addImage(leftImgData, 'JPEG', leftX, leftY, leftWidth, leftHeight);
+
+
+
+
+     /*******right */
+     getImageFromUrl(imageUrlRight, function(rightImg) {
+       var rightCanvas = document.createElement('canvas');
+       var rightContext = rightCanvas.getContext('2d');
+       rightCanvas.width = rightImg.width;
+       rightCanvas.height = rightImg.height;
+       rightContext.drawImage(rightImg, 0, 0);
+       var rightImgData = rightCanvas.toDataURL('image/jpeg');
+
+       // Calculate the position and size for the right logo image
+       var rightWidth = 20;
+       var rightHeight = (rightImg.height * rightWidth) / rightImg.width;
+       var rightX = doc.internal.pageSize.width - rightWidth - 8;
+       var rightY = 8;
+
+       // Add the right logo image to the PDF
+       doc.addImage(rightImgData, 'JPEG', rightX, rightY, rightWidth, rightHeight);
+
+   // Calculate the center position
+   var pageWidth = doc.internal.pageSize.width;
+   var textWidth = doc.getStringUnitWidth(reportTitle) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+   var centerX = (pageWidth - textWidth) / 2;
+
+// Add the report title
+doc.setTextColor('#006400'); // Set the text color to green
+doc.setFontSize(18); // Set the font size
+doc.text(reportTitle, centerX, 15);
+// ...
+        doc.autoTable({
+            head: tableHeader,
+            body: tableRows.slice(1),
+            startY: 70,
+            styles: {
+              cellPadding: 5,
+              //fontSize: fontSize,
+              fontStyle: 'normal'
+            },
+            headStyles: {
+                fillColor: [41, 128, 185],
+                textColor: 255,
+                fontStyle: 'bold'
+            },
+            columnStyles: {
+              0: { fontStyle: 'bold' }
+            }
+          });
+
+          //Add footer
+          var totalPages = doc.internal.getNumberOfPages();
+        for (var i = 1; i <= totalPages; i++) {
+          doc.setPage(i);
+          doc.setFontSize(10);
+          doc.text('Page ' + i + ' of ' + totalPages, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 10);
+        }
+
+        // Add the "Soul Ltd" footer
+        doc.setFontSize(12);
+        doc.setTextColor('#006400'); // Set the text color to green
+        doc.text('Copyright © 2023 All Rights Reserved by Soul Limited ', doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 10, 'center');
+
+
+        // Save and download the PDF file
+        doc.save('audit_report.pdf');
+    });
+});
+
+// Rest of the code...
+},
+  error: function(error) {
+    console.log(error);
+  }
+});
+}
+
+/***********************************Export the data of table into CSV FILE*********************************************************✈️✈️✈️✈️*/
+function exportTablecsv(event) {
+    event.preventDefault();
+    console.log('export func');
+  
+    let employeeNumber = $('#fieldName').val();
+    let fromDate = $('#startDate').val();
+    let toDate = $('#endDate').val();
+  
+    // Generate PDF report
+    if(fromDate != '' && toDate != ''){
+        generateCSVReportTable(employeeNumber, fromDate, toDate);
+    }
+  }
+
+
+function generateCSVReportTable(employeeNumber, fromDate, toDate) {
+    // Fetch the data from the server
+    $.ajax({
+        url: `http://localhost:3000/audit-report/downloadAuditData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
+      type: 'GET',
+      success: function (response) {
+        // Handle the data
+        console.log(response);
+        let tableData1 = response.auditTableData;
+        console.log("tableData1", tableData1);
+
+
+          // Format the date
+          function formatDate(dateString) {
             const date = new Date(dateString);
             const year = date.getFullYear();
             let month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -201,13 +603,13 @@ function generatePDFReport(employeeNumber, fromDate, toDate) {
             let seconds = date.getSeconds().toString().padStart(2, '0');
             return `${day}/${month}/${year} ${hours}:${minutes}`;
         }
-
+        
+  
         // Set the table header
-        var tableHeader = ['Audit No', 'Emp No', 'Auditor Name', 'Location Name', 'Department Name', 'Scheduled Start Date', 'Scheduled End Date', 'Total Assets Found', 'Total Assets Missing', 'Total Assets New'];
-
+        var tableHeader = [['Audit No', 'Emp No', 'Auditor Name', 'Location Name', 'Department Name', 'Scheduled Start Date', 'Scheduled End Date', 'Total Assets Found', 'Total Assets Missing', 'Total Assets New']];
         // Set the table rows
-        var tableRows = tableData.map(function(item) {
-            return [
+        var tableRows1 = tableData1.map(function (item) {
+          return  [
             item.Id,
             item.EmployeeNo,
             item.AuditorName,
@@ -221,60 +623,27 @@ function generatePDFReport(employeeNumber, fromDate, toDate) {
             ];
         });
 
-        // Set the table options
-        var tableOptions = {
-            theme: 'grid',
-            styles: {
-            overflow: 'linebreak'
-            },
-            headStyles: {
-            fillColor: [41, 128, 185],
-            textColor: 255,
-            fontStyle: 'bold'
-            },
-            footStyles: {
-            fillColor: [41, 128, 185],
-            textColor: 255,
-            fontStyle: 'bold'
-            },
-            columnStyles: {
-            0: { cellWidth: 15 },
-            1: { cellWidth: 15 },
-            2: { cellWidth: 30 },
-            3: { cellWidth: 30 },
-            4: { cellWidth: 30 },
-            5: { cellWidth: 25 },
-            6: { cellWidth: 25 },
-            7: { cellWidth: 20 },
-            8: { cellWidth: 20 },
-            9: { cellWidth: 20 }
-            }
-        };
+  
 
-        // Add the table to the document
-        doc.text('Audit Report', 10, 10);
-        doc.autoTable(tableHeader, tableRows, tableOptions);
+        // Concatenate header and rows
+        var csvData = tableHeader.concat(tableRows1);
+  
+        // Convert data to CSV string
+        var csvContent = "data:text/csv;charset=utf-8," + csvData.map(row => row.join(",")).join("\n");
+  
+        // Create a temporary link element
+        const link = document.createElement('a');
+        link.setAttribute('href', encodeURI(csvContent));
+        link.setAttribute('download', 'audit_report.csv');
+  
+        // Simulate a click to trigger the download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      },
+      error: function (error) {
+        console.log('At generateCSVReportRow:', error);
+      }
+    });
+  }
 
-        // Save and download the PDF file
-        doc.save('audit_report.pdf');
-        },
-        error: function(error) {
-        console.log(error);
-        }
-
-    })
-}
-
-let logout = document.getElementById('logoutBtn');
-logout.addEventListener('click', () => {
-    $.post(
-        "http://127.0.0.1:3000/logout",
-        {
-            userMail: sessionStorage.getItem('userMail')
-        },
-        function (result) {
-            sessionStorage.setItem('sessionVar', null);
-            window.location.href = `./index.html`;
-        }
-    )
-});
