@@ -16,11 +16,11 @@ router.post('/audit_parent',(req,res)=>{
             console.log(limit,page,offset)
            
            
-            const locationName=req.query.location_name!== null && req.query.location_name!== 'null' ? req.query.location_name : undefined;
-            const departmentName=req.query.department_name !== null && req.query.department_name !== 'null' ? req.query.department_name : undefined;       
+            const locationId=req.query.locationId!== null && req.query.locationId!== 'null' ? req.query.locationId : undefined;
+            const departmentId=req.query.departmentId !== null && req.query.departmentId !== 'null' ? req.query.departmentId : undefined;       
             const employeeNo=req.query.employee_no!== null && req.query.employee_no !== 'null' ? req.query.employee_no : undefined;        
 
-            console.log(locationName,departmentName,employeeNo)
+            console.log(locationId,departmentId,employeeNo)
 
         let query1 =`select count(*) as TotalRows from asset.dbo.AuditDetails a inner join asset.dbo.location l on  l.location_id=a.LocationId inner join asset.dbo.department d on d.dept_id=a.DepartmentId where 1=1 `;
       
@@ -29,21 +29,21 @@ router.post('/audit_parent',(req,res)=>{
         WHERE 1=1
     `;
       
-    if (locationName !== undefined && locationName!== null && locationName.trim() !== '') {
+    if (locationId !== undefined && locationId!== null && locationId.trim() !== '') {
       console.log('1')
-      query += ` AND l.location_name = ${locationName}`;
-      query1 += ` AND l.location_name  = ${locationName}`;
-      console.log(`${locationName}`)
+      query += ` AND l.location_id = ${locationId}`;
+      query1 += ` AND l.location_id  = ${locationId}`;
+      console.log(`${locationId}`)
     }
 
-    if (departmentName !== undefined && departmentName!== null && departmentName.trim() !== '') {
-      query += ` AND d.dept_name = ${departmentName}`;
-      query1 += ` AND d.dept_name  = ${departmentName}`;
-      console.log(`${departmentName}`)
+    if (departmentId !== undefined && departmentId!== null && departmentId.trim() !== '') {
+      query += ` AND d.dept_id = ${departmentId}`;
+      query1 += ` AND d.dept_id  = ${departmentId}`;
+      console.log(`${departmentId}`)
     }
 
 
-    if (employeeNo !== 'undefined' && employeeNo !== null && employeeNo.trim() !== '') {
+    if (employeeNo !=='undefined' && employeeNo !== null && employeeNo.trim() !== '') {
       query += ` AND a.EmployeeNo = ${employeeNo}`;
       query1 += ` AND a.EmployeeNo = ${employeeNo}`;
       console.log(`${employeeNo}`)

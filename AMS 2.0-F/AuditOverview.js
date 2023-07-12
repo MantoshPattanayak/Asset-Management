@@ -46,14 +46,14 @@ function load_all_data(){
     load_data();
   
     function load_data() {
-      let  location_name= $('#LocationId').val();
-      let employee_no=$('#EmployeeId').val();
-      let department_name=$('#DepartmentId').val();
-
+      let  location_id= $('#LocationId').val();
+      let employee_no1=$('#EmployeeNo').val();
+      let department_id=$('#DepartmentId').val();
+      console.log(location_id,employee_no1,department_id)
       console.log("Loading");
   
       $.ajax({
-        url: `http://localhost:3000/audit-overview/audit_parent?location_name=${location_name}&department_name=${department_name}&employee_no=${employee_no}`,
+        url: `http://localhost:3000/audit-overview/audit_parent?locationId=${location_id}&departmentId=${department_id}&employee_no=${employee_no1}`,
         method: "POST",
         data: { action: 'fetch' },
         dataType: "JSON",
@@ -89,13 +89,13 @@ function load_all_data(){
     }
   
     function fetchTableData(currentPage, maxRows, tableBodyElement) {
-      let  location_name= $('#LocationId').val();
-      let employee_no=$('#EmployeeId').val();
-      let department_name=$('#DepartmentId').val();
-      console.log(location_name)
+      let  location_id= $('#LocationId').val();
+      let employee_no1=$('#EmployeeNo').val();
+      let department_id=$('#DepartmentId').val();
+        console.log(location_id,employee_no1,department_id)
       console.log(currentPage );
       $.ajax({
-        url: `http://localhost:3000/audit-overview/audit_parent?location_name=${location_name}&department_name=${department_name}&employee_no=${employee_no}`,
+        url: `http://localhost:3000/audit-overview/audit_parent?locationId=${location_id}&departmentId=${department_id}&employee_no=${employee_no1}`,
         method: "POST",
         data: {
           page_number: currentPage,
