@@ -250,15 +250,15 @@ function generatePDFReportRow(auditID) {
         });
   
         console.log(tableRows1);
-
+        doc.setFontSize(14);
         doc.text(`Audit Number: ${response.auditFormData.AuditNumber}`, 15, 35);
-        doc.text(`Auditor Name: ${response.auditFormData.AuditorName}`, 160, 35);
+        doc.text(`Auditor Name: ${response.auditFormData.AuditorName}`, 195, 35);
   
         doc.text(`Start Date:  ${formatDate(response.auditFormData.ScheduledStartDate)}`, 15, 45);
-        doc.text(`End Date: ${formatDate(response.auditFormData.ScheduledEndDate)}`, 160, 45);
+        doc.text(`End Date: ${formatDate(response.auditFormData.ScheduledEndDate)}`, 195, 45);
 
         doc.text(`No. of Assets Found:  ${response.assetStatusList.FoundAssetCount}`, 15, 55);
-        doc.text(`No. of Assets Missing: ${response.assetStatusList.MissingAssetCount}`, 160, 55);
+        doc.text(`No. of Assets Missing: ${response.assetStatusList.MissingAssetCount}`, 195, 55);
         doc.text(`No. of Assets New:  ${response.assetStatusList.NewAssetCount}`, 15, 65);
   
         var reportTitle = 'AUDIT REPORT';
@@ -527,11 +527,11 @@ var reportTitle = 'Audit Report';
    var textWidth = doc.getStringUnitWidth(reportTitle) * doc.internal.getFontSize() / doc.internal.scaleFactor;
    var centerX = (pageWidth - textWidth) / 2;
 
-// Add the report title
-doc.setTextColor('#006400'); // Set the text color to green
-doc.setFontSize(18); // Set the font size
-doc.text(reportTitle, centerX, 15);
-// ...
+  // Add the report title
+  doc.setTextColor('#006400'); // Set the text color to green
+  doc.setFontSize(18); // Set the font size
+  doc.text(reportTitle, centerX, 15);
+  // ...
         doc.autoTable({
             head: tableHeader,
             body: tableRows.slice(1),
@@ -559,6 +559,10 @@ doc.text(reportTitle, centerX, 15);
           doc.text('Page ' + i + ' of ' + totalPages, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 10);
         }
 
+        //Reported Generated Date
+        doc.setFontSize(12);
+        doc.text(`Report generated on ${formatDate(Date())}`, 230, 185);
+        
         // Add the "Soul Ltd" footer
         doc.setFontSize(12);
         doc.setTextColor('#006400'); // Set the text color to green
