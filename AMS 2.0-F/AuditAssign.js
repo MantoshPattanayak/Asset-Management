@@ -6,7 +6,7 @@ let all_rows = 0;
 
 /*************************************DOCUMENT READY FUNCTION -  START************************************************************/
 $(document).ready(function(){
-  if (sessionStorage.getItem('sessionVar') != 'pass') {
+  if (sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass') {
     window.location.href = `./index.html`;
   }
   let logout = document.getElementById('logoutBtn');
@@ -100,6 +100,11 @@ logout.addEventListener('click', () => {
           }
       })
     }
+    else{
+        let html = '';
+        $(".table-body").html(html);
+        getPagination('.table-body', 1);
+    }
   }
   //=================================to change url to fetch data for expected assets================================================//
   function getPagination(tableBodyElement, pageNumber){
@@ -113,6 +118,7 @@ logout.addEventListener('click', () => {
 
     initializePagination(tableBodyElement);
   }
+
 
   function initializePagination(tableBodyElement) {
     $('#maxRows').on('change', function(evt) {
@@ -163,6 +169,9 @@ logout.addEventListener('click', () => {
             .show();
           i++;
         }
+      }
+      else{
+        console.log('all_rows < maxRows', all_rows, maxRows);
       }
           
       fetchTableData(1, parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value), tableBodyElement); // Fetch initial table data for the first page and page size of 50
@@ -258,8 +267,8 @@ logout.addEventListener('click', () => {
           console.log(data)
           console.log("response pagination", response);
       
-          console.log('total rows: ', response.answer.allPages);
-          all_rows=response.answer.allPages;
+          console.log('total rows: ', response.answer.allPages.total_rows);
+          all_rows=response.answer.allPages.total_rows;
           console.log(all_rows);
 
           // Update the table with the fetched data
@@ -317,6 +326,21 @@ logout.addEventListener('click', () => {
   $('#maxRows').on('change', initializePagination('.table-body'));
 })
 /*************************************DOCUMENT READY FUNCTION -  END************************************************************/
+
+
+function allowOnlyDigits(event) {
+  const key = event.keyCode || event.which;
+  const keyChar = String.fromCharCode(key);
+  const regex = /[0-9]/;
+
+  // Allow only digits and limit input to a maximum of 6 characters
+  if (!regex.test(keyChar) || event.target.value.length >= 6) {
+    event.preventDefault();
+    return false;
+  }
+}
+
+
 
 //Audit Assign fetch Employee name on Employee ID input
 function fetchEmployeeDetails(event){

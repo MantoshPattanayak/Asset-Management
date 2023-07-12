@@ -1,5 +1,7 @@
-
 $(document).ready(function(){
+    if (sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass') {
+        window.location.href = `./index.html`;
+    }
     $('#audit-submit').on('click', function(event) {
         event.preventDefault(); // Prevent form submission
     
@@ -28,6 +30,12 @@ $(document).ready(function(){
                     // Handle the data
                     var tableContainer = document.getElementById('tableContainer');
                     tableContainer.innerHTML = ''; // Clear previous content
+
+                     // Show the table and export button
+                     $('.sumary-table').show();
+                     $('.csv-pdf').show();
+
+                     
                 
 /**************************************** Generate HTML content for the table****************************************************✈️✈️*/
                     var tableHTML = `<table>
@@ -65,7 +73,6 @@ $(document).ready(function(){
                                         <td>${item.NewAssetCount}</td>
                                         <td>
                                             <div class="csv-pdf">
-                                                <button class="csv" onclick="downloadAsCSVFile(event, $(this))">CSV</button>
                                                 <button class="pdf" onclick="downloadAsPDFFile(event, $(this))">PDF</button>
                                             </div>
                                       </td>

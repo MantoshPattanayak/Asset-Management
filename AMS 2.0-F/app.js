@@ -287,85 +287,87 @@ app.post('/editAssets', (req, res) => {
 // Mantosh work starts here
 
 //all assets for overview
-app.post('/AllAssets', (req, res) => {
-    let total_rows;
-    let page_size = req.body.page_size;
-    let answer;
 
-    let page_number = req.body.page_number;
-    let c = 1;
 
-    let query1 = `SELECT COUNT(*) AS TotalRows
-        FROM asset.dbo.assets a
-        inner join department d on d.dept_id =a.dept_id
+// -----     app.post('/AllAssets', (req, res) => {
+//     let total_rows;
+//     let page_size = req.body.page_size;
+//     let answer;
+
+//     let page_number = req.body.page_number;
+//     let c = 1;
+
+//     let query1 = `SELECT COUNT(*) AS TotalRows
+//         FROM asset.dbo.assets a
+//         inner join department d on d.dept_id =a.dept_id
     
-        inner join Employees e on e.emp_no = a.emp_no
+//         inner join Employees e on e.emp_no = a.emp_no
         
-        inner join location l on l.location_id =a.location_id `;
+//         inner join location l on l.location_id =a.location_id `;
 
-    let query = `       
-        SELECT *
-        FROM (
-            SELECT
-                a.asset_id,
-                a.asset_type,
-                a.asset_name,
-                d.dept_name,
-                CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name) AS emp_name,
-                e.emp_no,
-                l.location_name,
-                ROW_NUMBER() OVER (ORDER BY a.asset_id) AS RowNum
-            FROM
-                asset.dbo.assets a
-                inner join department d on d.dept_id =a.dept_id
+//     let query = `       
+//         SELECT *
+//         FROM (
+//             SELECT
+//                 a.asset_id,
+//                 a.asset_type,
+//                 a.asset_name,
+//                 d.dept_name,
+//                 CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name) AS emp_name,
+//                 e.emp_no,
+//                 l.location_name,
+//                 ROW_NUMBER() OVER (ORDER BY a.asset_id) AS RowNum
+//             FROM
+//                 asset.dbo.assets a
+//                 inner join department d on d.dept_id =a.dept_id
     
-                inner join Employees e on e.emp_no = a.emp_no
+//                 inner join Employees e on e.emp_no = a.emp_no
     
-                inner join location l on l.location_id =a.location_id 
+//                 inner join location l on l.location_id =a.location_id 
     
-        ) AS SubQuery
-        WHERE RowNum BETWEEN ((@page_number - 1) * @page_size + 1) AND (@page_number * @page_size)
-        AND RowNum <= @total_rows;
+//         ) AS SubQuery
+//         WHERE RowNum BETWEEN ((@page_number - 1) * @page_size + 1) AND (@page_number * @page_size)
+//         AND RowNum <= @total_rows;
     
-        SELECT @total_rows AS TotalRows
-    `;
+//         SELECT @total_rows AS TotalRows
+//     `;
 
-    let request1 = new mssql.Request();
+//     let request1 = new mssql.Request();
 
-    request1.query(query1, (err, result1) => {
-        if (err) {
-            console.log('Error in total rows of assets query:', err);
-            res.sendStatus(500);
-            return;
-        }
+//     request1.query(query1, (err, result1) => {
+//         if (err) {
+//             console.log('Error in total rows of assets query:', err);
+//             res.sendStatus(500);
+//             return;
+//         }
 
-        total_rows = result1.recordset[0].TotalRows;
-        console.log('Total Rows:', total_rows);
+//         total_rows = result1.recordset[0].TotalRows;
+//         console.log('Total Rows:', total_rows);
 
-        let request2 = new mssql.Request();
-        request2.input('total_rows', mssql.Int, total_rows);
-        request2.input('page_size', mssql.Int, page_size);
-        request2.input('page_number', mssql.Int, page_number);
-        request2.input('c', mssql.Int, c);
+//         let request2 = new mssql.Request();
+//         request2.input('total_rows', mssql.Int, total_rows);
+//         request2.input('page_size', mssql.Int, page_size);
+//         request2.input('page_number', mssql.Int, page_number);
+//         request2.input('c', mssql.Int, c);
 
-        request2.query(query, (err, result) => {
-            if (err) {
-                console.log('Error in All assets query:', err);
-                res.sendStatus(500);
-                return;
-            }
+//         request2.query(query, (err, result) => {
+//             if (err) {
+//                 console.log('Error in All assets query:', err);
+//                 res.sendStatus(500);
+//                 return;
+//             }
 
-            const data = result.recordset;
-            // const totalPages = Math.ceil(total_rows / page_size)
-            const allPages = { total_rows }
-            answer = {
-                answer: data,
-                allPages: allPages
-            };
-            res.send({ answer: answer });
-        });
-    });
-});
+//             const data = result.recordset;
+//             // const totalPages = Math.ceil(total_rows / page_size)
+//             const allPages = { total_rows }
+//             answer = {
+//                 answer: data,
+//                 allPages: allPages
+//             };
+//             res.send({ answer: answer });
+//         });
+//     });
+// });
 
 
 // Mantosh work ends here
@@ -676,37 +678,49 @@ function insertDataToDatabase1(data1, callback) {
 //advance search for audit
 
 app.get('/advanceSearchForAudit', (req, res) => {
-    //requestQueries
+    // requestQueries
     let LocationId = req.query.LocationId;
     let DepartmentId = req.query.DepartmentId;
     let EmployeeNo = req.query.EmployeeNo;
-
-    //databse query
-    let query = `select * from AuditDetails ad left join location l on l.location_id =ad.LocationId left join department d 
-    on d.dept_id  =ad.DepartmentId  where 1=1 `;
-
-    //checking conditions for multiple column data search(advance serching)
+  
+    // Pagination parameters
+    let page = parseInt(req.query.page) || 1; // Default page is 1
+    let limit = parseInt(req.query.limit) || 50; // Number of records per page, default is 50
+    let offset = (page - 1) * limit; // Offset calculation
+  
+    // database query
+    let query = `SELECT *,(select count(*) as count from AuditDetails ad left join location l on l.location_id =ad.LocationId left join department d 
+    on d.dept_id  =ad.DepartmentId )as totalrows FROM AuditDetails ad
+                 LEFT JOIN location l ON l.location_id = ad.LocationId
+                 LEFT JOIN department d ON d.dept_id = ad.DepartmentId
+                 WHERE 1 = 1`;
+  
+    // checking conditions for multiple column data search (advanced searching)
     if (LocationId != null) {
-        query += `and ad.LocationId =${LocationId}`;
+      query += ` AND ad.LocationId = ${LocationId}`;
     }
-
-    //additional field
+  
+    // additional field
     if (DepartmentId != null) {
-        query += ` and ad.DepartmentId =${DepartmentId}`;
+      query += ` AND ad.DepartmentId = ${DepartmentId}`;
     }
-
-    //additional field
+  
+    // additional field
     if (EmployeeNo != null) {
-        query += ` and ad.EmployeeNo=${EmployeeNo}`
+      query += ` AND ad.EmployeeNo = ${EmployeeNo}`;
     }
 
-    //query result
+    // Pagination
+    if(page!= null) {
+    query += ` ORDER BY ad.Id OFFSET ${offset} ROWS FETCH NEXT ${limit} ROWS ONLY`;
+    }
+  
+    // query result
     mssql.query(query, (err, result) => {
-        if (err) throw err;
-        res.send(result);
-    })
-
-})
+      if (err) throw err;
+      res.send(result);
+    });
+  });
 
 //progressbar audit overview page
 app.get('/progressbarForAudit', (req, res) => {
@@ -2952,22 +2966,25 @@ app.post('/aDeny', (req, res) => {
     })
 })
 
-app.post('/Advancedsearch', (req, res) => {
+app.post('/advance-one', (req, res) => {
 
     // Extract the inputs from the request
-    const {
-      asset_id,
-      asset_type,
-      asset_name,
-      dept_name,
-      emp_name,
-      emp_no,
-      location_name,
-      page_number,
-      page_size
-    } = req.query;
+    // const {
+    //   asset_id,
+    //   asset_type,
+    //   asset_name,
+    //   dept_name,
+    //   emp_name,
+    //   emp_no,
+    //   location_name
+    // } = req.query;
 // const page_number=2;
 //  const page_size=10;
+console.log(22)
+let limit = (req.body.page_size) ? req.body.page_size :50;
+    let answer;
+console.log(1)
+    let page = (req.body.page_number) ? req.body.page_number :1;
   
 
 //   const asset_id=null;
@@ -2978,65 +2995,81 @@ app.post('/Advancedsearch', (req, res) => {
 //         const emp_no=null;
 //   const location_name=null;
              
-    // Construct the SQL query based on the provided inputs
+    // Construct the SQL query based on the provided inputs   parseInt(req.query.page) || parseInt(req.query.limit) || 
+
+
+    // let page =  1; // Default page is 1
+    // let limit = 50 ; // Number of records per page, default is 50
+    let offset = (page - 1) * limit; // Offset calculation
+
+            const asset_id=req.query.asset_id!== null && req.query.asset_id !== 'null' ? req.query.asset_id : undefined;
+            const asset_type=req.query.asset_type !== null && req.query.asset_type !== 'null' ? req.query.asset_type : undefined;       
+            const asset_name=req.query.asset_name!== null && req.query.asset_name !== 'null' ? req.query.asset_name : undefined;        
+            const dept_name=req.query.dept_name!== null && req.query.dept_name !== 'null' ? req.query.dept_name : undefined; 
+            const emp_name=req.query.emp_name!== null && req.query.emp_name !== 'null' ? req.query.emp_name : undefined;  
+            const emp_no=req.query.emp_no!== null && req.query.emp_no !== 'null' ? req.query.emp_no : undefined;
+            const location_name=req.query.location_name!== null && req.query.location_name !== 'null' ? req.query.location_name : undefined;
+  
     let query1=`SELECT count(*) as TotalRows
     FROM asset.dbo.assets a
     INNER JOIN department d ON d.dept_id = a.dept_id
     INNER JOIN Employees e ON e.emp_no = a.emp_no
     INNER JOIN location l ON l.location_id = a.location_id
     WHERE 1=1`;
-    let query = `
-  
-      SELECT a.asset_id,a.asset_type,a.asset_name,d.dept_name,e.emp_no,l.location_name,CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name) AS emp_name from asset.dbo.assets as a 
+    let query = `SELECT a.asset_id,a.asset_type,a.asset_name,d.dept_name,e.emp_no,l.location_name,CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name) AS emp_name from asset.dbo.assets as a 
       INNER JOIN department d ON d.dept_id = a.dept_id
       INNER JOIN Employees e ON e.emp_no = a.emp_no
       INNER JOIN location l ON l.location_id = a.location_id
-      WHERE 1=1
+      WHERE 1=1 
       `
 
-    if (asset_id) {
+    if (asset_id !== undefined && asset_id !== null && asset_id.trim() !== '') {
       query += ` AND a.asset_id = ${asset_id}`;
       query1 += ` AND a.asset_id = ${asset_id}`;
       console.log(`${asset_id}`)
     }
 
-    if (asset_type) {
+    if (asset_type !== undefined && asset_type !== null && asset_type.trim() !== '') {
       query += ` AND a.asset_type = '${asset_type}'`;
       query1 += ` AND a.asset_type = '${asset_type}'`;
       console.log(`${asset_type}`)
     }
 
-    if (asset_name) {
+    if (asset_name !== undefined && asset_name !== null && asset_name.trim() !== '') {
       query += ` AND a.asset_name = '${asset_name}'`;
       query1 += ` AND a.asset_name = '${asset_name}'`;
       console.log(`${asset_name}`)
     }
 
-    if (dept_name) {
+    if (dept_name !== undefined && dept_name !== null && dept_name.trim() !== '') {
       query += ` AND d.dept_name = '${dept_name}'`;
       query1 += ` AND d.dept_name = '${dept_name}'`;
       console.log(`${dept_name}`)
     }
 
-    if (emp_name) {
+    if (emp_name !== undefined && emp_name !== null && emp_name.trim() !== '') {
       query += ` AND e.first_name= '${emp_name.split(" ")[0]}'`;
       query1 += ` AND e.first_name= '${emp_name.split(" ")[0]}'`;
       console.log(emp_name.split(" ")[0])
+      
   
     }
 
-    if (emp_no) {
+    if (emp_no !== undefined && emp_no !== null && emp_no.trim() !== '') {
       query += ` AND e.emp_no = ${emp_no}`;
       query1 += ` AND e.emp_no = ${emp_no}`;
       console.log(`${emp_no}`)
     }
 
-    if (location_name) {
+    if (location_name !== undefined && location_name !== null && location_name.trim() !== '') {
       query += ` AND l.location_name = '${location_name}'`;
       query1 += ` AND l.location_name = '${location_name}'`;
       console.log(`${location_name}`)
     }
 
+    if(page!= null) {
+        query += ` ORDER BY a.asset_id OFFSET ${offset} ROWS FETCH NEXT ${limit} ROWS ONLY`;
+        }
 
   let request1 = new mssql.Request();
     
@@ -3051,9 +3084,9 @@ app.post('/Advancedsearch', (req, res) => {
     console.log('Total Rows:', total_rows);
 
     let request2 = new  mssql.Request();
-    request2.input('total_rows', mssql.Int, total_rows);
-    request2.input('page_size',  mssql.Int, page_size);
-    request2.input('page_number',  mssql.Int, page_number);
+    // request2.input('total_rows', mssql.Int, total_rows);
+    // request2.input('page_size',  mssql.Int, page_size);
+    // request2.input('page_number',  mssql.Int, page_number);
   
     request2.query(query, (err, result) => {
       if (err) {
@@ -3070,6 +3103,13 @@ app.post('/Advancedsearch', (req, res) => {
         allPages: allPages
       };
       console.log(answer)
+      console.log(asset_id)
+      console.log(dept_name)
+      console.log(emp_name)
+      console.log(emp_no)
+      console.log(asset_type)
+      console.log(asset_name)
+      console.log(location_name)
       res.send({ answer: answer });
     });
   })

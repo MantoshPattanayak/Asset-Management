@@ -141,8 +141,8 @@ justify-content: space-between;
   box-shadow: #09739c 0.1px 0.2px;
 
 }
-.bar-prog {
-  /* grid-column: 1 / span 3; */
+.bar-prog-1 {
+  grid-column: 1 / span 3;
   height: 5px;
   background-color: #007bff;
   margin-bottom: 20px;
@@ -451,8 +451,8 @@ justify-content: space-between;
 .form-group-21 select{
   background-color: #f2f3f5;
   border: none;
-  padding: 10px 30px;
-  font-size: 16px;
+  padding: 8px 20px;
+  font-size: 12px;
   border-radius: 4px;
   cursor: pointer;
   width: 100px;
