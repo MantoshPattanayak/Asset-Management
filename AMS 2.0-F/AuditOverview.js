@@ -492,6 +492,8 @@ $('#searchButton').on('click', function(evt) {
             let locationSelect = response.recordset.map((n) => {
                 $('#LocationId')[0].appendChild(new Option(n.location_name, n.location_id, false, false))
             });
+            $('#LocationId').find('option[value=\"923013\"]').attr('disabled', 'true');
+            $('#LocationId').find('option[value=\"994013\"]').attr('disabled', 'true');
         },
         error: function (xhr, status, error) {
             console.error('Error:', error);
@@ -506,7 +508,6 @@ $('#searchButton').on('click', function(evt) {
             response.recordset.map((n) => {
                 $('#DepartmentId')[0].appendChild(new Option(n.dept_name, n.dept_id, false, false))
             });
-
         },
         error: function (xhr, status, error) {
             console.error('Error:', error);

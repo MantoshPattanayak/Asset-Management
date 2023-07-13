@@ -6,9 +6,37 @@ let all_rows = 0;
 
 /*************************************DOCUMENT READY FUNCTION -  START************************************************************/
 $(document).ready(function(){
-  if (sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass') {
+  if (sessionStorage.getItem('sessionVar') != 'pass') {
     window.location.href = `./index.html`;
   }
+
+  function todayDate(){
+    let dtToday = new Date();
+    
+    let month = dtToday.getMonth() + 1;
+    let day = dtToday.getDate();
+    let year = dtToday.getFullYear();
+    let hour = dtToday.getHours();
+    let minute = dtToday.getMinutes();
+
+    if(hour.length < 2)
+      hour = '0' + hour.toString();
+    if(minute.length < 2)
+      minute = '0' + minute.toString();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+    
+    let todayDate = day + '-' + month + '-' + year + ' ' + hour + ':' + minute;
+
+    return todayDate;
+  }
+
+  //to restrict past date selection in date-picker
+  $('#scheduledStartDate').attr('min', new Date().toISOString().slice(0, 16));
+  $('#scheduledEndDate').attr('min', new Date().toISOString().slice(0, 16));
+
 
   $.ajax({
     url: "http://localhost:3000/audit-overview/audit_roll_check?employeeID="+sessionStorage.getItem('userID'),
@@ -96,6 +124,11 @@ logout.addEventListener('click', () => {
           opt.innerHTML = location.location_name;
           locationSelectElement.appendChild(opt);
         })
+
+        //disable options:- outside_repair and outside_transport
+        $('#location-select').find('option[value=\"923013\"]').attr('disabled', 'true');
+        $('#location-select').find('option[value=\"994013\"]').attr('disabled', 'true');
+
       },
       error: function(error) {
         console.error("Error fetching table data:", error);
