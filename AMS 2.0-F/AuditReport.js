@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    if (sessionStorage.getItem('sessionVar') != 'pass') {
+    if (sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass') {
         window.location.href = `./index.html`;
     }
 
@@ -82,7 +82,7 @@ $(document).ready(function(){
                      // Show the table and export button
                      $('.sumary-table').show();
                      $('.csv-pdf').show();
-                     $('.pagination-container').show();
+                     //$('.pagination-container').show();
                      
                 
 /**************************************** Generate HTML content for the table****************************************************✈️✈️*/
