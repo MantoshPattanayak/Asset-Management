@@ -69,7 +69,7 @@ $(document).ready(function(){
             return `${day}/${month}/${year} ${hours}:${minutes}`;
         }
 
-        if(new Date($('#startDate').val()).toISOString() < new Date($('#endDate').val()).toISOString()){
+        if(new Date($('#startDate').val()).toISOString() <= new Date($('#endDate').val()).toISOString()){
             $.ajax({
                 url: `http://localhost:3000/audit-report/submitData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
                 type: 'GET',
