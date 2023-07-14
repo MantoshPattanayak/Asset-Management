@@ -14,6 +14,53 @@ let auditID = sessionStorage.getItem('auditID');
 
 $(document).ready(function() {
   let page_size = parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value);
+
+  $.ajax({
+    url: "http://localhost:3000/audit-overview/audit_roll_check?employeeID="+sessionStorage.getItem('userID'),
+    method: "GET",
+    data: {
+    },
+
+    dataType: "",
+    success: function(user_type) {
+      console.log(user_type)
+      if (user_type == "user"){
+        //$('#create_audit').hide();
+        $('#button-div-audit').html('');
+        $('#button-div-audit').html(`<a href="AuditReport.html">
+                                          <button class="onclick-btn">
+                                            Audit Report
+                                          </button>
+                                      </a>`);
+        $('#side-nav-bar').html('');
+        $('#side-nav-bar').html(`
+            <ul>
+              <li>
+                  <!-- Dashboard -->
+                  <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a>
+              </li>
+              <li>
+                  <!-- Profile -->
+                  <a href="./AuditOverview.html"><i class='bx bx-edit'></i></a>
+              </li>
+              <li>
+                  <!-- Profile -->
+                  <a href="./profile.html"><i class='bx bxs-user'></i></a>
+              </li>
+
+          </ul>
+        `);
+      };
+    },
+    error: function(error) {
+      console.error("Error fetching table data:", error);
+    },
+    // complete: function() {
+    //   // Disable the button
+    //   if (user)
+    //     {$('#create_audit').hide()};
+    // }
+  });
   
   $.ajax({
     url: `http://localhost:3000/audit-asset/fetch-data?auditID=${auditID}&page_number=${1}&page_size=${page_size}`,

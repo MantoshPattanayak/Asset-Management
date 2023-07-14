@@ -26,6 +26,24 @@ $(document).ready(function() {
                                               Audit Report
                                             </button>
                                         </a>`);
+          $('#side-nav-bar').html('');
+          $('#side-nav-bar').html(`
+              <ul>
+                <li>
+                    <!-- Dashboard -->
+                    <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a>
+                </li>
+                <li>
+                    <!-- Profile -->
+                    <a href="./AuditOverview.html"><i class='bx bx-edit'></i></a>
+                </li>
+                <li>
+                    <!-- Profile -->
+                    <a href="./profile.html"><i class='bx bxs-user'></i></a>
+                </li>
+
+            </ul>
+          `);
         };
       },
       error: function(error) {
@@ -199,6 +217,10 @@ function load_all_data(){
         }
         else{
           console.log('all_rows < maxRows', all_rows, maxRows);
+          $('#prev').attr('disabled','disabled');
+          $('#prev').css('pointer-events', 'none');
+          $('#prev1').css('pointer-events', 'none');
+          $('#prev1').attr('disabled','disabled');
         }
   
         fetchTableData(1, parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value), tableBodyElement);
@@ -473,6 +495,8 @@ $('#searchButton').on('click', function(evt) {
             let locationSelect = response.recordset.map((n) => {
                 $('#LocationId')[0].appendChild(new Option(n.location_name, n.location_id, false, false))
             });
+            $('#LocationId').find('option[value=\"923013\"]').attr('disabled', 'true');
+            $('#LocationId').find('option[value=\"994013\"]').attr('disabled', 'true');
         },
         error: function (xhr, status, error) {
             console.error('Error:', error);
@@ -487,7 +511,6 @@ $('#searchButton').on('click', function(evt) {
             response.recordset.map((n) => {
                 $('#DepartmentId')[0].appendChild(new Option(n.dept_name, n.dept_id, false, false))
             });
-
         },
         error: function (xhr, status, error) {
             console.error('Error:', error);
