@@ -38,7 +38,7 @@ router.get('/submitData', (req, res) => {
       INNER JOIN location l ON ad.LocationId = l.location_id 
       INNER JOIN department d ON ad.DepartmentId = d.dept_id
       INNER JOIN Employees e ON e.emp_no = ad.EmployeeNo 
-      WHERE CAST(ad.ScheduledStartDate as date) >= '${fromDate}' AND CAST(ad.ScheduledEndDate as Date) <= '${toDate}' AND ad.EmployeeNo = ${employeeNumber}) AS SubQuery
+      WHERE CAST(ad.ScheduledStartDate as date) >= '${fromDate}' AND CAST(ad.ScheduledEndDate as Date) <= '${toDate}' AND ad.EmployeeNo = ${employeeNumber} AND (ad.AuditStatus = 'Closed' OR ad.AuditStatus = 'Expired') ) AS SubQuery
       WHERE RowNum BETWEEN ((@page_number - 1) * @page_size + 1) AND (@page_number * @page_size)
       AND RowNum <= @total_rows;
       
@@ -65,7 +65,7 @@ router.get('/submitData', (req, res) => {
       INNER JOIN location l ON ad.LocationId = l.location_id 
       INNER JOIN department d ON ad.DepartmentId = d.dept_id
       INNER JOIN Employees e ON e.emp_no = ad.EmployeeNo 
-      WHERE CAST(ad.ScheduledStartDate as date) >= '${fromDate}' AND CAST(ad.ScheduledEndDate as Date) <= '${toDate}') AS SubQuery
+      WHERE CAST(ad.ScheduledStartDate as date) >= '${fromDate}' AND CAST(ad.ScheduledEndDate as Date) <= '${toDate}' AND (ad.AuditStatus = 'Closed' OR ad.AuditStatus = 'Expired')) AS SubQuery
       WHERE RowNum BETWEEN ((@page_number - 1) * @page_size + 1) AND (@page_number * @page_size)
       AND RowNum <= @total_rows;
       

@@ -2,6 +2,54 @@ $(document).ready(function(){
     if (sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass') {
         window.location.href = `./index.html`;
     }
+
+    $.ajax({
+      url: "http://localhost:3000/audit-overview/audit_roll_check?employeeID="+sessionStorage.getItem('userID'),
+      method: "GET",
+      data: {
+      },
+
+      dataType: "",
+      success: function(user_type) {
+        console.log(user_type)
+        if (user_type == "user"){
+          //$('#create_audit').hide();
+          $('#button-div-audit').html('');
+          $('#button-div-audit').html(`<a href="AuditReport.html">
+                                            <button class="onclick-btn">
+                                              Audit Report
+                                            </button>
+                                        </a>`);
+          $('#side-nav-bar').html('');
+          $('#side-nav-bar').html(`
+              <ul>
+                <li>
+                    <!-- Dashboard -->
+                    <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a>
+                </li>
+                <li>
+                    <!-- Profile -->
+                    <a href="./AuditOverview.html"><i class='bx bx-edit'></i></a>
+                </li>
+                <li>
+                    <!-- Profile -->
+                    <a href="./profile.html"><i class='bx bxs-user'></i></a>
+                </li>
+
+            </ul>
+          `);
+        };
+      },
+      error: function(error) {
+        console.error("Error fetching table data:", error);
+      },
+      // complete: function() {
+      //   // Disable the button
+      //   if (user)
+      //     {$('#create_audit').hide()};
+      // }
+    });
+
     $('#audit-submit').on('click', function(event) {
         event.preventDefault(); // Prevent form submission
     
@@ -28,7 +76,7 @@ $(document).ready(function(){
             return `${day}/${month}/${year} ${hours}:${minutes}`;
         }
 
-        if(new Date($('#startDate').val()).toISOString() < new Date($('#endDate').val()).toISOString()){
+        if(new Date($('#startDate').val()).toISOString() <= new Date($('#endDate').val()).toISOString()){
             $.ajax({
                 url: `http://localhost:3000/audit-report/submitData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
                 type: 'GET',
@@ -41,7 +89,7 @@ $(document).ready(function(){
                      // Show the table and export button
                      $('.sumary-table').show();
                      $('.csv-pdf').show();
-
+                     //$('.pagination-container').show();
                      
                 
 /**************************************** Generate HTML content for the table****************************************************✈️✈️*/
@@ -81,7 +129,7 @@ $(document).ready(function(){
                                         <td>
                                             <div class="csv-pdf">
                                                 <button class="pdf" onclick="downloadAsPDFFile(event, $(this))">PDF</button>
-                                                <button class="csv" onclick="downloadAsCSVFile(event, $(this))">csv</button>
+                                                <button class="csv" onclick="downloadAsCSVFile(event, $(this))">CSV</button>
                                             </div>
                                       </td>
                                     </tr>`
@@ -200,7 +248,7 @@ function generateCSVReportRow(auditID) {
 
 function downloadAsPDFFile(e, element){
   
-    event.preventDefault();
+    e.preventDefault();
     console.log('export func');
   
     let auditID = $(element).closest('tr').find('td').eq(0).text();
@@ -257,8 +305,16 @@ function generatePDFReportRow(auditID) {
         });
   
         console.log(tableRows1);
+        doc.setFontSize(14);
+        doc.text(`Audit Number: ${response.auditFormData.AuditNumber}`, 15, 35);
+        doc.text(`Auditor Name: ${response.auditFormData.AuditorName}`, 195, 35);
   
-        doc.text(`Start Date  ${formatDate(response.auditFormData.ScheduledStartDate)}                                                                                           End Date ${formatDate(response.auditFormData.ScheduledEndDate)}   `, 10, 40);
+        doc.text(`Start Date:  ${formatDate(response.auditFormData.ScheduledStartDate)}`, 15, 45);
+        doc.text(`End Date: ${formatDate(response.auditFormData.ScheduledEndDate)}`, 195, 45);
+
+        doc.text(`No. of Assets Found:  ${response.assetStatusList.FoundAssetCount}`, 15, 55);
+        doc.text(`No. of Assets Missing: ${response.assetStatusList.MissingAssetCount}`, 195, 55);
+        doc.text(`No. of Assets New:  ${response.assetStatusList.NewAssetCount}`, 15, 65);
   
         var reportTitle = 'AUDIT REPORT';
   
@@ -362,8 +418,8 @@ function generatePDFReportRow(auditID) {
        var nameX = signatureX;
        var nameY = signatureY + 15;
        // Set the text color to green
-doc.setTextColor('#006400');
-doc.text(nameText, nameX, nameY);
+        doc.setTextColor('#006400');
+        doc.text(nameText, nameX, nameY);
           // Add footer
           var totalPages = doc.internal.getNumberOfPages();
           for (var i = 1; i <= totalPages; i++) {
@@ -371,7 +427,11 @@ doc.text(nameText, nameX, nameY);
             doc.setFontSize(10);
             doc.text('Page ' + i + ' of ' + totalPages, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 10);
           }
-  
+          
+          //Reported Generated Date
+          doc.setFontSize(12);
+          doc.text(`Report generated on ${formatDate(Date())}`, 230, 185);
+
           // Add the "Soul Ltd" footer
           doc.setFontSize(12);
           doc.setTextColor('#006400'); // Set the text color to green
@@ -442,6 +502,8 @@ function generatePDFReport(employeeNumber, fromDate, toDate) {
             item.AuditorName,
             item.location_name,
             item.dept_name,
+            formatDate(item.ScheduledStartDate),
+            formatDate(item.ScheduledEndDate),
             item.FoundAssetCount,
             item.MissingAssetCount,
             item.NewAssetCount
@@ -450,8 +512,7 @@ function generatePDFReport(employeeNumber, fromDate, toDate) {
 
         console.log('tableRows', tableRows);
 
-
-        doc.text(`Start Date  ${formatDate(response.auditTableData.ScheduledStartDate)}                                                                                           End Date ${formatDate(response.auditTableData.ScheduledEndDate)}   `, 10, 40);
+        doc.text(`Start Date  ${formatDate($('#startDate').val())}                                                                                           End Date ${formatDate($('#endDate').val())}   `, 10, 40);
     
       
         // Add the table to the document
@@ -521,11 +582,11 @@ var reportTitle = 'Audit Report';
    var textWidth = doc.getStringUnitWidth(reportTitle) * doc.internal.getFontSize() / doc.internal.scaleFactor;
    var centerX = (pageWidth - textWidth) / 2;
 
-// Add the report title
-doc.setTextColor('#006400'); // Set the text color to green
-doc.setFontSize(18); // Set the font size
-doc.text(reportTitle, centerX, 15);
-// ...
+  // Add the report title
+  doc.setTextColor('#006400'); // Set the text color to green
+  doc.setFontSize(18); // Set the font size
+  doc.text(reportTitle, centerX, 15);
+  // ...
         doc.autoTable({
             head: tableHeader,
             body: tableRows.slice(1),
@@ -552,7 +613,10 @@ doc.text(reportTitle, centerX, 15);
           doc.setFontSize(10);
           doc.text('Page ' + i + ' of ' + totalPages, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 10);
         }
-
+        //Reported Generated Date
+        doc.setFontSize(12);
+        doc.text(`Report generated on ${formatDate(Date())}`, 230, 185);
+        
         // Add the "Soul Ltd" footer
         doc.setFontSize(12);
         doc.setTextColor('#006400'); // Set the text color to green
