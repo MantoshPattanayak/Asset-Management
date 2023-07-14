@@ -26,7 +26,7 @@
             <section class="imageSet">
                 <img src="./images/favicon.ico" alt="" class="companyLogo">
             </section>
-            <nav class="navbar">
+            <nav class="navbar" id="side-nav-bar">
                 <ul>
                     <li>
                         <!-- Dashboard -->
@@ -79,6 +79,7 @@
                 <div class="container">
 
                     <!---char bar for show the data-->
+                    <!-- *************************************progress bar for new audit, inprogress audit, closed audit************************************************************* -->
                     <div class="charts">
                         <div id="new-audit" class="title">
                             <span class="pie-chart" style="--p: 0; --c: #c15353">
@@ -106,17 +107,15 @@
                         </div>
                     </div>
 
-                    <!--new and create audit Box-->
-
-                    <!--Advance search part-->
 
 
-                    <!--new and create audit Box-->
+
 
                     <!--Advance search part-->
                     <div class="navbar-audit">
                         <div class="form-group-21">
 
+                            <!-- *******************select page size************************************ -->
                             <h7 class="select-name">Select Number Of Rows</h7>
                             <select class="form-control" name="state" id="maxRows">
                                 <option value="5000">Show ALL Rows</option>
@@ -131,10 +130,12 @@
                             </select>
                         </div>
 
+                        <!--***************** Created  two buttons for navigating two different pages: Create Audit and Audit Report 
+                        *********************Create Audit: For Assigning the audit, this page will be visible only for admin and super-admin , not for user************************** -->
 
-                        <div class="advnace-search-from">
+                        <div id ="button-div-audit" class="advnace-search-from">
 
-                            <a href="AuditAssign.html"><button class="onclick-btn">
+                            <a href="AuditAssign.html"><button class="onclick-btn" id="create_audit">
                                 Create Audit
                             </button></a>
                             <a href="AuditReport.html"><button class="onclick-btn">
@@ -161,32 +162,15 @@
                             <!-- HTML code for the Search button -->
                             <button id="searchButton">Search</button>
 
-                            <!-- HTML code for the table container -->
-                            <!-- <div id="audit-table-body"></div> -->
-                            <!-- </div> -->
 
                         </div>
                      
-                      <!-- <form class="advnace-search-from">
-                        <div id="search-boxes">
-                           
-                            <input type="text" name="location" placeholder="Location Id" required><br>
-                            <div id="department-section" class="additional-search">
-                                <input type="text" name="department" placeholder="Department Id"><br>
-                            </div>
-                            <div id="category-section" class="additional-search">
-                                <input type="text" name="category" placeholder="Category"><br>
-                            </div>
-                            <button  type="button" id="toggle-department">departmentId+</button>
-                            <button  type="button" id="toggle-category">Category+</button>
-                            <div class="search-btn">
-                                <input type="submit" value="Search">
-                            </div>
-                        </form>
-                        </div> -->
+                     
                      
 
                     </div>
+
+                    <!--*************************************************************** Audit overview table************************************************************** -->
 
                     <div class="table-scroll">
                         <div class="table-wrapper">
@@ -219,10 +203,11 @@
                     </div> <!-- /.table-wrapoer -->
                     
                     <!--   next page pagination-->
+                    <!-- **********************************Pagination code***************************************** -->
                     <div class='pagination-container'>
                         <nav>
                             <ul class="pagination">
-                                <li data-page="prev">
+                                <li data-page="prev" id="prev1">
                                     <span>
                                         < <span class="sr-only">(current)
                                     </span></span>

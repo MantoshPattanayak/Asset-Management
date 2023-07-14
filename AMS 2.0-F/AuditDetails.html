@@ -21,7 +21,7 @@
             <section class="imageSet">
                 <img src="./images/favicon.ico" alt="" class="companyLogo">
             </section>
-            <nav class="navbar">
+            <nav class="navbar" id="side-nav-bar">
                 <ul>
                     <li>
                         <!-- Dashboard -->
@@ -64,8 +64,14 @@
         </section>
     </div>
 
+   <!-- ****This page is redirected from AuditOverview page by Clicking on the "Details" button in each row  of the table will provide more information about the selected audit.***-->
+
     <div class="container">
+
+      <!-- **********************************************************Audit and Auditor Details********************************************************************** -->
+
       <h1 class="asset-aduit"> Asset Audit </h1>
+      <div class="bar-prog-1 "></div>
      
         <div class="aduit-details">
           <form class="Aduit-details-from">
@@ -76,9 +82,7 @@
             <div class="Aduit-Number">
               <h7> Audit Number *</h7> <input type="text" class="aduit-scope-input" id="aduit-scope-input-no" placeholder="Audit-Number" readonly>
             </div>
-            <!-- <div class="Aduit-scope">
-              <h7> Audit scope *&nbsp; &nbsp; </h7>  <input type="text" class="aduit-scope-input" placeholder="Audit scope" readonly>
-            </div> -->
+           
             <div class="location">
               <h7> Location *&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</h7> <input type="text" class="aduit-scope-input" id="aduit-scope-input-location" placeholder="Location" readonly>
             </div>
@@ -106,7 +110,7 @@
           <!-- </form> -->
         </div>
 
-
+        <!--********************************************************* For visualization of Audit Result**************************************************** -->
 
         <div class="Result-aduit">
           <h1 class="audit-res">Audit Result</h1> 
@@ -135,7 +139,7 @@
         </div>
 
 
-       <!-- Table for Excepted and scanner-->
+       <!-- ****************************************************Table displaying details for Excepted Asset ******************************************************************-->
 
        <div class="table-container">
         <div class="table-buttons">
@@ -183,6 +187,8 @@
         </table>
           
         </div>
+
+        <!-- Added Pagination for the table  -->
         <div class='pagination-container'>
           <nav>
               <ul class="pagination">

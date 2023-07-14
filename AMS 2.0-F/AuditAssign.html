@@ -23,7 +23,7 @@
         <section class="imageSet">
             <img src="./images/favicon.ico" alt="" class="companyLogo">
         </section>
-        <nav class="navbar">
+        <nav class="navbar" id="side-nav-bar">
             <ul>
                 <li>
                     <!-- Dashboard -->
@@ -65,31 +65,32 @@
 </div>
 
 
-<!---   Table -->
-
-
-
-
 <div class="main-wrapper">
 
     <main role="main">
         <div class="table-card">
+
+   <!-- ********************This page is redirected from AuditOverview page by Clicking on the "Create Audit" button 
+                            And this page will be visible only to admin and super-admin only 
+                            Here user will not be able to see this button *********************************************************************************************-->
+
+
             <h1 class="table-title"> Audit Assign</h1>
                 <div class="container">
-                  
-                  <!--Advance search part-->
 
                   <div class="container-asset-assgin">
                  
                       <div class="aduit-details">
-                        <form class="Aduit-details-from">
                           <!-- Form 1 -->
+                        <form class="Aduit-details-from">
                           <div class="bar-prog">
               
                           </div>
                           <div class="Aduit-Number">
-                            <h7> Emp No*</h7> 
-                            <input type="text" id="employee-number" class="aduit-scope-input" oninput="fetchEmployeeDetails(event)" placeholder="Employee Number (Six digits)">
+                            <h7> Employee No*</h7> 
+                            <!-- <input type="text" id="employee-number" class="aduit-scope-input" oninput="fetchEmployeeDetails(event)" placeholder="Employee Number (Six digits)"> -->
+                            <input type="text" id="employee-number" class="aduit-scope-input" oninput="fetchEmployeeDetails(event)" onkeypress="return allowOnlyDigits(event)" maxlength="6" placeholder="Employee Number (Six digits)">
+
                           </div>
                        
                           <div class="location">
@@ -129,7 +130,7 @@
 
 
                   <!---- 👍-->
-                   
+                   <!-- **************************selecting the page size ************* -->
                     
                     <div class="form-group-21"> 
                         <h7 class="select-name">Select Number Of Rows</h7>
@@ -145,6 +146,8 @@
                             <option value="1000">1000</option>
                         </select>
                     </div>
+                            <!-- Here on clicking on Employee No. , Auditor Name will automatically fetch  -->
+                            <!-- This table will display the data according to the location and department   -->
 
                     <div class="table-scroll">
                         <div class="table-wrapper">

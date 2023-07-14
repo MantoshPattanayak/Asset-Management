@@ -9,6 +9,82 @@ $(document).ready(function(){
   if (sessionStorage.getItem('sessionVar') != 'pass') {
     window.location.href = `./index.html`;
   }
+
+  function todayDate(){
+    let dtToday = new Date();
+    
+    let month = dtToday.getMonth() + 1;
+    let day = dtToday.getDate();
+    let year = dtToday.getFullYear();
+    let hour = dtToday.getHours();
+    let minute = dtToday.getMinutes();
+
+    if(hour.length < 2)
+      hour = '0' + hour.toString();
+    if(minute.length < 2)
+      minute = '0' + minute.toString();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+    
+    let todayDate = day + '-' + month + '-' + year + ' ' + hour + ':' + minute;
+
+    return todayDate;
+  }
+
+  //to restrict past date selection in date-picker
+  $('#scheduledStartDate').attr('min', new Date().toISOString().slice(0, 16));
+  $('#scheduledEndDate').attr('min', new Date().toISOString().slice(0, 16));
+
+
+  $.ajax({
+    url: "http://localhost:3000/audit-overview/audit_roll_check?employeeID="+sessionStorage.getItem('userID'),
+    method: "GET",
+    data: {
+    },
+
+    dataType: "",
+    success: function(user_type) {
+      console.log(user_type)
+      if (user_type == "user"){
+        //$('#create_audit').hide();
+        $('#button-div-audit').html('');
+        $('#button-div-audit').html(`<a href="AuditReport.html">
+                                          <button class="onclick-btn">
+                                            Audit Report
+                                          </button>
+                                      </a>`);
+        $('#side-nav-bar').html('');
+        $('#side-nav-bar').html(`
+            <ul>
+              <li>
+                  <!-- Dashboard -->
+                  <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a>
+              </li>
+              <li>
+                  <!-- Profile -->
+                  <a href="./AuditOverview.html"><i class='bx bx-edit'></i></a>
+              </li>
+              <li>
+                  <!-- Profile -->
+                  <a href="./profile.html"><i class='bx bxs-user'></i></a>
+              </li>
+
+          </ul>
+        `);
+      };
+    },
+    error: function(error) {
+      console.error("Error fetching table data:", error);
+    },
+    // complete: function() {
+    //   // Disable the button
+    //   if (user)
+    //     {$('#create_audit').hide()};
+    // }
+  });
+  
   let logout = document.getElementById('logoutBtn');
 logout.addEventListener('click', () => {
     $.post(
@@ -48,6 +124,11 @@ logout.addEventListener('click', () => {
           opt.innerHTML = location.location_name;
           locationSelectElement.appendChild(opt);
         })
+
+        //disable options:- outside_repair and outside_transport
+        $('#location-select').find('option[value=\"923013\"]').attr('disabled', 'true');
+        $('#location-select').find('option[value=\"994013\"]').attr('disabled', 'true');
+
       },
       error: function(error) {
         console.error("Error fetching table data:", error);
@@ -100,6 +181,11 @@ logout.addEventListener('click', () => {
           }
       })
     }
+    else{
+        let html = '';
+        $(".table-body").html(html);
+        getPagination('.table-body', 1);
+    }
   }
   //=================================to change url to fetch data for expected assets================================================//
   function getPagination(tableBodyElement, pageNumber){
@@ -113,6 +199,7 @@ logout.addEventListener('click', () => {
 
     initializePagination(tableBodyElement);
   }
+
 
   function initializePagination(tableBodyElement) {
     $('#maxRows').on('change', function(evt) {
@@ -163,6 +250,9 @@ logout.addEventListener('click', () => {
             .show();
           i++;
         }
+      }
+      else{
+        console.log('all_rows < maxRows', all_rows, maxRows);
       }
           
       fetchTableData(1, parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value), tableBodyElement); // Fetch initial table data for the first page and page size of 50
@@ -258,8 +348,8 @@ logout.addEventListener('click', () => {
           console.log(data)
           console.log("response pagination", response);
       
-          console.log('total rows: ', response.answer.allPages);
-          all_rows=response.answer.allPages;
+          console.log('total rows: ', response.answer.allPages.total_rows);
+          all_rows=response.answer.allPages.total_rows;
           console.log(all_rows);
 
           // Update the table with the fetched data
@@ -317,6 +407,21 @@ logout.addEventListener('click', () => {
   $('#maxRows').on('change', initializePagination('.table-body'));
 })
 /*************************************DOCUMENT READY FUNCTION -  END************************************************************/
+
+
+function allowOnlyDigits(event) {
+  const key = event.keyCode || event.which;
+  const keyChar = String.fromCharCode(key);
+  const regex = /[0-9]/;
+
+  // Allow only digits and limit input to a maximum of 6 characters
+  if (!regex.test(keyChar) || event.target.value.length >= 6) {
+    event.preventDefault();
+    return false;
+  }
+}
+
+
 
 //Audit Assign fetch Employee name on Employee ID input
 function fetchEmployeeDetails(event){

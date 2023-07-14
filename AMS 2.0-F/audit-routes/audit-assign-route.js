@@ -1,5 +1,6 @@
 const express = require('express');
 const mssql = require('mssql');
+const { CourierClient } = require("@trycourier/courier");
 
 const router = express.Router();
 
@@ -59,7 +60,9 @@ mssql.query(query1, (err, result1) => {
 router.get('/emp-no-emp-name',(req,res)=>{
     let emp_no=req.query.emp_no
 
-    let query=`select CONCAT(first_name, ' ', middle_name, ' ', last_name)  as emp_name from asset.dbo.Employees where emp_no=${emp_no}`
+    let query=`select CASE WHEN middle_name IS NULL OR middle_name = '' THEN CONCAT(first_name, ' ', last_name)
+    ELSE CONCAT(first_name, ' ', middle_name, ' ', last_name)
+END AS emp_name from asset.dbo.Employees where emp_no=${emp_no}`
 
     
 
@@ -83,7 +86,7 @@ router.get('/emp-no-emp-name',(req,res)=>{
 
     res.status(404).send({
 
-    message:"Emloyee number doesn't exist"
+    message:"Employee number doesn't exist"
 
        
 
@@ -227,7 +230,16 @@ const currentDatetime = new Date();
 const formattedDatetime = currentDatetime.toISOString();
 
 
-
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  let month = (date.getMonth() + 1).toString().padStart(2, '0');
+  let day = date.getDate().toString().padStart(2, '0');
+  let hours = date.getHours().toString().padStart(2, '0');
+  let minutes = date.getMinutes().toString().padStart(2, '0');
+  let seconds = date.getSeconds().toString().padStart(2, '0');
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
 
 
 
@@ -270,11 +282,27 @@ where a.dept_id=${departmentID} and a.location_id=${locationID}`
       
           let queryResult3 = mssql.query(`insert into asset.dbo.AssetAuditDetails(AuditId,AssetSerialId,CreatedOn,CreatedBy,LastUpdatedOn,LastUpdatedBy)
             values(${result.recordset[0].Id},${result2.recordset[i].serial},'${formattedDatetime}','${userID}','${formattedDatetime}','${userID}')`,(err,result3)=>{
-           
-           
-             
           })
         }
+
+        const courier = CourierClient(
+          { authorizationToken: "pk_prod_74VJJYV9FJM339HN62SS0E344X92"});
+          const { requestId } =  courier.send({
+          message: {
+            content: {
+              title: "Asset Audit Assignment",
+              //body: "You Have to Audit? {{Audit}}"
+              body: "{{Audit}}"
+            },
+            data: {
+              Audit: `You have an Audit from Date ${formatDate(scheduledStartDate)} to ${formatDate(scheduledEndDate)}`
+            },
+            to: {
+            email: "ramya.naik@soulunileaders.com"
+            }
+          }
+        });
+
         res.status(200).send({
             
           message:"Insertion Done"

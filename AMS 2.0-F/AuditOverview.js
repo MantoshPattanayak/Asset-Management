@@ -1,20 +1,77 @@
 /**alok */
 
+var user_type;
 
 $(document).ready(function() {
-  if (sessionStorage.getItem('sessionVar') != 'pass') {
+  if (sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass') {
     window.location.href = `./index.html`;
   }
 
+    // *** Debasish Code ***
+    // Data send for send user type to API
+    $.ajax({
+      url: "http://localhost:3000/audit-overview/audit_roll_check?employeeID="+sessionStorage.getItem('userID'),
+      method: "GET",
+      data: {
+      },
 
+      dataType: "",
+      success: function(user_type) {
+        console.log(user_type)
+        if (user_type == "user"){
+          //$('#create_audit').hide();
+          $('#button-div-audit').html('');
+          $('#button-div-audit').html(`<a href="AuditReport.html">
+                                            <button class="onclick-btn">
+                                              Audit Report
+                                            </button>
+                                        </a>`);
+          $('#side-nav-bar').html('');
+          $('#side-nav-bar').html(`
+              <ul>
+                <li>
+                    <!-- Dashboard -->
+                    <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a>
+                </li>
+                <li>
+                    <!-- Profile -->
+                    <a href="./AuditOverview.html"><i class='bx bx-edit'></i></a>
+                </li>
+                <li>
+                    <!-- Profile -->
+                    <a href="./profile.html"><i class='bx bxs-user'></i></a>
+                </li>
+
+            </ul>
+          `);
+        };
+      },
+      error: function(error) {
+        console.error("Error fetching table data:", error);
+      },
+      // complete: function() {
+      //   // Disable the button
+      //   if (user)
+      //     {$('#create_audit').hide()};
+      // }
+    });
+
+    // 
     console.log("document ready");
+    
+function load_all_data(){
+
     load_data();
   
     function load_data() {
+      let  location_id= $('#LocationId').val();
+      let employee_no1=$('#EmployeeNo').val();
+      let department_id=$('#DepartmentId').val();
+      console.log(location_id,employee_no1,department_id)
       console.log("Loading");
   
       $.ajax({
-        url: "http://localhost:3000/audit-overview/audit_parent",
+        url: `http://localhost:3000/audit-overview/audit_parent?locationId=${location_id}&departmentId=${department_id}&employee_no=${employee_no1}`,
         method: "POST",
         data: { action: 'fetch' },
         dataType: "JSON",
@@ -50,9 +107,13 @@ $(document).ready(function() {
     }
   
     function fetchTableData(currentPage, maxRows, tableBodyElement) {
+      let  location_id= $('#LocationId').val();
+      let employee_no1=$('#EmployeeNo').val();
+      let department_id=$('#DepartmentId').val();
+        console.log(location_id,employee_no1,department_id)
       console.log(currentPage );
       $.ajax({
-        url: "http://localhost:3000/audit-overview/audit_parent",
+        url: `http://localhost:3000/audit-overview/audit_parent?locationId=${location_id}&departmentId=${department_id}&employee_no=${employee_no1}`,
         method: "POST",
         data: {
           page_number: currentPage,
@@ -150,6 +211,13 @@ $(document).ready(function() {
               .show();
             i++;
           }
+        }
+        else{
+          console.log('all_rows < maxRows', all_rows, maxRows);
+          $('#prev').attr('disabled','disabled');
+          $('#prev').css('pointer-events', 'none');
+          $('#prev1').css('pointer-events', 'none');
+          $('#prev1').attr('disabled','disabled');
         }
   
         fetchTableData(1, parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value), tableBodyElement);
@@ -324,7 +392,17 @@ $(document).ready(function() {
       });
       limitPagination();
     });
-  });
+  };
+  load_all_data();
+
+$('#searchButton').on('click', function(evt) {
+  evt.preventDefault();
+  // Call the load_all_data() function to fetch data with updated filter parameters
+  load_all_data();
+});
+
+})
+
 
 
 
@@ -414,6 +492,8 @@ $(document).ready(function() {
             let locationSelect = response.recordset.map((n) => {
                 $('#LocationId')[0].appendChild(new Option(n.location_name, n.location_id, false, false))
             });
+            $('#LocationId').find('option[value=\"923013\"]').attr('disabled', 'true');
+            $('#LocationId').find('option[value=\"994013\"]').attr('disabled', 'true');
         },
         error: function (xhr, status, error) {
             console.error('Error:', error);
@@ -428,7 +508,6 @@ $(document).ready(function() {
             response.recordset.map((n) => {
                 $('#DepartmentId')[0].appendChild(new Option(n.dept_name, n.dept_id, false, false))
             });
-
         },
         error: function (xhr, status, error) {
             console.error('Error:', error);

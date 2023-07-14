@@ -1,9 +1,9 @@
 $(document).ready(function() {
-  if (sessionStorage.getItem('sessionVar') != 'pass') {
+  if(sessionStorage.getItem('sessionVar') != 'pass'){
     window.location.href = `./index.html`;
   }
   console.log("document ready");
-  load_data();
+  
   let asset_id ;
     let asset_type ;
     let asset_name;
@@ -12,19 +12,34 @@ $(document).ready(function() {
     let emp_no ;
     let location_name ;
 
+
+ 
+    
+function load_all_data(){
+  load_data();
+
   function load_data() {
+    
+    let assetId= $('#filter-asset-id').val();
+    let asset_Type= $('#filter-asset-type').val();
+    let assetType=encodeURIComponent(asset_Type)
+    let assetName= $('#filter-asset-name').val();
+    let deptName= $('#filter-dept-name').val();
+    let empName= $('#filter-emp-name').val();
+    let empNo= $('#filter-emp-no').val();
+    let locationName= $('#filter-location-name').val();
+    
     console.log("Loading");
   
     $.ajax({
-      url: "http://localhost:3000/AllAssets",
+      url: `http://localhost:3000/advance-one?asset_id=${assetId}&asset_type=${assetType}&asset_name=${assetName}&dept_name=${deptName}&emp_name=${empName}&emp_no=${empNo}&location_name=${locationName}`,
       method: "POST",
       data: { action: 'fetch' },
       dataType: "JSON",
       success: function(data) {
         var html = '';
-     
-
-        console.log('data length on doc ready function', data.answer.allPages.total_rows);
+        console.log('data length on doc ready function', data);
+       
 
         all_rows = data.answer.allPages.total_rows;
 
@@ -159,7 +174,7 @@ let all_rows;
 ///it's try//
 var lastPage = 1;
 
-function getPagination(table, pageNumber) {
+function  getPagination(table, pageNumber) {
 console.log('table', table);
 
 var tableBodyElement = $(table);
@@ -175,8 +190,17 @@ function fetchTableData(currentPage, maxRows, tableBodyElement) {
 //var apiUrl = ;
 // Send a request  to the API to fetch the data for the specified page and page size
 
+let assetId= $('#filter-asset-id').val();
+let asset_Type= $('#filter-asset-type').val();
+let assetType=encodeURIComponent(asset_Type)
+let assetName= $('#filter-asset-name').val();
+let deptName= $('#filter-dept-name').val();
+let empName= $('#filter-emp-name').val();
+let empNo= $('#filter-emp-no').val();
+let locationName= $('#filter-location-name').val();
+
 $.ajax({
-  url: "http://localhost:3000/AllAssets",
+  url:  `http://localhost:3000/advance-one?asset_id=${assetId}&asset_type=${assetType}&asset_name=${assetName}&dept_name=${deptName}&emp_name=${empName}&emp_no=${empNo}&location_name=${locationName}`,
   method: "POST",
   data: {
     page_number: currentPage,
@@ -369,7 +393,20 @@ limitPagging();
 
 fetchTableData(lastPage, maxRows, tableBodyElement);
 })
+
+}
+
+load_all_data();
+
+$('#advancefilter').on('click', function(evt) {
+  evt.preventDefault();
+  // Call the load_all_data() function to fetch data with updated filter parameters
+  load_all_data();
+});
+
 })
+
+
 
 
 
@@ -392,13 +429,13 @@ var filterEmpNameInput = document.getElementById("filter-emp-name");
 var filterEmpNoInput = document.getElementById("filter-emp-no");
 var filterLocationNameSelect = document.getElementById("filter-location-name");
 ///here filter the data
-filterAssetIdInput.addEventListener("input", filterTable);
-filterAssetTypeSelect.addEventListener("change", filterTable);
-filterAssetNameInput.addEventListener("input", filterTable);
-filterDeptNameSelect.addEventListener("change", filterTable);
-filterEmpNameInput.addEventListener("input", filterTable);
-filterEmpNoInput.addEventListener("input", filterTable);
-filterLocationNameSelect.addEventListener("change", filterTable);
+// filterAssetIdInput.addEventListener("input", filterTable);
+// filterAssetTypeSelect.addEventListener("change", filterTable);
+// filterAssetNameInput.addEventListener("input", filterTable);
+// filterDeptNameSelect.addEventListener("change", filterTable);
+// filterEmpNameInput.addEventListener("input", filterTable);
+// filterEmpNoInput.addEventListener("input", filterTable);
+// filterLocationNameSelect.addEventListener("change", filterTable);
 ///Pop
 function populateDropdown(selectElement, options) {
   options.forEach(function(option) {
@@ -925,3 +962,335 @@ logout.addEventListener('click', () => {
     }
   )
 });
+
+
+
+
+
+// Mantosh Advanced search
+
+
+
+// function fetchTotalRows() {
+//   $.ajax({
+//     url: 'http://127.0.0.1:3000/Advancedsearch',
+//     method: 'POST',
+//     data: { action: 'fetch' },
+//     dataType: "JSON",
+//     success: function(response) {
+//       all_rows = response.answer.allPages.total_rows;
+//       // Calculate number of pages based on total rows and rows per page
+//       var totalPages = Math.ceil(totalRows / rowsPerPage);
+
+//       // Generate the pagination HTML
+//       var paginationHTML = '';
+//       for (var i = 1; i <= totalPages; i++) {
+//         paginationHTML += '<button class="pagination-button" data-page="' + i + '">' + i + '</button>';
+//       }
+
+//       // Append the pagination HTML to the page
+//       $('#pagination-container').html(paginationHTML);
+
+//       // Attach click event handlers to the pagination buttons
+//       $('.pagination-button').click(function() {
+//         var page = $(this).data('page');
+//         fetchData(page);
+//       });
+
+//       // Fetch data for the initial page
+//       fetchData(currentPage);
+//     },
+//     error: function(error) {
+//       console.log('Error fetching total rows:', error);
+//     }
+//   });
+// }
+
+// // Function to fetch data for the specified page
+// function fetchData(page) {
+//   currentPage = page;
+
+//   $.ajax({
+//     url: '',
+//     method: 'POSTT',
+//     data: {
+//       page: page,
+//       rowsPerPage: rowsPerPage,
+//       filter: filterCriteria
+//       // additional search parameters if needed
+//     },
+//     success: function(response) {
+//       var currentPageData = response.currentPageData;
+//       // Process and render the data in your frontend
+//       renderData(currentPageData);
+//     },
+//     error: function(error) {
+//       console.log('Error fetching data for page', page, ':', error);
+//     }
+//   });
+// }
+
+// // Function to handle filtering
+// function applyFilter() {
+//   // Get the filter criteria from the input field
+//   filterCriteria = $('#filter-input').val();
+
+//   // Fetch total rows and data again with the applied filter
+//   fetchTotalRows();
+// }
+
+// // Function to render the data in your frontend
+// function renderData(data) {
+//   // Render the data in your desired HTML structure
+//   // For example, update a table with the received data
+// }
+
+// // Call the fetchTotalRows function to initiate the initial data fetch and pagination
+// fetchTotalRows();
+
+// // Attach event listener to the filter button
+// $('#filter-button').click(function() {
+//   applyFilter();
+// });
+
+// // Attach event listener to the input field for instant filtering
+// $('#filter-input').on('input', function() {
+//   applyFilter();
+// });
+
+
+
+
+// function load_data() {
+//   console.log("Loading");
+
+//   $.ajax({
+//     url: "http://localhost:3000/AllAssets",
+//     method: "POST",
+//     data: { action: 'fetch' },
+//     dataType: "JSON",
+//     success: function(data) {
+//       var html = '';
+//       console.log('data length on doc ready function', data.answer.allPages.total_rows);
+
+//       all_rows = data.answer.allPages.total_rows;
+
+//       $(".table-body").html(html);
+
+//       //$(".table-body")[0].style.display = 'none';
+
+//       getPagination('.table-body', 1);
+//     }
+//   });
+// }
+
+// /**   Pagination part */
+// let all_rows;
+// var lastPage = 1;
+
+// function getPagination(table, pageNumber) {
+//   console.log('table', table);
+
+//   var tableBodyElement = $(table);
+//   console.log('tableBodyElement', tableBodyElement);
+
+//   var currentPage = pageNumber;
+//   console.log("getPaging function called!!!!");
+
+//   initializePagination(tableBodyElement);
+// }
+
+// function fetchTableData(currentPage, maxRows, tableBodyElement) {
+//   var filterAssetId = $('#filter-asset-id').val();
+//   var filterAssetType = $('#filter-asset-type').val();
+//   var filterAssetName = $('#filter-asset-name').val();
+//   var filterDeptName = $('#filter-dept-name').val();
+//   var filterEmpName = $('#filter-emp-name').val();
+//   var filterEmpNo = $('#filter-emp-no').val();
+//   var filterLocationName = $('#filter-location-name').val();
+
+//   $.ajax({
+//     url: "http://localhost:3000/Advancedsearch",
+//     method: "POST",
+//     data: {
+//       page_number: currentPage,
+//       page_size: maxRows,
+//       filter_asset_id: filterAssetId,
+//       filter_asset_type: filterAssetType,
+//       filter_asset_name: filterAssetName,
+//       filter_dept_name: filterDeptName,
+//       filter_emp_name: filterEmpName,
+//       filter_emp_no: filterEmpNo,
+//       filter_location_name: filterLocationName
+//     },
+//     success: function(response) {
+//       var data = response.answer.answer;
+//       var message = response.answer.allPages;
+//       console.log("response pagination", data);
+
+//       console.log(message.total_rows);
+//       all_rows = message.total_rows;
+//       console.log(all_rows);
+
+//       $(tableBodyElement).html(""); // Clear the table body
+
+//       if (data && data.length > 0) {
+//         for (var i = 0; i < data.length; i++) {
+//           var row = data[i];
+//           var html = "<tr>";
+//           html += "<td>" + row.asset_id + "</td>";
+//           html += "<td>" + row.asset_type + "</td>";
+//           html += "<td>" + row.asset_name + "</td>";
+//           html += "<td>" + row.dept_name + "</td>";
+//           html += "<td>" + row.emp_name + "</td>";
+//           html += "<td>" + row.emp_no + "</td>";
+//           html += "<td>" + row.location_name + "</td>";
+//           html += `<td><button class="btn-info edit-btn">Edit</button></td></tr>`;
+//           html += "</tr>";
+//           $(tableBodyElement).append(html);
+//         }
+//         $('.table-scroll').show();
+//         $('#no-data-message').hide();
+//       } else {
+//         $('.table-body').show();
+//         $('#no-data-message').show();
+//       }
+//     },
+//     error: function(error) {
+//       console.error("Error fetching table data:", error);
+//     }
+//   });
+// }
+
+// function initializePagination(tableBodyElement) {
+//   $('#maxRows').on('change', function(evt) {
+//     lastPage = 1;
+//     $('.pagination')
+//       .find('li')
+//       .slice(1, -1)
+//       .remove();
+//     var trnum = 0; // reset tr counter
+//     var maxRows = parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value);
+//     console.log("maxRows", maxRows);
+//     if (maxRows == 500) {
+//       $('.pagination').hide();
+//       console.log('pagination hide!!!');
+//     } else {
+//       $('.pagination').show();
+//       console.log('pagination show!!!');
+//     }
+
+//     console.log("Total row", all_rows);
+
+//     $(tableBodyElement)
+//       .find('tr')
+//       .each(function() {
+//         trnum++;
+//         if (trnum > maxRows) {
+//           $(this).hide();
+//         }
+//         if (trnum <= maxRows) {
+//           $(this).show();
+//         }
+//       });
+
+//     if (all_rows > maxRows) {
+//       var pagenum = Math.ceil(all_rows / maxRows);
+//       console.log("No of page", pagenum)
+//       for (var i = 1; i <= pagenum;) {
+//         $('.pagination #prev')
+//           .before(
+//             '<li data-page="' +
+//             i +
+//             '">\
+//             <span>' +
+//             i +
+//             '</span>\
+//           </li>'
+//           )
+//           .show();
+//         i++;
+//       }
+//     }
+
+//     fetchTableData(1, parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value), tableBodyElement);
+
+//     $('.pagination [data-page="1"]').addClass('active');
+//     $('.pagination li').on('click', function(evt) {
+//       evt.stopImmediatePropagation();
+//       evt.preventDefault();
+//       var pageNum = $(this).attr('data-page');
+//       var maxRows = parseInt($('#maxRows').val());
+
+//       if (pageNum == 'prev') {
+//         if (lastPage == 1) {
+//           return;
+//         }
+//         pageNum = --lastPage;
+//       }
+//       if (pageNum == 'next') {
+//         if (lastPage == $('.pagination li').length - 2) {
+//           return;
+//         }
+//         pageNum = ++lastPage;
+//       }
+
+//       lastPage = pageNum;
+//       var trIndex = 0;
+//       $('.pagination li').removeClass('active');
+//       $('.pagination [data-page="' + lastPage + '"]').addClass('active');
+//       limitPagging();
+
+//       fetchTableData(lastPage, maxRows, tableBodyElement);
+//     });
+//     limitPagging();
+//   })
+//     .val(parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value))
+//     .change();
+// }
+
+// function limitPagging() {
+//   var currentPage = parseInt($('.pagination li.active').attr('data-page'));
+//   var totalPages = $('.pagination li').length - 2;
+
+//   if (currentPage <= 3) {
+//     $('.pagination li:gt(5)').hide();
+//     $('.pagination li:lt(5)').show();
+//     $('.pagination [data-page="next"]').show();
+//     $('.pagination [data-page="prev"]').show();
+//   } else if (currentPage > 3 && currentPage < totalPages - 2) {
+//     $('.pagination li').hide();
+//     $('.pagination [data-page="next"]').show();
+//     $('.pagination [data-page="prev"]').show();
+
+//     for (var i = currentPage - 2; i <= currentPage + 2; i++) {
+//       $('.pagination [data-page="' + i + '"]').show();
+//     }
+//   } else {
+//     $('.pagination li').hide();
+//     $('.pagination [data-page="next"]').show();
+//     $('.pagination [data-page="prev"]').show();
+
+//     for (var j = totalPages - 4; j <= totalPages; j++) {
+//       $('.pagination [data-page="' + j + '"]').show();
+//     }
+//   }
+// }
+
+// $(document).ready(function() {
+//   load_data();
+
+//   $('#filter-button').on('click', function() {
+//     lastPage = 1;
+//     fetchTableData(1, parseInt($('#maxRows').val()), '.table-body');
+//   });
+
+//   // ...
+// });
+
+
+
+
+
+
+

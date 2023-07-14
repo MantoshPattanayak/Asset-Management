@@ -25,6 +25,10 @@
             <section class="imageSet">
                 <img src="./images/favicon.ico" alt="" class="companyLogo">
             </section>
+
+
+            <!-- Displaying sidenavbar icon -->
+
             <nav class="navbar">
                 <ul>
                     <li>
@@ -105,41 +109,7 @@
                 </div>
                 <div class="form-inner">
 
-                    <!-- <form action="#" class="login">
-                    <h1>Single Asset Registration </h1> -->
-                    <!-- <div class="single-container">
-                    <div class="form-group">
-                        <label for="asset-name"><i class='bx bxs-objects-vertical-bottom' ></i>&nbsp; &nbsp;Asset Name </label>
-                        <input type="text" name="asset-name"  placeholder="Asset Name" id="asset-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="asset-type"><i class='bx bxs-devices' ></i>&nbsp;&nbsp; Asset Type</label>
-                        <input type="text" name="asset-name"  placeholder="Asset Type"   id="asset-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="asset-category"><i class='bx bxs-category'></i> &nbsp;Asset Category</label>
-                        <input type="text" name="asset-category"  placeholder="Asset Category" id="asset-category" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="asset-location"><i class='bx bx-map-pin'></i>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; Location</label>
-                        <input type="text" name="asset-location"  placeholder="Asset Location"   id="asset-location" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="asset-date"><i class='bx bxs-calendar' ></i>&nbsp; &nbsp;Asset Date</label>
-                        <input type="date" name="asset-date"  placeholder="Asset Date" id="asset-date" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="asset-value"><i class='bx bx-money-withdraw bx-rotate-180' style='color:#100f0f' ></i>&nbsp; &nbsp;Asset Value</label>
-                        <input type="number" name="asset-value" placeholder="Asset Value" id="asset-value" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="department-tagid"><i class='bx bxs-business'></i>&nbsp; &nbsp;Department  ID</label>
-                        <input type="number" name="department-tagid"  placeholder="Department Id" id="department-tagid" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Register Asset">
-                        </div>
-                </div> -->
+                    <!-- *******************************Single asset registration form  ************************************************************************************************ -->
                     <!-- </form> -->
                     <form action="#" class="login" id="Assetreg">
                         <h1>Single Asset Registration </h1>
@@ -203,6 +173,9 @@
                             </div>
                         </div>
                     </form>
+
+                    <!--****************************************************************** Multi-asset Registration Form*************************************************** -->
+                    <!-- Here multiple assets are filled and uploaded in csv form  -->
 
                     <form action="#" class="signup">
 
@@ -393,6 +366,7 @@
                         <h1 class="table-title"> Asset &amp; Management Overview</h1>
                         <div class="table-scroll">
                             <div class="table-wrapper">
+                                <form id="overview-advance">
                                 <table class="sticky-table" id="example">
 
                                     <thead class="table-head" title="Click to sort">
@@ -419,14 +393,19 @@
                                                 </select></th>
                                             <th class="col-head" scope="col">Update</th>
                                         </tr>
+                                        
                                     </thead>
 
-
+                                    
                                     <tbody class="table-body">
 
                                     </tbody>
+                                    <tr>
+                                          <input type="submit" value="filter" id="advancefilter">
+                                        </td>
+                                      </tr>
                                 </table>
-
+                            </form>
                             </div> <!-- /.table-scroll -->
                             <div id="no-data-message" style="display: none;">Data is not available</div> 
                         </div> <!-- /.table-wrapoer -->
@@ -436,12 +415,12 @@
                                 <ul class="pagination">
                                     <li data-page="prev">
                                         <span>
-                                            < <span class="sr-only">(current)
+                                            prev <span class="sr-only">(current)
                                         </span></span>
                                     </li>
                                     <!--	Here the JS Function Will Add the Rows -->
                                     <li data-page="next" id="prev">
-                                        <span> > <span class="sr-only">(current)</span></span>
+                                        <span> next <span class="sr-only">(current)</span></span>
                                     </li>
                                 </ul>
                             </nav>
