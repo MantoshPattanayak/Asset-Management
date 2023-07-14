@@ -1,4 +1,7 @@
+/**===================================================DOCUMENT READY FUNCTION -  START=======================================*/
 $(document).ready(function () {
+
+  //if no user signed in, then redirect to login page
   if (sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass') {
     window.location.href = `./index.html`;
   }
@@ -14,6 +17,7 @@ $(document).ready(function () {
 
   });
 
+  /**================AJAX CALL to fetch role of logged in user - START============================== */
   $.ajax({
     url: "http://localhost:3000/audit-overview/audit_roll_check?employeeID=" + sessionStorage.getItem('userID'),
     method: "GET",
@@ -22,7 +26,7 @@ $(document).ready(function () {
 
     dataType: "",
     success: function (user_type) {
-      console.log(user_type)
+      // console.log(user_type)
       if (user_type == "user") {
         //$('#create_audit').hide();
         $('#button-div-audit').html('');
@@ -60,7 +64,10 @@ $(document).ready(function () {
     //     {$('#create_audit').hide()};
     // }
   });
+  /**===============AJAX CALL to fetch role of logged in user - END============================== */
 
+
+  /**On clicking search button, display fetched data in tabular format*/
   $('#audit-submit').on('click', function (event) {
     event.preventDefault(); // Prevent form submission
 
@@ -86,7 +93,7 @@ $(document).ready(function () {
           url: `http://localhost:3000/audit-report/submitData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
           type: 'GET',
           success: function (response) {
-            console.log(response);
+            // console.log(response);
             // Handle the data
             var tableContainer = document.getElementById('tableContainer');
             tableContainer.innerHTML = ''; // Clear previous content
@@ -164,9 +171,11 @@ $(document).ready(function () {
       
   });
 })
+/**==============================================DOCUMENT READY FUNCTION - END========================================= */
 
 /***********************************************✈️✈️✈️*******************************************************************************/
 
+/**Restrict digit only entry in Auditor Employee Number */
 function checkInputValue(event) {
   if (!(event.keyCode >= 48 && event.keyCode <= 57)) {
     event.preventDefault();
@@ -174,15 +183,15 @@ function checkInputValue(event) {
   }
 }
 
-//*******************************Download the csv file of according to  Audit Number (Report page )**************************************✈️✈️ */
+//*******************************Download the csv, PDF file of according to  Audit Number (Report page ) -  START**************************************✈️✈️ */
 
 function downloadAsCSVFile(e, element) {
-  console.log('download CSV File!!!');
+  // console.log('download CSV File!!!');
   e.preventDefault();
 
   let auditID = $(element).closest('tr').find('td').eq(0).text();
 
-  console.log("autid id 1", auditID);
+  // console.log("autid id 1", auditID);
   if (auditID != '') {
     generateCSVReportRow(auditID);
   }
@@ -195,9 +204,9 @@ function generateCSVReportRow(auditID) {
     type: 'GET',
     success: function (response) {
       // Handle the data
-      console.log(response);
+      // console.log(response);
       let tableData1 = response.assetAuditDetails;
-      console.log("tableData1", tableData1);
+      // console.log("tableData1", tableData1);
 
       // Set the table header
       var tableHeader = ['Asset Status', 'Asset class', 'Asset Id', 'Asset Name', 'Asset Type', 'Location Name', 'Tag Id', 'Tag uuid'];
@@ -251,20 +260,18 @@ function generateCSVReportRow(auditID) {
     }
   });
 }
+//*******************************Download the csv, PDF file of according to  Audit Number (Report page ) -  END**************************************✈️✈️ */
+
 
 
 /********************************Download the pdf of each Audi_no details**************************************************✈️✈️✈️*****/
-
-
-
-
 function downloadAsPDFFile(e, element) {
 
   e.preventDefault();
-  console.log('export func');
+  // console.log('export func');
 
   let auditID = $(element).closest('tr').find('td').eq(0).text();
-  console.log(auditID);
+  // console.log(auditID);
 
 
   // Generate PDF report
@@ -284,9 +291,9 @@ function generatePDFReportRow(auditID) {
     type: 'GET',
     success: function (response) {
       // Handle the data
-      console.log(response);
+      // console.log(response);
       let tableData1 = response.assetAuditDetails;
-      console.log("5".tableData1);
+      // console.log("5".tableData1);
 
       // Format the date
       function formatDate(dateString) {
@@ -302,7 +309,7 @@ function generatePDFReportRow(auditID) {
       var tableHeader = [['Asset Status', 'Asset class', 'Asset Id', 'Asset Name', 'Asset Type', 'Location Name', 'Tag Id', 'Tag uuid']];
 
       // Set the table rows
-      console.log('1', tableData1);
+      // console.log('1', tableData1);
       var tableRows1 = tableData1.map(function (item) {
         return [
           item.AssetStatus,
@@ -316,7 +323,7 @@ function generatePDFReportRow(auditID) {
         ];
       });
 
-      console.log(tableRows1);
+      // console.log(tableRows1);
       doc.setFontSize(14);
       doc.text(`Audit Number: ${response.auditFormData.AuditNumber}`, 15, 35);
       doc.text(`Auditor Name: ${response.auditFormData.AuditorName}`, 195, 35);
@@ -463,10 +470,10 @@ function generatePDFReportRow(auditID) {
 }
 
 
-/**************************************Export Table  INOT PDF FILE**************************************************************✈️✈️✈️**/
+/**************************************Export Table  AS PDF FILE**************************************************************✈️✈️✈️**/
 function exportTable(event) {
   event.preventDefault();
-  console.log('export func');
+  // console.log('export func');
 
   let employeeNumber = $('#fieldName').val();
   let fromDate = $('#startDate').val();
@@ -488,7 +495,7 @@ function generatePDFReport(employeeNumber, fromDate, toDate) {
     type: 'GET',
     success: function (response) {
       // Handle the data
-      console.log(response);
+      // console.log(response);
       var tableData = response.auditTableData;
 
       // Format the date
@@ -522,7 +529,7 @@ function generatePDFReport(employeeNumber, fromDate, toDate) {
         ];
       });
 
-      console.log('tableRows', tableRows);
+      // console.log('tableRows', tableRows);
 
       doc.text(`Start Date  ${formatDate($('#startDate').val())}                                                                                           End Date ${formatDate($('#endDate').val())}   `, 10, 40);
 
@@ -652,7 +659,7 @@ function generatePDFReport(employeeNumber, fromDate, toDate) {
 /***********************************Export the data of table into CSV FILE*********************************************************✈️✈️✈️✈️*/
 function exportTablecsv(event) {
   event.preventDefault();
-  console.log('export func');
+  // console.log('export func');
 
   let employeeNumber = $('#fieldName').val();
   let fromDate = $('#startDate').val();
@@ -672,9 +679,9 @@ function generateCSVReportTable(employeeNumber, fromDate, toDate) {
     type: 'GET',
     success: function (response) {
       // Handle the data
-      console.log(response);
+      // console.log(response);
       let tableData1 = response.auditTableData;
-      console.log("tableData1", tableData1);
+      // console.log("tableData1", tableData1);
 
 
       // Format the date
@@ -732,6 +739,8 @@ function generateCSVReportTable(employeeNumber, fromDate, toDate) {
   });
 }
 
+
+/**Log out functionality */
 let logout = document.getElementById('logoutBtn');
 logout.addEventListener('click', () => {
     $.post(
