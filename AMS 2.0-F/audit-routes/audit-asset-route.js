@@ -10,7 +10,7 @@ router.post('/fetch-data', async (req, res) => {
     const page_number=req.query.page_number;
 
     const page_size=req.query.page_size;
-    console.log("page number", page_number);
+    // console.log("page number", page_number);
 
     let query = "select ad.Id as AuditNumber, CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name) as NameOfAuditor, "
     +"ad.AuditStatus, l.location_name, ad.ScheduledStartDate, ad.ScheduledEndDate "
@@ -70,10 +70,10 @@ router.post('/fetch-data', async (req, res) => {
                 res.sendStatus(500);
                 return;
                 }
-                console.log(result3)
+                // console.log(result3)
                 total_rows = result3.recordset[0].TotalRows;
                 const all_rows={all_pages:total_rows};
-                console.log('Total Rows:', total_rows);
+                // console.log('Total Rows:', total_rows);
                
 
             let request1 = new  mssql.Request();

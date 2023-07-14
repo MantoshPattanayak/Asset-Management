@@ -752,7 +752,7 @@ app.get('/departments',(req,res)=>{
 
 //satyam vivek work end  
 
-// Mantosh work
+// Mantosh work starts
 
 ///single Asset Reg    
 app.get('/fetchdname', (req, res) => {
@@ -769,22 +769,23 @@ app.get('/fetchdname', (req, res) => {
                     dept_name: result.recordset
 
                 }
-                console.log(message)
+                // console.log(message)
                 const answer = {
                     asset_type: result1.recordset
                 }
                 res.send({ message: message, answer: answer });
-                console.log(answer)
+                // console.log(answer)
             })
         }
 
     })
 
 })
-
+//  Mantosh work starts here
+//  it is used to fetch the dept_id with respect to the department name
 app.get('/ddata', (req, res) => {
     const dn = req.query.dn;
-    console.log('dn value in fetch api: ' + dn)
+    // console.log('dn value in fetch api: ' + dn)
     let query = `select dept_id from asset.dbo.department where dept_name='${dn}' `
     let queryResult = mssql.query(query, (err, result) => {
 
@@ -796,7 +797,7 @@ app.get('/ddata', (req, res) => {
 
             }
             res.send({ message: message });
-            console.log(message)
+            // console.log(message)
         }
         else {
             res.json({ message: 'No existing department!!!' })
@@ -806,10 +807,12 @@ app.get('/ddata', (req, res) => {
 })
 // Mantosh work ends here
 
+//  Mantosh work starts here 
+// it is used to fetch the asset_class with respect to the asset_desc
 app.get('/assetclass', (req, res) => {
     let at = req.query.at;
-    console.log(`"${at}"`)
-    console.log('assetype value in fetch api: ' + at)
+    // console.log(`"${at}"`)
+    // console.log('assetype value in fetch api: ' + at)
     let query = `select asset_class from asset.dbo.asset_class  where asset_desc='${at}'`
     let queryResult = mssql.query(query, (err, result) => {
 
@@ -821,7 +824,7 @@ app.get('/assetclass', (req, res) => {
 
             }
             res.send({ message: message });
-            console.log(message)
+            // console.log(message)
         }
 
         else {
@@ -832,7 +835,9 @@ app.get('/assetclass', (req, res) => {
 })
 
 
-// Mantosh work here  
+// Mantosh work  starts here  
+// it is used for the single asset registration
+
 
 app.post('/assetreg', (req, res) => {
     const { assetd, assetn, assett, assetp, deptid, empid, taguid, assetc } = req.body
@@ -940,8 +945,9 @@ app.post('/assetreg', (req, res) => {
     })
 })
 
+// Mantosh work starts here  
 
-///Adavance seach drop-down alok
+///Adavance seach drop-down 
 app.get('/fetch', (req, res) => {
     let query = `select distinct dept_name from asset.dbo.department`;
     let query1 = `select distinct asset_type from asset.dbo.assets a where asset_type is not null order by 1`
@@ -976,9 +982,9 @@ app.get('/fetch', (req, res) => {
 
                         res.send({ message: message, answer: answer, answer2: answer2 });
 
-                        console.log(message)
+                        // console.log(message)
 
-                        console.log(answer)
+                        // console.log(answer)
                     })
                 }
 
@@ -2966,6 +2972,10 @@ app.post('/aDeny', (req, res) => {
     })
 })
 
+
+
+// Mantosh code starts here
+//  it is used to show the overview of all the assets and advance search also implemented here and the pagination also implemented here
 app.post('/advance-one', (req, res) => {
 
     // Extract the inputs from the request
@@ -2980,10 +2990,10 @@ app.post('/advance-one', (req, res) => {
     // } = req.query;
 // const page_number=2;
 //  const page_size=10;
-console.log(22)
+// console.log(22)
 let limit = (req.body.page_size) ? req.body.page_size :50;
     let answer;
-console.log(1)
+// console.log(1)
     let page = (req.body.page_number) ? req.body.page_number :1;
   
 
@@ -3026,31 +3036,31 @@ console.log(1)
     if (asset_id !== undefined && asset_id !== null && asset_id.trim() !== '') {
       query += ` AND a.asset_id = ${asset_id}`;
       query1 += ` AND a.asset_id = ${asset_id}`;
-      console.log(`${asset_id}`)
+    //   console.log(`${asset_id}`)
     }
 
     if (asset_type !== undefined && asset_type !== null && asset_type.trim() !== '') {
       query += ` AND a.asset_type = '${asset_type}'`;
       query1 += ` AND a.asset_type = '${asset_type}'`;
-      console.log(`${asset_type}`)
+    //   console.log(`${asset_type}`)
     }
 
     if (asset_name !== undefined && asset_name !== null && asset_name.trim() !== '') {
       query += ` AND a.asset_name = '${asset_name}'`;
       query1 += ` AND a.asset_name = '${asset_name}'`;
-      console.log(`${asset_name}`)
+    //   console.log(`${asset_name}`)
     }
 
     if (dept_name !== undefined && dept_name !== null && dept_name.trim() !== '') {
       query += ` AND d.dept_name = '${dept_name}'`;
       query1 += ` AND d.dept_name = '${dept_name}'`;
-      console.log(`${dept_name}`)
+    //   console.log(`${dept_name}`)
     }
 
     if (emp_name !== undefined && emp_name !== null && emp_name.trim() !== '') {
       query += ` AND e.first_name= '${emp_name.split(" ")[0]}'`;
       query1 += ` AND e.first_name= '${emp_name.split(" ")[0]}'`;
-      console.log(emp_name.split(" ")[0])
+    //   console.log(emp_name.split(" ")[0])
       
   
     }
@@ -3058,13 +3068,13 @@ console.log(1)
     if (emp_no !== undefined && emp_no !== null && emp_no.trim() !== '') {
       query += ` AND e.emp_no = ${emp_no}`;
       query1 += ` AND e.emp_no = ${emp_no}`;
-      console.log(`${emp_no}`)
+    //   console.log(`${emp_no}`)
     }
 
     if (location_name !== undefined && location_name !== null && location_name.trim() !== '') {
       query += ` AND l.location_name = '${location_name}'`;
       query1 += ` AND l.location_name = '${location_name}'`;
-      console.log(`${location_name}`)
+    //   console.log(`${location_name}`)
     }
 
     if(page!= null) {
@@ -3081,7 +3091,7 @@ console.log(1)
     }
 
     total_rows = result1.recordset[0].TotalRows;
-    console.log('Total Rows:', total_rows);
+    // console.log('Total Rows:', total_rows);
 
     let request2 = new  mssql.Request();
     // request2.input('total_rows', mssql.Int, total_rows);
@@ -3102,14 +3112,14 @@ console.log(1)
         answer: data,
         allPages: allPages
       };
-      console.log(answer)
-      console.log(asset_id)
-      console.log(dept_name)
-      console.log(emp_name)
-      console.log(emp_no)
-      console.log(asset_type)
-      console.log(asset_name)
-      console.log(location_name)
+    //   console.log(answer)
+    //   console.log(asset_id)
+    //   console.log(dept_name)
+    //   console.log(emp_name)
+    //   console.log(emp_no)
+    //   console.log(asset_type)
+    //   console.log(asset_name)
+    //   console.log(location_name)
       res.send({ answer: answer });
     });
   })

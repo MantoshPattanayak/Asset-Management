@@ -2,7 +2,7 @@ $(document).ready(function() {
   if(sessionStorage.getItem('sessionVar') != 'pass'){
     window.location.href = `./index.html`;
   }
-  console.log("document ready");
+  // console.log("document ready");
   
   let asset_id ;
     let asset_type ;
@@ -13,7 +13,8 @@ $(document).ready(function() {
     let location_name ;
 
 
- 
+//  Mantosh work starts here 
+// it is used to put all the data in the table of the overview table and filter is used  by taking the query  parameter .
     
 function load_all_data(){
   load_data();
@@ -29,7 +30,7 @@ function load_all_data(){
     let empNo= $('#filter-emp-no').val();
     let locationName= $('#filter-location-name').val();
     
-    console.log("Loading");
+    // console.log("Loading");
   
     $.ajax({
       url: `http://localhost:3000/advance-one?asset_id=${assetId}&asset_type=${assetType}&asset_name=${assetName}&dept_name=${deptName}&emp_name=${empName}&emp_no=${empNo}&location_name=${locationName}`,
@@ -38,7 +39,7 @@ function load_all_data(){
       dataType: "JSON",
       success: function(data) {
         var html = '';
-        console.log('data length on doc ready function', data);
+        // console.log('data length on doc ready function', data);
        
 
         all_rows = data.answer.allPages.total_rows;
@@ -53,7 +54,9 @@ function load_all_data(){
   }
 
 
+
   $(document).on("click", ".edit-btn", function(event) {
+
    
     event.preventDefault();
     //find the closest tr for the clicked edit btn
@@ -72,11 +75,15 @@ function load_all_data(){
     emp_no = tdArray[5].innerText;
     location_name = tdArray[6].innerText;
 
-    console.log('asset_id on click: ' + asset_id + ' '+ asset_type);
-    console.log("details ", location_name,asset_name);
+    // console.log('asset_id on click: ' + asset_id + ' '+ asset_type);
+    // console.log("details ", location_name,asset_name);
 
     call_edit_registration_popup(event, $(this), asset_id, asset_type, asset_name, dept_name, emp_name, emp_no, location_name);
   });
+
+  // Mantosh work  only ajax
+
+  // for editing the asset overview page 
 
   function edit(asset_id, asset_type, asset_name, dept_name, emp_name, emp_no, location_name){
     $.ajax({
@@ -94,24 +101,27 @@ function load_all_data(){
       success: function (response) {
         if (response.code == "Updation_done_Successfully") {
           alert(response.response);
-          console.log(response.response);
+          // console.log(response.response);
         }
         else {
           alert(response.response);
-          console.log(response.response);
+          // console.log(response.response);
 
         }
-        console.log(1);
-        console.log(location_name, asset_name);
+        // console.log(1);
+        // console.log(location_name, asset_name);
 
       }
     });
   
   }
 
+
   function call_edit_registration_popup(event, e, asset_id, asset_type, asset_name, dept_name, emp_name, emp_no, location_name){
     event.preventDefault();
+
   let thisBtn = $(e);
+  
   // location_atype();
   console.log(thisBtn[0]);
   
@@ -176,13 +186,13 @@ let all_rows;
 var lastPage = 1;
 
 function  getPagination(table, pageNumber) {
-console.log('table', table);
+// console.log('table', table);
 
 var tableBodyElement = $(table);
-console.log('tableBodyElement', tableBodyElement);
+// console.log('tableBodyElement', tableBodyElement);
 
 var currentPage = pageNumber;
-console.log("getPaging function called!!!!");
+// console.log("getPaging function called!!!!");
 
 initializePagination(tableBodyElement);
 }
@@ -210,11 +220,11 @@ $.ajax({
   success: function(response) {
     var data = response.answer.answer; // Assuming the API response contains the data in the 'data' property
     var message=response.answer.allPages  // total number of page 
-    console.log("response pagination", data);
+    // console.log("response pagination", data);
 
-    console.log(message.total_rows);
+    // console.log(message.total_rows);
     all_rows=message.total_rows
-    console.log(all_rows)
+    // console.log(all_rows)
     // Update the table with the fetched data
     
     $(tableBodyElement).html(""); // Clear the table body
@@ -259,17 +269,17 @@ $('#maxRows').on('change', function(evt) {
     .remove();
   var trnum = 0; // reset tr counter
   var maxRows = parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value);
-  console.log("maxRows", maxRows);
+  // console.log("maxRows", maxRows);
   if (maxRows == 500) {
     $('.pagination').hide();
-    console.log('pagination hide!!!');
+    // console.log('pagination hide!!!');
   } else {
     $('.pagination').show();
-    console.log('pagination show!!!');
+    // console.log('pagination show!!!');
   }
 
 
-  console.log("Total row", all_rows);
+  // console.log("Total row", all_rows);
 
   $(tableBodyElement)
     .find('tr')
@@ -285,7 +295,7 @@ $('#maxRows').on('change', function(evt) {
 
   if (all_rows > maxRows) {
     var pagenum = Math.ceil(all_rows / maxRows);
-    console.log("No of page", pagenum)
+    // console.log("No of page", pagenum)
     for (var i = 1; i <= pagenum; ) {
       $('.pagination #prev')
         .before(
@@ -607,16 +617,17 @@ function fetchData() {
 
 //single asset Reg form
 
+
+
+
 // Mantosh work starts here
-
-
 
 fetch('http://localhost:3000/fetchdname')
 .then(res => res.json())
 .then(data => {
 
   dept_nm=data;
-  console.log(dept_nm)
+  // console.log(dept_nm)
  const { message,answer} = data
   const dept_name_list = message.dept_name.map((dept) => {
     return dept.dept_name;
@@ -624,7 +635,7 @@ fetch('http://localhost:3000/fetchdname')
   const asset_type_list = answer.asset_type.map((asset) => {
     return asset.asset_desc;
   });
-  console.log(dept_name_list);
+  // console.log(dept_name_list);
   var selectElement = document.getElementById('dname');
 
   dept_name_list.forEach(element => {
@@ -656,6 +667,7 @@ function updateField() {
   //   field.value = parts.join('/');
   // });
 }
+// Mantosh work starts here
 
 function assetclass(){
   let atype=document.getElementById('asset-type').value
@@ -664,7 +676,7 @@ function assetclass(){
   fetch('http://localhost:3000/assetclass?at='+at)
   .then(res => res.json())
   .then(data=>{
-    console.log(data.message);
+    // console.log(data.message);
 
     if(data.message){
       $('#asset-class').val(data.message.asset_class);
@@ -676,6 +688,8 @@ function assetclass(){
   })
   .catch(error=> console.error(error));
 }
+
+// Mantosh work starts here
 
 
 function fetchData(){
