@@ -421,7 +421,8 @@ function generatePDFReportRow(auditID) {
             },
             columnStyles: {
               0: { fontStyle: 'bold' }
-            }
+            },
+            styles: { fontSize: 7 }
           });
 
 
@@ -450,7 +451,7 @@ function generatePDFReportRow(auditID) {
           for (var i = 1; i <= totalPages; i++) {
             doc.setPage(i);
             doc.setFontSize(10);
-            doc.text('Page ' + i + ' of ' + totalPages, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 10);
+            doc.text('Page ' + i + ' of ' + totalPages, doc.internal.pageSize.width - 35, doc.internal.pageSize.height - 10);
           }
 
           //Reported Generated Date
@@ -628,7 +629,8 @@ function generatePDFReport(employeeNumber, fromDate, toDate) {
             },
             columnStyles: {
               0: { fontStyle: 'bold' }
-            }
+            },
+            styles: { fontSize: 7 }
           });
 
           //Add footer
@@ -636,7 +638,7 @@ function generatePDFReport(employeeNumber, fromDate, toDate) {
           for (var i = 1; i <= totalPages; i++) {
             doc.setPage(i);
             doc.setFontSize(10);
-            doc.text('Page ' + i + ' of ' + totalPages, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 10);
+            doc.text('Page ' + i + ' of ' + totalPages, doc.internal.pageSize.width - 35, doc.internal.pageSize.height - 10);
           }
 
           //Reported Generated Date
