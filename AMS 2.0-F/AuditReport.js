@@ -93,15 +93,21 @@ $(document).ready(function () {
           url: `http://localhost:3000/audit-report/submitData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
           type: 'GET',
           success: function (response) {
-            // console.log(response);
+            console.log(response);
             // Handle the data
             var tableContainer = document.getElementById('tableContainer');
             tableContainer.innerHTML = ''; // Clear previous content
-
-            // Show the table and export button
-            $('.sumary-table').show();
-            $('.csv-pdf').show();
-            //$('.pagination-container').show();
+            
+            if(response.total_rows > 0){
+              // Show the table and export button
+              $('.sumary-table').show();
+              $('.csv-pdf').show();
+              //$('.pagination-container').show();
+            }
+            else{
+              alert("No records currently!!!!");
+            }
+            
 
 
             /**************************************** Generate HTML content for the table****************************************************✈️✈️*/
