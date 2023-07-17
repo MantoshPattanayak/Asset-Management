@@ -223,7 +223,7 @@ router.get('/audit-assign-one',(req,res)=>{
     });
 
   })
-
+});
 // Mantosh Code 
 // Here the data has been sent to the audit details and Asset Audit details
 
@@ -242,7 +242,7 @@ router.post('/submitForm', (req, res) => {
     auditorName
 
   } = req.body
-  const AuditStatus = 'Open'
+  const AuditStatus = 'Open';
 
   // const currentDatetime = new Date();
   // const year = currentDatetime.getFullYear();
@@ -283,22 +283,22 @@ router.post('/submitForm', (req, res) => {
   // // const formattedDatetime = '2024-06-27 12:45:47.000'
   // const userID='1007'
 
-// console.log(employeeNumber,
-//   locationID,
-//   departmentID,
-//   scheduledStartDate,
-//   scheduledEndDate,
-//   userID,
-//   formattedDatetime,
-//   )
+  // console.log(employeeNumber,
+  //   locationID,
+  //   departmentID,
+  //   scheduledStartDate,
+  //   scheduledEndDate,
+  //   userID,
+  //   formattedDatetime,
+  //   )
 
 
   let query = `insert into AuditDetails(EmployeeNo,LocationId,DepartmentId,CreatedOn,CreatedBy,ScheduledStartDate,ScheduledEndDate,LastUpdatedOn,LastUpdatedBy,AuditStatus,AuditorName) OUTPUT inserted.Id
   values(${employeeNumber},${locationID},${departmentID},'${formattedDatetime}','${userID}','${scheduledStartDate}','${scheduledEndDate}','${formattedDatetime}',${userID},'${AuditStatus}','${auditorName}')`
 
   let query2 = `select a.serial,a.asset_id,a.tag_id,a.tag_uuid,a.asset_name,a.asset_type,d.dept_name,l.location_name,ROW_NUMBER() OVER (ORDER BY a.serial) AS RowNum from 
-asset.dbo.assets a inner join asset.dbo.department d on a.dept_id=d.dept_id inner join asset.dbo.location l on a.location_id=l.location_id
-where a.dept_id=${departmentID} and a.location_id=${locationID}`
+  asset.dbo.assets a inner join asset.dbo.department d on a.dept_id=d.dept_id inner join asset.dbo.location l on a.location_id=l.location_id
+  where a.dept_id=${departmentID} and a.location_id=${locationID}`
 
   try {
 
@@ -319,50 +319,42 @@ where a.dept_id=${departmentID} and a.location_id=${locationID}`
 
         const courier = CourierClient(
           { authorizationToken: "pk_prod_74VJJYV9FJM339HN62SS0E344X92" });
-        const { requestId } = courier.send({
+          const { requestId } = courier.send({
           message: {
             content: {
               title: "Asset Audit Assignment",
               //body: "You Have to Audit? {{Audit}}"
-              body: "{{Audit}}"
+              body: "{{Audit}}",
             },
             data: {
               Audit: `Dear Ma'am/Sir,
-              This is to inform you that you have been assigned an audit task from Date ${formatDate(scheduledStartDate)} to ${formatDate(scheduledEndDate)}. Please review the details.
-              If you have any questions or require further information, please contact to respective department.
+               This is to inform you that you have been assigned an audit task from Date ${formatDate(scheduledStartDate)} to ${formatDate(scheduledEndDate)}. Please review the details.
+               If you have any questions or require further information, please contact to respective persons.
+               Thank you for your cooperation.
 
-              Thank you for your cooperation.
-              
-              Best regards,
-
-              [Dept Name]`
+               Best regards,
+              [Dept Name]`,
             },
             to: {
-              email: "satyam.vivek@soulunileaders.com"
+              email: "satyam.vivek@soulunileaders.com",
             }
           }
         });
 
         res.status(200).send({
-
           message: "Insertion Done"
-
         })
       })
     })
   }
   catch (e) {
     res.status(500).send({
-
       message: "Error in insertion of new record!!!"
-
     })
   }
 
+});
 
-})
+
 module.exports = router;
 
-
-
-// Mantosh Code ends here
