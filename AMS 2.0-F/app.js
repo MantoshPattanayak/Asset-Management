@@ -459,36 +459,36 @@ app.post('/assetupload', upload.single('uploadFile'), function (req, res) {
 
                 if (results.length > 0) {
                     for (let i = 0; i < results.length; i++) {
-                        if(results[i].asset_price==''&&results[i].asset_id==''&&results[i].emp_no
-                        ==''&&results[i].tag_uuid
-                        ==''&&results[i].asset_type
-                        ==''&&results[i].asset_name
-                        ==''&&results[i].dept_id
-                        =='' ){
-                            responseStr += 'file is empty';
+                        if (results[i].asset_price == '' && results[i].asset_id == '' && results[i].emp_no
+                            == '' && results[i].tag_uuid
+                            == '' && results[i].asset_type
+                            == '' && results[i].asset_name
+                            == '' && results[i].dept_id
+                            == '') {
+                            responseStr += 'remove the empty rows';
                         }
-                        else{
+                        else {
 
-                        if (!taguuid.test(results[i].tag_uuid)) {
-                            console.log('INVALID::::' + results[i].tag_uuid);
-                            responseStr += `MATCH THE FORMAT tag_uuid(SA/abc/a1/0000) :::: ${results[i].tag_uuid} at row no ${i + 1}\n`;
-                        }
-                        if (!deptid.test(results[i].dept_id)) {
-                            console.log('INVALID::::' + results[i].dept_id);
-                            responseStr += `MATCH THE FORMAT dept_id(between 1 to 18) :::: ${results[i].dept_id} at row no ${i + 1} \n`;
-                        }
+                            if (!taguuid.test(results[i].tag_uuid)) {
+                                console.log('INVALID::::' + results[i].tag_uuid);
+                                responseStr += `MATCH THE FORMAT tag_uuid(SA/abc/a1/0000) :::: ${results[i].tag_uuid} at row no ${i + 1}\n`;
+                            }
+                            if (!deptid.test(results[i].dept_id)) {
+                                console.log('INVALID::::' + results[i].dept_id);
+                                responseStr += `MATCH THE FORMAT dept_id(between 1 to 18) :::: ${results[i].dept_id} at row no ${i + 1} \n`;
+                            }
 
-                        if (!empno.test(results[i].emp_no)) {
-                            console.log('INVALID::::' + results[i].emp_no);
-                            responseStr += `MATCH THE FORMAT emp_no(6digit) :::: ${results[i].emp_no} at row no ${i + 1}\n`;
-                        }
-                        if ((results[i].asset_type != 'Medical Equipments' && results[i].asset_type != 'Land & Land Developments' && results[i].asset_type != 'Buildings' && results[i].asset_type != 'Furniture, Fixture & Office Equipments' && results[i].asset_type != 'Motor Vehicles' && results[i].asset_type != 'Crockery and Utensils' && results[i].asset_type != 'Books and Library' && results[i].asset_type != 'Electrical, Electronics Equipments' && results[i].asset_type != 'Machinery & Lab Equipments' && results[i].asset_type != 'Photo Copier' && results[i].asset_type != 'Audio & Visual Equipment' && results[i].asset_type != 'Telephone & EPABX' && results[i].asset_type != 'Transformer & Generator' && results[i].asset_type != 'Laptop' && results[i].asset_type != 'Computer Related' && results[i].asset_type != 'Computer Software' && results[i].asset_type != 'Air Conditioner' && results[i].asset_type != 'Solar Power Systems' && results[i].asset_type != 'Solar Water Heating System' && results[i].asset_type != 'Sculpture Garden' && results[i].asset_type != 'Central Medical Gas' && results[i].asset_type != 'Electrical, Electronics Equipments for R&D' && results[i].asset_type != 'Machinery & Lab Equipments for R&D' && results[i].asset_type != 'Furniture, Fixture & Office Equipments for R&D' && results[i].asset_type != 'Surveylliance Equipment' && results[i].asset_type != 'Sports & Musical Equipment' && results[i].asset_type != 'Computer Related for R&D' && results[i].asset_type != 'Smart Class Room' && results[i].asset_type != 'Asset Under Construction')) {
-                            console.log('INVALID::::' + results[i].asset_type);
-                            responseStr += `MATCH THE FORMAT asset_type :::: ${results[i].asset_type} at row no ${i + 1}\n`;
-                        }
+                            if (!empno.test(results[i].emp_no)) {
+                                console.log('INVALID::::' + results[i].emp_no);
+                                responseStr += `MATCH THE FORMAT emp_no(6digit) :::: ${results[i].emp_no} at row no ${i + 1}\n`;
+                            }
+                            // if ((results[i].asset_type != 'Medical Equipments' && results[i].asset_type != 'Land & Land Developments' && results[i].asset_type != 'Buildings' && results[i].asset_type != 'Furniture, Fixture & Office Equipments' && results[i].asset_type != 'Motor Vehicles' && results[i].asset_type != 'Crockery and Utensils' && results[i].asset_type != 'Books and Library' && results[i].asset_type != 'Electrical, Electronics Equipments' && results[i].asset_type != 'Machinery & Lab Equipments' && results[i].asset_type != 'Photo Copier' && results[i].asset_type != 'Audio & Visual Equipment' && results[i].asset_type != 'Telephone & EPABX' && results[i].asset_type != 'Transformer & Generator' && results[i].asset_type != 'Laptop' && results[i].asset_type != 'Computer Related' && results[i].asset_type != 'Computer Software' && results[i].asset_type != 'Air Conditioner' && results[i].asset_type != 'Solar Power Systems' && results[i].asset_type != 'Solar Water Heating System' && results[i].asset_type != 'Sculpture Garden' && results[i].asset_type != 'Central Medical Gas' && results[i].asset_type != 'Electrical, Electronics Equipments for R&D' && results[i].asset_type != 'Machinery & Lab Equipments for R&D' && results[i].asset_type != 'Furniture, Fixture & Office Equipments for R&D' && results[i].asset_type != 'Surveylliance Equipment' && results[i].asset_type != 'Sports & Musical Equipment' && results[i].asset_type != 'Computer Related for R&D' && results[i].asset_type != 'Smart Class Room' && results[i].asset_type != 'Asset Under Construction')) {
+                            //     console.log('INVALID::::' + results[i].asset_type);
+                            //     responseStr += `MATCH THE FORMAT asset_type :::: ${results[i].asset_type} at row no ${i + 1}\n`;
+                            // }
 
+                        }
                     }
-                }
                 }
                 else {
                     responseStr += 'file is empty';
@@ -538,6 +538,8 @@ function insertDataToAsDatabase2(Asdata2) {
 
 
 
+var newstr = '';
+var count = 0;
 //multiple user upload(csv files)
 app.post('/userupload', upload.single('uploadFile'), function (req, res) {
     const filePath = req.file.path;
@@ -556,7 +558,7 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
                 let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 let phonePattern = /^[1-9]\d{9}$/;
                 let useridPattern = /^\d{6}$/;
-                let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/;
+                let passwordPattern = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{6,15}$/;
 
                 let responseStr = '';
                 if (results.length > 0) {//this is not working
@@ -570,7 +572,7 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
                             == '' && results[i].Parent_org
                             == ''
                         ) {
-                            responseStr += 'file is empty';
+                            responseStr += 'remove the empty rows';
                         }
                         else {
 
@@ -580,10 +582,10 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
                             }
 
 
-                            if (!phonePattern.test(results[i].contact_no)) {
-                                console.log('INVALID::::' + results[i].contact_no);
-                                responseStr += `MATCH THE FORMAT OF contact_no(10 digit):::: ${results[i].contact_no} at row no ${i + 1} \n`;
-                            }
+                            // if (!phonePattern.test(results[i].contact_no)) {
+                            //     console.log('INVALID::::' + results[i].contact_no);
+                            //     responseStr += `MATCH THE FORMAT OF contact_no(10 digit):::: ${results[i].contact_no} at row no ${i + 1} \n`;
+                            // }
 
                             if (!passwordPattern.test(results[i].password)) {
                                 console.log('INVALID::::' + results[i].password);
@@ -611,12 +613,12 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
                                 console.log('INVALID::::' + results[i].Parent_org);
                                 responseStr += `MATCH THE FORMAT(KIIT)  OF parent_org:::: ${results[i].Parent_org} at row no ${i + 1} \n`;
                             }
-                            if ((results[i].dept_work != 'ICT CELL KIIT CORE' && results[i].dept_work != 'COMMON ELECTRONICS ENGG' && results[i].dept_work != 'MECHANICAL' && results[i].dept_work != 'BIOTECH' && results[i].dept_work != 'CIVIL' && results[i].dept_work != 'APPLIED SCIENCE' && results[i].dept_work != 'AUDITORIUM' && results[i].dept_work != 'FINANCIAL AND HUMAN SCIENCE' && results[i].dept_work != 'SCHOOL OF HUMANITIES' && results[i].dept_work != 'COMPUTER SCIENCE-1' && results[i].dept_work != 'COMPUTER SCIENCE-2' && results[i].dept_work != 'ELECTRICAL' && results[i].dept_work != 'KIIT SCHOOL OF RURAL MANAGEMENT' && results[i].dept_work != 'ANNEX BUILDING' && results[i].dept_work != 'LAW' && results[i].dept_work != 'KIIT SCHOOL OF ACTIVITY CENTER' && results[i].dept_work != 'KIIT SCHOOL OF MANAGEMENT')) {
+                            // if ((results[i].dept_work != 'ICT CELL KIIT CORE' && results[i].dept_work != 'COMMON ELECTRONICS ENGG' && results[i].dept_work != 'MECHANICAL' && results[i].dept_work != 'BIOTECH' && results[i].dept_work != 'CIVIL' && results[i].dept_work != 'APPLIED SCIENCE' && results[i].dept_work != 'AUDITORIUM' && results[i].dept_work != 'FINANCIAL AND HUMAN SCIENCE' && results[i].dept_work != 'SCHOOL OF HUMANITIES' && results[i].dept_work != 'COMPUTER SCIENCE-1' && results[i].dept_work != 'COMPUTER SCIENCE-2' && results[i].dept_work != 'ELECTRICAL' && results[i].dept_work != 'KIIT SCHOOL OF RURAL MANAGEMENT' && results[i].dept_work != 'ANNEX BUILDING' && results[i].dept_work != 'LAW' && results[i].dept_work != 'KIIT SCHOOL OF ACTIVITY CENTER' && results[i].dept_work != 'KIIT SCHOOL OF MANAGEMENT')) {
 
-                                console.log('INVALID::::' + results[i].dept_work);
-                                responseStr += `MATCH THE FORMAT OF parent_org:::: ${results[i].dept_work} at row no ${i + 1} \n`;
+                            //     console.log('INVALID::::' + results[i].dept_work);
+                            //     responseStr += `MATCH THE FORMAT OF dept_work:::: ${results[i].dept_work} at row no ${i + 1} \n`;
 
-                            }
+                            // }
 
                         }
                     }
@@ -628,12 +630,34 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
                 if (responseStr)
                     res.send((responseStr));
                 else {
+
                     for (let i = 0; i < results.length; i++) {
                         insertDataToDatabase1(results[i], function (dbvalue) {
-                            console.log(dbvalue);
-                            res.send(dbvalue);
+                            // console.log(dbvalue);   
+                            // newstr.push( `${dbvalue} at row ${i + 1} \n`); 
+                            newstr += `${dbvalue} at row ${i + 1} \n`
+                            console.log('outerloop data===', newstr);
+                            console.log('outervalue----------------', results.length, i);
+                            count++;
+                            console.log(`count value outer: ${count}`)
+                            if (count === results.length) {
+                                console.log('innervalue--------------', results.length, i);
+                                console.log(`count value inner: ${count}`)
+                                // res.send(newstr)
+                                sendResponse();
+                                console.log('inner loop data===', newstr)
+                            }
+                            // console.log(newstr); 
+
                         });
+
                     }
+                    function sendResponse() {
+                        res.send(newstr);
+                    }
+
+
+
                 }
             })
 
@@ -647,7 +671,16 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
 
 
 function insertDataToDatabase1(data1, callback) {
-    mssql.query(`SELECT emp_no FROM Employees WHERE emp_no = '${data1.user_id}'`, function (err, result) {
+    mssql.query(`SELECT em.official_email, em.personal_email, emp_no, first_name, 
+    middle_name,
+    last_name
+    FROM asset.dbo.Employees e
+    INNER JOIN asset.dbo.Employee_master em ON e.emp_no = em.emp_id
+    WHERE e.emp_no = '${data1.user_id}' 
+    AND e.first_name = '${data1.first_name}' 
+    AND e.last_name = '${data1.last_name}' 
+    AND (em.official_email = '${data1.email}' OR em.personal_email = '${data1.email}')
+    AND (middle_name = '${data1.middle_name}' OR middle_name = '' OR middle_name IS NULL)`, function (err, result) {
         console.log(result);
         if (err) {
             console.log('Error ', err);
@@ -655,21 +688,40 @@ function insertDataToDatabase1(data1, callback) {
             return;
         }
 
+        //  for(let i=0;i<result.recordset.length;i++) {
         if (result.recordset.length == 0) {
             console.log('Employee does not exist');
             var dbvalue = 'Employee does not exist';
             callback(dbvalue);
         }
-        else {
-            mssql.query(`INSERT INTO Users (first_name,middle_name,last_name,user_id,user_name,email,password,user_type,Parent_org) VALUES ('${data1.first_name}','${data1.middle_name}','${data1.last_name}','${data1.user_id}', '${data1.email}', '${data1.email}','${data1.password}','${data1.user_type}','${data1.Parent_org}')`, function (err) {
+
+        else if (result.recordset.length != 0) {
+            // console.log('1')
+            mssql.query(`select user_id from asset.dbo.Users where user_id='${data1.user_id}' or user_name='${data1.email}'`, function (err, result1) {
                 if (err) {
-                    console.error('Error inserting data into the database1: ', err);
+                    console.error('Error: ', err);
                     callback(null);
                     return;
                 }
+                if (result1.recordset.length != 0) {
+                    // console.log('2');
+                    console.log('user alredy exist');
+                    callback('user alredy exist');
+                }
+                else {
+                    // console.log('3')
+                    mssql.query(`INSERT INTO Users (first_name,middle_name,last_name,user_id,user_name,email,password,user_type,Parent_org) VALUES ('${data1.first_name}','${data1.middle_name}','${data1.last_name}','${data1.user_id}', '${data1.email}', '${data1.email}','${data1.password}','${data1.user_type}','${data1.Parent_org}')`, function (err) {
+                        if (err) {
+                            console.error('Error inserting data into the database1: ', err);
+                            callback(null);
+                            return;
+                        }
+                    });
+                    console.log('data inserted successfully in db');
+                    callback('Data inserted successfully');
+                }
             });
-            console.log('data inserted successfully in db');
-            callback('Data inserted successfully');
+            // }
         }
 
     });
