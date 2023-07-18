@@ -558,7 +558,7 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
                 let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 let phonePattern = /^[1-9]\d{9}$/;
                 let useridPattern = /^\d{6}$/;
-                let passwordPattern = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{6,15}$/;
+                let passwordPattern =/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
 
                 let responseStr = '';
                 if (results.length > 0) {//this is not working
