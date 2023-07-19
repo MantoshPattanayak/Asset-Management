@@ -20,7 +20,10 @@ router.post('/fetch-data', async (req, res) => {
     +"inner join Employees e on ad.EmployeeNo = e.emp_no "
     +`where ad.Id = ${auditID}`
 
-    let query1 = `select * from (select a.tag_id, a.tag_uuid, a.asset_id, a.asset_class, a.asset_type, a.asset_name,l.location_name, aad.AssetStatus,
+    let query1 = `select * from (select a.tag_id, a.tag_uuid, a.asset_id, a.asset_class, a.asset_type, a.asset_name,l.location_name, CASE
+		WHEN aad.AssetStatus IS NULL THEN ''
+		ELSE aad.AssetStatus
+	END AS AssetStatus,
     ROW_NUMBER() OVER (ORDER BY a.asset_id) AS RowNum from AuditDetails ad 
     inner join AssetAuditDetails aad on ad.Id = aad.AuditId
     inner join assets a on a.serial = aad.AssetSerialId 
@@ -152,7 +155,10 @@ router.get('/fetch-scanned-data', async (req, res) => {
                         if(err) throw err;
 
                         let query2 = `select a.tag_id, a.tag_uuid, a.asset_id, a.asset_class, a.asset_type, 
-                        a.asset_name, l.location_name, aad.AssetStatus, aad.ScannedOn
+                        a.asset_name, l.location_name, CASE
+                        WHEN aad.AssetStatus IS NULL THEN ''
+                        ELSE aad.AssetStatus
+                    END AS AssetStatus, aad.ScannedOn
                         from AssetAuditDetails aad 
                         INNER JOIN assets a ON a.serial = aad.AssetSerialId
                         INNER JOIN location l ON l.location_id = a.location_id
@@ -186,7 +192,10 @@ router.get('/fetch-scanned-data', async (req, res) => {
                         let Id = result1.recordset[0].Id;
 
                         let query2 = `select a.tag_id, a.tag_uuid, a.asset_id, a.asset_class, a.asset_type, 
-                        a.asset_name, l.location_name, aad.AssetStatus, aad.ScannedOn
+                        a.asset_name, l.location_name, CASE
+                        WHEN aad.AssetStatus IS NULL THEN ''
+                        ELSE aad.AssetStatus
+                    END AS AssetStatus, aad.ScannedOn
                         from AssetAuditDetails aad 
                         INNER JOIN assets a ON a.serial = aad.AssetSerialId
                         INNER JOIN location l ON l.location_id = a.location_id
