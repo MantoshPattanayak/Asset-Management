@@ -226,59 +226,88 @@ app.post('/editAssets', (req, res) => {
     console.log('1')
     const { asset_name, asset_type, asset_id, location_name } = req.body
     console.log(req.body.asset_name)
-    console.log(req.body.asset_id)
+    console.log(req.body.asset_type)
     console.log(req.body.location_name)
+    let query1 = `select asset_desc from asset.dbo.asset_class where asset_desc='${asset_type}'`
+    let query2 = `select location_name from asset.dbo.location where location_name='${location_name}'`
+    mssql.query(query1, (err, result1) => {
+        if (err) throw err;
+        mssql.query(query2, (err, result2) => {
+            if (err) throw err;
+            if (result1.recordset.length != 0) {
+                if (result2.recordset.length != 0) {
+                    let query = `
+                UPDATE a
+                SET a.asset_name = '${asset_name}'
+                FROM asset.dbo.assets a WHERE a.asset_id = '${asset_id}'
+                
+                
+                
+                UPDATE a
+                SET a.asset_type = '${asset_type}'
+                FROM asset.dbo.assets a
+                WHERE a.asset_id = '${asset_id}'
+                
+                
+                UPDATE a
+                SET a.location_id  = (select location_id from location where location_name ='${location_name}')
+                FROM asset.dbo.assets a
+                INNER JOIN asset.dbo.location l ON l.location_id = a.location_id
+                WHERE a.asset_id = '${asset_id}'`
+                    // let query = `update
 
-    let query = `
-     UPDATE a
-     SET a.asset_name = '${asset_name}'
-     FROM asset.dbo.assets a WHERE a.asset_id = '${asset_id}'
-     
-     
-     
-     UPDATE a
-     SET a.asset_type = '${asset_type}'
-     FROM asset.dbo.assets a
-     WHERE a.asset_id = '${asset_id}'
-     
-     
-     UPDATE a
-     SET a.location_id  = (select location_id from location where location_name ='${location_name}')
-     FROM asset.dbo.assets a
-     INNER JOIN asset.dbo.location l ON l.location_id = a.location_id
-     WHERE a.asset_id = '${asset_id}'`
-    // let query = `update
+                    // asset.dbo.assets a
 
-    // asset.dbo.assets a
+                    // inner join  asset.dbo.department d on a.dept_id =d.dept_id
 
-    // inner join  asset.dbo.department d on a.dept_id =d.dept_id
+                    // inner join asset.dbo.Employees e on e.dept_work = d.dept_name
 
-    // inner join asset.dbo.Employees e on e.dept_work = d.dept_name
+                    // inner join asset.dbo.location l on l.location_id =d.location_id
 
-    // inner join asset.dbo.location l on l.location_id =d.location_id
+                    // set  a.asset_type='${asset_type}',a.asset_name='${asset_name}',l.location_name='${location_name}' where a.asset_id='${asset_id}',d.dept_name='${dept_name}',e.emp_name='${emp_name}',e.emp_no='${emp_no}'`;
 
-    // set  a.asset_type='${asset_type}',a.asset_name='${asset_name}',l.location_name='${location_name}' where a.asset_id='${asset_id}',d.dept_name='${dept_name}',e.emp_name='${emp_name}',e.emp_no='${emp_no}'`;
+                    let queryResult = mssql.query(query, (err, result) => {
 
-    let queryResult = mssql.query(query, (err, result) => {
+                        if (err) {
 
-        if (err) {
+                            console.log('Error in update asset query');
+                        }
 
-            console.log('Error in update asset query');
-        }
-
-        else {
+                        else {
 
 
-            console.log(result);
+                            console.log(result);
 
-            // console.log(result.recordset[0].asset_id)
+                            // console.log(result.recordset[0].asset_id)
 
-            // res.send(result.recordset);  
-            res.send({
-                code: 'Updation_done_Successfully',
-                response: "Updation done Successfully"
-            })
-        }
+                            // res.send(result.recordset);  
+                            res.send({
+                                code: 'Updation_done_Successfully',
+                                response: "Updation done Successfully"
+                            })
+                        }
+                    })
+                }
+                else {
+                    res.send({
+                        code: 'Invalid location_name',
+                        response: "Invalid location_name"
+                    })
+
+                }
+            }
+            else {
+
+                res.send({
+                    code: 'Invalid asset_type',
+                    response: "Invalid asset_type"
+                })
+
+
+
+            }
+
+        })
     })
 })
 
