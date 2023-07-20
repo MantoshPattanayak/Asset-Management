@@ -1399,7 +1399,7 @@ app.post('/alertChartSearch', (req, res) => {
     let count = 0;
 
     for (let i = 0; i <= dateCount; i++) {
-        let query = `SELECT COUNT(*) AS '${i}' FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}' AND date = '${moment().subtract(i, 'days').format('YYYY-MM-DD')}'`;
+        let query = `SELECT COUNT(*) AS '${i}' FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}' AND date = '${moment(startDate).subtract(i, 'days').format('YYYY-MM-DD')}'`;
 
         labelArr.push(moment(startDate).subtract(i, 'days').format('D/MM'));
 
