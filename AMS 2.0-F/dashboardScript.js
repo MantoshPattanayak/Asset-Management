@@ -92,7 +92,6 @@ $(document).ready(function(){
                 department: sessionStorage.getItem('userDept')
             },
             function(result){
-                console.log(result);
 
                 totalAssets.innerText = result[0];
                 availableAssets.innerText = result[1];
@@ -252,7 +251,6 @@ $(document).ready(function(){
                     for(let i = 0; i < tiles.length; i++){
                         tiles[i].remove();
                     }
-                    console.log('system stats results', result)
                     let len = result[0].length;
                     for(let i = 0; i < len; i++){
                         let tile = document.createElement('div');
