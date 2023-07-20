@@ -2421,6 +2421,12 @@ app.post('/reqAsset', (req, res) => {
         // console.log(asset_name);
 
         // check if the requestor is a valid employee or not and retrieve their dept
+        // solution to solve bug of asset request --- uncomment
+        // let query0 = `SELECT dept_work FROM Employees e
+        // INNER JOIN Users u ON e.emp_no = u.user_id 
+        // WHERE emp_no = '${reqID}' AND user_name = '${reqName}'`
+        
+        //comment this after uncomment
         let query0 = `SELECT dept_work FROM Employees WHERE emp_no = '${reqID}' AND first_name = '${firstName}' AND last_name = '${lastName}'`;
         // console.log(query0);
         // check if the entered asset id and its corresponding dept matches a record. Also check if the requestors department matdches the assets department
@@ -2451,13 +2457,13 @@ app.post('/reqAsset', (req, res) => {
 
         let queryResult0 = mssql.query(query0, (err0, result0) => {
             if (err0) {
-                // console.log('error in /reqAsset query 0');
-                // throw err
+                console.log('error in /reqAsset query 0');
+                throw err0
                 //console.log(query0);
             }
             else if (result0.recordset.length > 0) {
                 //Valid Employee Checking
-                //console.log('passed query 0');
+                console.log('passed query 0');
                 let emp_dept = Object.values(result0.recordset[0])[0];
                 let queryResult1 = mssql.query(query1, (err1, result1) => {
                     if (err1) {
@@ -2465,7 +2471,7 @@ app.post('/reqAsset', (req, res) => {
 
                     }
                     else if (result1.recordset.length > 0) {
-                        // console.log(result1.recordset);
+                        console.log(result1.recordset);
                         //Asset Id anc corresponding dept check
                         if (emp_dept == Object.values(result1.recordset[0])[0]) {
                             // dept of requestor and asset matches
