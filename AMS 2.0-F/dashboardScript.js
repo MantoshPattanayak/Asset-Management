@@ -247,7 +247,8 @@ $(document).ready(function(){
             $.post(
                 "http://127.0.0.1:3000/systemStatistics",
                 function(result){
-                    let tiles = document.querySelectorAll('tiles');
+                    let tiles = document.querySelectorAll('.statTiles');
+                    
                     for(let i = 0; i < tiles.length; i++){
                         tiles[i].remove();
                     }
