@@ -11,6 +11,7 @@ $(document).ready(function(){
   if (sessionStorage.getItem('sessionVar') != 'pass') {
     window.location.href = `./index.html`;
   }
+  
 
   /*******function to return current date in "dd-MM-YYYY HH:mm" format - START***********************************/
   function todayDate(){
@@ -159,6 +160,7 @@ $(document).ready(function(){
     // console.log('doc ready fetchExpectedAssets func', selectedLocationId, selectDepartmentId);
     let page_size = parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value);
     let page_number = 1;
+    let paginationInitialElement = $('.pagination-container nav ul')[0];
 
     if(selectedLocationId && selectDepartmentId){
       $.ajax({
@@ -445,33 +447,35 @@ function allowOnlyDigits(event) {
 
 
 //Audit Assign fetch Employee name on Employee ID input - START
-function fetchEmployeeDetails(event){
-    event.preventDefault();
-    let employeeNumber = event.target.value;
-
-    // console.log(employeeNumber);
-
-    if(employeeNumber.length == 6){
-        $.ajax({
-          url: `http://localhost:3000/audit-assign/emp-no-emp-name?emp_no=${employeeNumber}`,
-          method: "GET",
-          success: function (response) {
-            // console.log(response);
-
-            let auditorNameInputElement = document.getElementById('auditor-name');
-
-            auditorNameInputElement.value = response.answer.emp_name;
-          },
-          error: function(error) {
-            console.error("Error fetching data:", error);
-            alert(error.responseJSON.message);
-          }
-        })
-    }
-    else{
-      let auditorNameInputElement = document.getElementById('auditor-name');
-      auditorNameInputElement.value = "";
-    }
+function fetchEmployeeDetails(event) {
+    event.preventDefault();
+    let employeeNumber = event.target.value;
+  
+    console.log(employeeNumber);
+  
+    let errorMessageElement = document.getElementById('error-message');
+    let auditorNameInputElement = document.getElementById('auditor-name');
+  
+    if (employeeNumber.length === 6) {
+      errorMessageElement.textContent = ""; // Clear any previous error message
+      $.ajax({
+        url: `http://localhost:3000/audit-assign/emp-no-emp-name?emp_no=${employeeNumber}`,
+        method: "GET",
+        success: function (response) {
+          console.log(response);
+          auditorNameInputElement.value = response.answer.emp_name;
+        },
+        error: function (error) {
+          console.error("Error fetching data:", error);
+          errorMessageElement.textContent = error.responseJSON.message;
+        }
+      });
+    } else if (employeeNumber.length > 6) {
+      errorMessageElement.textContent = "Please enter only 6 digit employee number.";
+    } else {
+      auditorNameInputElement.value = "";
+      errorMessageElement.textContent = "";
+    }
 }
 //Audit Assign fetch Employee name on Employee ID input - END
 
