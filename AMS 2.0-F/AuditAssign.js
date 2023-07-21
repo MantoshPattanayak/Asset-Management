@@ -564,10 +564,11 @@ function submitForm() {
       data: formData,
       success: function (response){
         // console.log(response);
-        alert("Form submitted successfully!");
+        // alert("Form submitted successfully!");
         closeConfirmation();
+        showConfirmationyes();
         
-        window.location.href = 'AuditAssign.html'; //clear form
+        // window.location.href = 'AuditAssign.html'; //clear form
       },
       error: function(error){
         console.error(error);
@@ -584,8 +585,35 @@ function submitForm() {
       'scheduledEndDate': scheduledEndDate
     }
     // console.log(JSON.stringify(formData));
-    alert('Following fields are empty: - ' + nullList.toString());
+    // alert('Following fields are empty: - ' + nullList.toString());
+    confirmationcancel('Following fields are empty: - ' + nullList.toString());
   }
 }
 /**function to handle data on clicking submit button - START*/
 
+// popup massage                                                                                                                                                                                                                      /****yes */
+function showConfirmationyes() {
+  var popup = document.getElementById("confirmationPopupyes");
+  popup.style.display = "block";
+
+  setTimeout(function () {
+    popup.style.display = "none";
+      window.location.href = 'AuditAssign.html'; 
+  }, 3000);
+}
+
+
+//cancel
+function confirmationcancel(msg){
+  var popup = document.getElementById("confirmationPopupcancel");
+  let headingElement = document.createElement('h3');
+  headingElement.innerText = msg;
+  popup.append(headingElement);
+  popup.style.display = "block";
+
+  setTimeout(function () {
+    popup.style.display = "none";
+    headingElement.innerText = '';
+  }, 3000);
+
+}
