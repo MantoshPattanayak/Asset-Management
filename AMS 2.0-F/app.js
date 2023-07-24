@@ -1213,7 +1213,8 @@ app.post('/dashboardCards', (req, res) => {
     let query2 = `SELECT COUNT(*) FROM tags INNER JOIN department ON tags.dept_id = department.dept_id WHERE department.dept_name = '${department}'`;
 
     /*Dashboard query 3 - all the tags assigned to a department thats attached to an asset*/
-    let query3 = `SELECT COUNT(*) FROM tags INNER JOIN assets on tags.tag_id = assets.tag_id INNER JOIN department ON tags.dept_id = department.dept_id WHERE department.dept_name = '${department}'`;
+    let query3 = `SELECT COUNT(*) FROM tags INNER JOIN assets on tags.tag_id = assets.tag_id INNER JOIN department ON tags.dept_id = department.dept_id 
+    WHERE department.dept_name = '${department}'`;
 
     /*Count all the  tags assigned to a department but not assigned to an asset by subtracting query 3 result from query 2*/
 
@@ -2080,7 +2081,7 @@ app.post('/assetAdvancedSearch', (req, res) => {
 
 
 app.post('/setUserDashCards', (req, res) => {
-    let userID = '1003';
+    let userID = req.body.userID //'1003';
     let arr = [];
     // get all the assets owned by the employee
     let query0 = `SELECT COUNT(*) FROM assets WHERE emp_no = '${userID}'`;
@@ -2425,7 +2426,7 @@ app.post('/reqAsset', (req, res) => {
         // let query0 = `SELECT dept_work FROM Employees e
         // INNER JOIN Users u ON e.emp_no = u.user_id 
         // WHERE emp_no = '${reqID}' AND user_name = '${reqName}'`
-        
+
         //comment this after uncomment
         let query0 = `SELECT dept_work FROM Employees WHERE emp_no = '${reqID}' AND first_name = '${firstName}' AND last_name = '${lastName}'`;
         // console.log(query0);

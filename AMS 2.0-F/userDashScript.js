@@ -111,12 +111,16 @@ assetSearchBtn.addEventListener('click',(e)=>{
 })
 
 function setDashCards(){
+
+    // console.log('userID: ', sessionStorage.getItem('userID'))
     $.post(
         "http://127.0.0.1:3000/setUserDashCards",
         {
             userID : sessionStorage.getItem('userID')
         },
         function(result){
+            console.log(result);
+
             totalAssets.innerText = result[0];
             availableAssets.innerText = result[1];
             assetsOnMove.innerText = result[2];
