@@ -293,3 +293,8 @@ select{
   outline: none;
   border: none;
 }
+
+#uploadedFileName {
+  color: green;
+  font-weight: bold;
+}
