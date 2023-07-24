@@ -134,7 +134,6 @@ $(document).ready(function(){
                         department : sessionStorage.getItem('userDept')
                     },
                     function(result){
-                        // console.log(result);
                         allAlertsValue.innerText = result[0];
                         alertsTodayValue.innerText = result[1];
                         alertsWeeklyValue.innerText = result[2];

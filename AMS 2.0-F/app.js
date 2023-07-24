@@ -242,94 +242,93 @@ app.post('/done', (req, res) => {
 /////Edit overview page:::___
 app.post('/editAssets', (req, res) => {
 
-    console.log('1')
-    const { asset_name, asset_type, asset_id, location_name } = req.body
-    console.log(req.body.asset_name)
-    console.log(req.body.asset_type)
-    console.log(req.body.location_name)
-    let query1 = `select asset_desc from asset.dbo.asset_class where asset_desc='${asset_type}'`
-    let query2 = `select location_name from asset.dbo.location where location_name='${location_name}'`
-    mssql.query(query1, (err, result1) => {
-        if (err) throw err;
-        mssql.query(query2, (err, result2) => {
-            if (err) throw err;
-            if (result1.recordset.length != 0) {
-                if (result2.recordset.length != 0) {
-                    let query = `
-                UPDATE a
-                SET a.asset_name = '${asset_name}'
-                FROM asset.dbo.assets a WHERE a.asset_id = '${asset_id}'
-                
-                
-                
-                UPDATE a
-                SET a.asset_type = '${asset_type}'
-                FROM asset.dbo.assets a
-                WHERE a.asset_id = '${asset_id}'
-                
-                
-                UPDATE a
-                SET a.location_id  = (select location_id from location where location_name ='${location_name}')
-                FROM asset.dbo.assets a
-                INNER JOIN asset.dbo.location l ON l.location_id = a.location_id
-                WHERE a.asset_id = '${asset_id}'`
-                    // let query = `update
-
-                    // asset.dbo.assets a
-
-                    // inner join  asset.dbo.department d on a.dept_id =d.dept_id
-
-                    // inner join asset.dbo.Employees e on e.dept_work = d.dept_name
-
-                    // inner join asset.dbo.location l on l.location_id =d.location_id
-
-                    // set  a.asset_type='${asset_type}',a.asset_name='${asset_name}',l.location_name='${location_name}' where a.asset_id='${asset_id}',d.dept_name='${dept_name}',e.emp_name='${emp_name}',e.emp_no='${emp_no}'`;
-
-                    let queryResult = mssql.query(query, (err, result) => {
-
-                        if (err) {
-
-                            console.log('Error in update asset query');
-                        }
-
-                        else {
-
-
-                            console.log(result);
-
-                            // console.log(result.recordset[0].asset_id)
-
-                            // res.send(result.recordset);  
-                            res.send({
-                                code: 'Updation_done_Successfully',
-                                response: "Updation done Successfully"
-                            })
-                        }
-                    })
-                }
-                else {
-                    res.send({
-                        code: 'Invalid location_name',
-                        response: "Invalid location_name"
-                    })
-
-                }
-            }
-            else {
-
-                res.send({
-                    code: 'Invalid asset_type',
-                    response: "Invalid asset_type"
-                })
-
-
-
-            }
-
-        })
-    })
-})
-
+        console.log('1')
+      const{asset_name,asset_type,asset_id,location_name}=req.body
+         console.log(req.body.asset_name)
+         console.log(req.body.asset_type)
+         console.log(req.body.location_name)
+         let query1=`select asset_desc from asset.dbo.asset_class where asset_desc='${asset_type}'`
+         let query2=`select location_name from asset.dbo.location where location_name='${location_name}'`
+         mssql.query(query1,(err,result1)=>{
+          if(err) throw err;
+          mssql.query(query2,(err,result2)=>{
+            if(err) throw err;
+            if(result1.recordset.length!=0){
+                if(result2.recordset.length!=0){
+                let query=`
+                UPDATE a
+                SET a.asset_name = '${asset_name}'
+                FROM asset.dbo.assets a WHERE a.asset_id = '${asset_id}'
+                
+                
+                
+                UPDATE a
+                SET a.asset_type = '${asset_type}'
+                FROM asset.dbo.assets a
+                WHERE a.asset_id = '${asset_id}'
+                
+                
+                UPDATE a
+                SET a.location_id  = (select location_id from location where location_name ='${location_name}')
+                FROM asset.dbo.assets a
+                INNER JOIN asset.dbo.location l ON l.location_id = a.location_id
+                WHERE a.asset_id = '${asset_id}'`
+               // let query = `update
+             
+               // asset.dbo.assets a
+             
+               // inner join  asset.dbo.department d on a.dept_id =d.dept_id
+             
+               // inner join asset.dbo.Employees e on e.dept_work = d.dept_name
+             
+               // inner join asset.dbo.location l on l.location_id =d.location_id
+             
+               // set  a.asset_type='${asset_type}',a.asset_name='${asset_name}',l.location_name='${location_name}' where a.asset_id='${asset_id}',d.dept_name='${dept_name}',e.emp_name='${emp_name}',e.emp_no='${emp_no}'`;
+               
+               let queryResult = mssql.query(query, (err, result) => {
+                   
+                   if (err) {
+             
+                       console.log('Error in update asset query');
+                   }
+             
+                   else {
+             
+                      
+                       console.log(result);
+             
+                       // console.log(result.recordset[0].asset_id)
+             
+                       // res.send(result.recordset);  
+                       res.send({
+                           code: 'Updation_done_Successfully',
+                           response: "Updation done Successfully"
+                       })   
+                   }
+               })
+             }
+             else {
+                res.send({
+                    code: 'Invalid location_name',
+                    response: "Invalid location_name"
+                })   
+    
+             }
+            }
+            else{
+    
+                res.send({
+                    code: 'Invalid asset_type',
+                    response: "Invalid asset_type"
+                })   
+    
+    
+    
+            }
+    
+            })
+          })
+        })
 
 // Mantosh Work ends here
 // Mantosh work starts here
@@ -717,8 +716,10 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
 
 function insertDataToDatabase1(data1, callback) {
 
+
     // bcrypt.hash(data1.password, saltRounds, function (err, hash) {
     //  console.log(hash)
+
     mssql.query(`SELECT em.official_email, em.personal_email, emp_no, first_name, 
     middle_name,
     last_name
@@ -759,7 +760,11 @@ function insertDataToDatabase1(data1, callback) {
                 else {
                     let saltRounds = 10;
                     // console.log('3')
+
                     bcrypt.hash(data1.password, saltRounds, function (err, hash) {
+
+                    mssql.query(`INSERT INTO Users (first_name,middle_name,last_name,user_id,user_name,email,password,user_type,Parent_org) VALUES ('${data1.first_name}','${data1.middle_name}','${data1.last_name}','${data1.user_id}', '${data1.email}', '${data1.email}','${hash}','${data1.user_type}','${data1.Parent_org}')`, function (err) {
+
                         if (err) {
                             console.error('Error hashing password: ', err);
                             callback(null);
@@ -781,6 +786,7 @@ function insertDataToDatabase1(data1, callback) {
         }
 
     });
+
     // })
 }
 
@@ -957,103 +963,131 @@ app.post('/assetreg', (req, res) => {
 
     let query1 = `select * from asset.dbo.assets where tag_uuid='${taguid}'`
 
-    let query2 = `insert into asset.dbo.assets(asset_id,asset_type,asset_price,asset_name,dept_id,emp_no,tag_uuid,asset_class)
-    Values('${assetd}','${assett}','${assetp}','${assetn}','${deptid}','${empid}','${taguid}')`
-
-
-    let query3 = `insert into  asset.dbo.tags (tag_type,tag_uuid) Values('${tag_t}','${taguid}','${assetc}')`
-
     let query4 = `insert  
-    into  asset.dbo.tags (tag_type,tag_uuid) Values('${tag_t}','${taguid}')`
+    into  asset.dbo.tags (tag_type,tag_uuid) OUTPUT inserted.tag_id Values('${tag_t}','${taguid}')`
 
 
-    let query5 = `insert into asset.dbo.assets(asset_id,asset_type,asset_price,asset_name,dept_id,emp_no,tag_uuid,asset_class)
-    Values('${assetd}','${assett}','${assetp}','${assetn}','${deptid}','${empid}','${taguid}','${assetc}')`
+    let query5=`select * from asset.dbo.Employees e inner join department d on e.dept_work=d.dept_name  where e.emp_no=${empid} and d.dept_id=${deptid}`;
+
+    let query6=`select location_id from asset.dbo.department where dept_id=${deptid}`
+
+ 
 
 
 
+    mssql.query(query5,(err,result5)=>{
+        console.log('1')
+        if (err) throw err  
+        console.log(result5)
 
-    let queryResult = mssql.query(query, (err, result) => {
-        console.log(result)
+        if(result5.recordset.length==0){
+            console.log('2')
+            res.send({
+                code: "the employee doesn't exist",
+                response: "the employee doesn't exist"
+            })
+        }
+        else{
+            mssql.query(query6,(err,result6)=>{
+                console.log('3')
+                if (err) throw err
+                
+                if(result6.recordset.length==0){
+                    res.send({
+                        code: "the location_id for the department is not present",
+                        response: "the location_id for the department is not present"
+                    })
+                }
+                else{
 
-        if (result.recordset == "") {
-
-            let queryResult1 = mssql.query(query1, (err, result1) => {
-
-
-                if (result1.recordset == "") {
-
-                    let queryResult4 = mssql.query(query4, (err, result4) => {
-
-                        if (err) throw err;
-
-                        else {
-
-                            let queryResult5 = mssql.query(query5, (err, result5) => {
-
+            
+           mssql.query(query, (err, result) => {
+                console.log(result)
+        
+                if (result.recordset == "") {
+        
+                 mssql.query(query1, (err, result1) => {
+        
+        
+                        if (result1.recordset == "") {
+        
+                           mssql.query(query4, (err, result4) => {
+        
                                 if (err) throw err;
-
-                                console.log('Insertion has been done to tags and assets');
-                                res.send({
-                                    code: 'Insertion has been done to tags and assets',
-                                    response: 'Registration has been done to tags and assets'
-                                })
+        
+                                else {
+        
+                                 mssql.query(`insert into asset.dbo.assets(location_id,tag_id,asset_id,asset_type,asset_price,asset_name,dept_id,emp_no,tag_uuid,asset_class)
+                                    Values('${result6.recordset[0].location_id}','${result4.recordset[0].tag_id}','${assetd}','${assett}','${assetp}','${assetn}','${deptid}','${empid}','${taguid}','${assetc}')`, (err, result5) => {
+        
+                                        if (err) throw err;
+        
+                                        console.log('Insertion has been done to tags and assets');
+                                        res.send({
+                                            code: 'Insertion has been done to tags and assets',
+                                            response: 'Registration has been done to tags and assets'
+                                        })
+                                    })
+                                }
+        
+                            })
+        
+                        }
+        
+                        else {
+                            // let queryResult3 = mssql.query(query4, (err, result3) => {
+        
+                            //     if (err) throw err;
+        
+                                // else {
+        
+                                    console.log('Invalid tag_id');
+                                    res.send({
+                                        code: 'Invalid tag_id',
+                                        response: 'Invalid tag_id'
+                                    });
+        
+                            //     }
+        
+        
+                            // })
+        
+                        }
+        
+                    })
+        
+                }
+                else {
+                 mssql.query(query1, (err, result1) => {
+        
+        
+                        if (result1.recordset == "") {
+        
+                             mssql.query(`insert into asset.dbo.assets(location_id,tag_id,asset_id,asset_type,asset_price,asset_name,dept_id,emp_no,tag_uuid,asset_class)
+                            Values('${result6.recordset[0].location_id}','${result.recordset[0].tag_id}','${assetd}','${assett}','${assetp}','${assetn}','${deptid}','${empid}','${taguid}','${assetc}')`, (err, result2) => {
+        
+                                if (err) throw err;
+        
+                                else {
+                                    console.log('Insertion has been done to assets');
+                                    res.send({ response: 'Registration has been done to assets' });
+                                }
                             })
                         }
-
-                    })
-
-                }
-
-                else {
-                    let queryResult3 = mssql.query(query3, (err, result3) => {
-
-                        if (err) throw err;
-
                         else {
-
-                            console.log('Insertion has been done to tags');
-                            res.send({
-                                code: 'Insertion has been done to tags',
-                                response: 'Registration has been done to tags'
-                            });
-
+                            console.log('This asset_id with the tag_id is already present')
+                            res.send({ response: 'This asset_id with the tag_id is already present' });
                         }
-
-
-                    })
-
+                    }
+                    )
                 }
-
             })
-
-        }
-        else {
-            let queryResult1 = mssql.query(query1, (err, result1) => {
-
-
-                if (result1.recordset == "") {
-
-                    let queryResult2 = mssql.query(query2, (err, result2) => {
-
-                        if (err) throw err;
-
-                        else {
-                            console.log('Insertion has been done to assets');
-                            res.send({ response: 'Registration has been done to assets' });
-                        }
-                    })
-                }
-                else {
-                    console.log('This asset_id with the tag_id is already present')
-                    res.send({ response: 'This asset_id with the tag_id is already present' });
-                }
-            }
-            )
         }
     })
+}
+    })
 })
-
+    
 // Mantosh work starts here  
 
 ///Adavance seach drop-down 
@@ -1243,7 +1277,8 @@ app.post('/dashboardCards', (req, res) => {
     let query2 = `SELECT COUNT(*) FROM tags INNER JOIN department ON tags.dept_id = department.dept_id WHERE department.dept_name = '${department}'`;
 
     /*Dashboard query 3 - all the tags assigned to a department thats attached to an asset*/
-    let query3 = `SELECT COUNT(*) FROM tags INNER JOIN assets on tags.tag_id = assets.tag_id INNER JOIN department ON tags.dept_id = department.dept_id WHERE department.dept_name = '${department}'`;
+    let query3 = `SELECT COUNT(*) FROM tags INNER JOIN assets on tags.tag_id = assets.tag_id INNER JOIN department ON tags.dept_id = department.dept_id 
+    WHERE department.dept_name = '${department}'`;
 
     /*Count all the  tags assigned to a department but not assigned to an asset by subtracting query 3 result from query 2*/
 
@@ -1429,7 +1464,7 @@ app.post('/alertChartSearch', (req, res) => {
     let count = 0;
 
     for (let i = 0; i <= dateCount; i++) {
-        let query = `SELECT COUNT(*) AS '${i}' FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}' AND date = '${moment().subtract(i, 'days').format('YYYY-MM-DD')}'`;
+        let query = `SELECT COUNT(*) AS '${i}' FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}' AND date = '${moment(startDate).subtract(i, 'days').format('YYYY-MM-DD')}'`;
 
         labelArr.push(moment(startDate).subtract(i, 'days').format('D/MM'));
 
@@ -1528,10 +1563,15 @@ app.post('/setAlertCards', (req, res) => {
     // let department = 'COMMON ELECTRONICS ENGG';
     let department = req.body.department;
     let arr = [];
+    console.log(`'${moment().format('YYYY-MM-DD')}' AND '${moment().subtract(7, 'days').format('YYYY-MM-DD')}'`)
     let query0 = `SELECT COUNT(*) FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}'`;
     let query1 = `SELECT COUNT(*) FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}' AND date = '${moment().format('YYYY-MM-DD')}'`;
-    let query2 = `SELECT COUNT(*) FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}' AND date BETWEEN '${moment().format('YYYY-MM-DD')}' AND '${moment().subtract(7, 'days').format('YYYY-MM-DD')}'`;
-    let query3 = `SELECT COUNT(*) FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}' AND date BETWEEN '${moment().format('YYYY-MM-DD')}' AND '${moment().subtract(1, 'month').format('YYYY-MM-DD')}'`;
+    let query2 = `SELECT COUNT(*) FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}' AND date BETWEEN  '${moment().subtract(7, 'days').format('YYYY-MM-DD')}' AND '${moment().format('YYYY-MM-DD')}' `;
+
+    let query3 = `SELECT COUNT(*) FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}' AND date BETWEEN   '${moment().subtract(1, 'month').format('YYYY-MM-DD')}' AND '${moment().format('YYYY-MM-DD')}'`;
+    
+    
+
     // console.log(query2);
     let queryResult0 = mssql.query(query0, (err0, result0) => {
         if (err0) {
@@ -1559,8 +1599,9 @@ app.post('/setAlertCards', (req, res) => {
                                 }
                                 else {
                                     let val3 = Object.values(result3.recordset[0])[0];
+                                    console.log(Object.values(result3.recordset[0])[0])
                                     arr.push(val0, val1, val2, val3);
-                                    // console.log(arr);
+                                    console.log(arr);
                                     res.send(arr);
                                 }
                             })
@@ -1587,7 +1628,7 @@ app.post('/allAlerts', (req, res) => {
 app.post('/alertsToday', (req, res) => {
     // let department = 'COMMON ELECTRONICS ENGG';
     let department = req.body.department;
-    let query = `  SELECT asset_id, asset_name, reader.reader_id, location.location_name,Alert.date, Alert.time, Alert.alert_desc FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN reader ON Alert.reader_id = reader.reader_id INNER JOIN location ON reader.location_id = location.location_id INNER JOIN Users ON emp_no = Users.user_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}' AND date = '${moment().format('YYYY-MM-DD')}'`;
+    let query = `SELECT asset_id, asset_name, reader.reader_id, location.location_name,Alert.date, Alert.time, Alert.alert_desc FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN reader ON Alert.reader_id = reader.reader_id INNER JOIN location ON reader.location_id = location.location_id INNER JOIN Users ON emp_no = Users.user_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}' AND date = '${moment().format('YYYY-MM-DD')}'`;
     let queryResult = mssql.query(query, (err, result) => {
         if (err) {
             console.log('Error in /alertsToday query');
@@ -1600,7 +1641,7 @@ app.post('/alertsToday', (req, res) => {
 app.post('/alertsWeekly', (req, res) => {
     // let department ='COMMON ELECTRONICS ENGG';
     let department = req.body.department;
-    let query = `  SELECT asset_id, asset_name, reader.reader_id, location.location_name,Alert.date, Alert.time, Alert.alert_desc FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN reader ON Alert.reader_id = reader.reader_id INNER JOIN location ON reader.location_id = location.location_id INNER JOIN Users ON emp_no = Users.user_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}' AND date BETWEEN '${moment().subtract(7, 'days').format('YYYY-MM-DD')}' AND '${moment().format('YYYY-MM-DD')}'`;
+    let query = `SELECT asset_id, asset_name, reader.reader_id, location.location_name,Alert.date, Alert.time, Alert.alert_desc FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN reader ON Alert.reader_id = reader.reader_id INNER JOIN location ON reader.location_id = location.location_id INNER JOIN Users ON emp_no = Users.user_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}' AND date BETWEEN '${moment().subtract(7, 'days').format('YYYY-MM-DD')}' AND '${moment().format('YYYY-MM-DD')}'`;
     console.log(query);
     let queryResult = mssql.query(query, (err, result) => {
         if (err) {
@@ -2110,7 +2151,7 @@ app.post('/assetAdvancedSearch', (req, res) => {
 
 
 app.post('/setUserDashCards', (req, res) => {
-    let userID = '1003';
+    let userID = req.body.userID //'1003';
     let arr = [];
     // get all the assets owned by the employee
     let query0 = `SELECT COUNT(*) FROM assets WHERE emp_no = '${userID}'`;
@@ -2293,7 +2334,11 @@ app.post('/userDetails', (req, res) => {
         if (err) throw err
         else {
             res.send(Object.values(result.recordset[0]));
+
             console.log(Object.values(result), userID);
+
+            console.log(Object.values(result.recordset[0]));
+
         }
     })
 })
@@ -2452,7 +2497,13 @@ app.post('/reqAsset', (req, res) => {
         // console.log(asset_name);
 
         // check if the requestor is a valid employee or not and retrieve their dept
-        let query0 = `SELECT dept_work FROM Employees WHERE emp_no = '${reqID}' AND first_name = '${firstName}' AND last_name = '${lastName}'`;
+        // solution to solve bug of asset request --- uncomment
+        let query0 = `SELECT dept_work FROM Employees e
+        INNER JOIN Users u ON e.emp_no = u.user_id 
+        WHERE emp_no = '${reqID}' AND user_name = '${reqName}'`
+
+        //comment this after uncomment
+        // let query0 = `SELECT dept_work FROM Employees WHERE emp_no = '${reqID}' AND first_name = '${firstName}' AND last_name = '${lastName}'`;
         // console.log(query0);
         // check if the entered asset id and its corresponding dept matches a record. Also check if the requestors department matdches the assets department
         let query1 = `SELECT dept_name FROM assets INNER JOIN department ON assets.dept_id = department.dept_id WHERE dept_name = '${assetDept}' AND asset_id = '${assetID}' AND asset_name = '${asset_name}'`;
@@ -2482,13 +2533,13 @@ app.post('/reqAsset', (req, res) => {
 
         let queryResult0 = mssql.query(query0, (err0, result0) => {
             if (err0) {
-                // console.log('error in /reqAsset query 0');
-                // throw err
+                console.log('error in /reqAsset query 0');
+                throw err0
                 //console.log(query0);
             }
             else if (result0.recordset.length > 0) {
                 //Valid Employee Checking
-                //console.log('passed query 0');
+                console.log('passed query 0');
                 let emp_dept = Object.values(result0.recordset[0])[0];
                 let queryResult1 = mssql.query(query1, (err1, result1) => {
                     if (err1) {
@@ -2496,7 +2547,7 @@ app.post('/reqAsset', (req, res) => {
 
                     }
                     else if (result1.recordset.length > 0) {
-                        // console.log(result1.recordset);
+                        console.log(result1.recordset);
                         //Asset Id anc corresponding dept check
                         if (emp_dept == Object.values(result1.recordset[0])[0]) {
                             // dept of requestor and asset matches
@@ -2842,7 +2893,7 @@ app.post('/multiReq', (req, res) => {
                                 let name = asset_name[j];
 
                                 // check if the requestor is a valid employee or not and retrieve their dept and error message not required
-                                let query0 = `SELECT dept_work FROM Employees WHERE emp_no = '${reqID}' AND first_name = '${firstName}' AND last_name = '${lastName}'`;
+                                let query0 = `SELECT dept_work FROM Employees WHERE emp_no = '${reqID}'`
                                 // check if the entered asset id and its corresponding dept matches a record. Also check if the requestors department matches the assets department
                                 let query1 = `SELECT dept_name FROM assets INNER JOIN department ON assets.dept_id = department.dept_id WHERE dept_name = '${assetDept}' AND asset_id = '${ID}' AND asset_name = '${name}'`;
                                 // check if asset is already present in the requested destination or not 
