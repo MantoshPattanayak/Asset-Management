@@ -40,7 +40,7 @@ $(document).ready(function() {
             <ul>
               <li>
                   <!-- Dashboard -->
-                  <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a>
+                  <a href="./userDash.html"><i class='bx bxs-dashboard'></i></a>
               </li>
               <li>
                   <!-- Profile -->
