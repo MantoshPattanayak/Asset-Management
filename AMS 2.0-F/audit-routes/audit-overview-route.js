@@ -23,10 +23,10 @@ router.post('/audit_parent',(req,res)=>{
 
             // console.log(locationId,departmentId,employeeNo)
 
-        let query1 =`select count(*) as TotalRows from asset.dbo.AuditDetails a inner join asset.dbo.location l on  l.location_id=a.LocationId inner join asset.dbo.department d on d.dept_id=a.DepartmentId where 1=1 `;
+        let query1 =`select count(*) as TotalRows from asset.dbo.AuditDetails a left join asset.dbo.location l on  l.location_id=a.LocationId left join asset.dbo.department d on d.dept_id=a.DepartmentId where 1=1 `;
       
         let query = `select a.id,a.AuditorName,l.location_name,d.dept_name,a.EmployeeNo,a.ScheduledStartDate,a.ScheduledEndDate,a.AuditStatus
-         from asset.dbo.AuditDetails a inner join asset.dbo.location l on l.location_id=a.LocationId inner join asset.dbo.department d on d.dept_id=a.DepartmentId
+         from asset.dbo.AuditDetails a left join asset.dbo.location l on l.location_id=a.LocationId left join asset.dbo.department d on d.dept_id=a.DepartmentId
         WHERE 1=1
     `;
       
