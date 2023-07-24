@@ -762,9 +762,6 @@ function insertDataToDatabase1(data1, callback) {
                     // console.log('3')
 
                     bcrypt.hash(data1.password, saltRounds, function (err, hash) {
-
-                    mssql.query(`INSERT INTO Users (first_name,middle_name,last_name,user_id,user_name,email,password,user_type,Parent_org) VALUES ('${data1.first_name}','${data1.middle_name}','${data1.last_name}','${data1.user_id}', '${data1.email}', '${data1.email}','${hash}','${data1.user_type}','${data1.Parent_org}')`, function (err) {
-
                         if (err) {
                             console.error('Error hashing password: ', err);
                             callback(null);
