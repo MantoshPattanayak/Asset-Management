@@ -2818,7 +2818,7 @@ app.post('/multiReq', (req, res) => {
                                 let name = asset_name[j];
 
                                 // check if the requestor is a valid employee or not and retrieve their dept and error message not required
-                                let query0 = `SELECT dept_work FROM Employees WHERE emp_no = '${reqID}' AND first_name = '${firstName}' AND last_name = '${lastName}'`;
+                                let query0 = `SELECT dept_work FROM Employees WHERE emp_no = '${reqID}'`
                                 // check if the entered asset id and its corresponding dept matches a record. Also check if the requestors department matches the assets department
                                 let query1 = `SELECT dept_name FROM assets INNER JOIN department ON assets.dept_id = department.dept_id WHERE dept_name = '${assetDept}' AND asset_id = '${ID}' AND asset_name = '${name}'`;
                                 // check if asset is already present in the requested destination or not 
