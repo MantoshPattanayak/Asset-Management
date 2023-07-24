@@ -1,0 +1,5 @@
+user_id,first_name,middle_name,last_name,email,password,user_type,Parent_org
+103512,Satya,,Narayan,satyamishra1932007@gmail.com,Satya@123,user,KIIT
+103521,Nageswara,,Rao,mageswar_mec11@nitc.ac.in,Nageswara@123,Admin,KIIT
+103528,Satish,,Kumar,satishkumar.gannamaneni@gmail.com,Satish@123,user,KIIT
+103712,Priyabrata,,Mohapatra,priya.iitkgo@gmail.com,Priyabrata@123,user,KIIT
