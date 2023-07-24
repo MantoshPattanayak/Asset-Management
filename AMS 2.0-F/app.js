@@ -1248,7 +1248,8 @@ app.post('/dashboardCards', (req, res) => {
     let query2 = `SELECT COUNT(*) FROM tags INNER JOIN department ON tags.dept_id = department.dept_id WHERE department.dept_name = '${department}'`;
 
     /*Dashboard query 3 - all the tags assigned to a department thats attached to an asset*/
-    let query3 = `SELECT COUNT(*) FROM tags INNER JOIN assets on tags.tag_id = assets.tag_id INNER JOIN department ON tags.dept_id = department.dept_id WHERE department.dept_name = '${department}'`;
+    let query3 = `SELECT COUNT(*) FROM tags INNER JOIN assets on tags.tag_id = assets.tag_id INNER JOIN department ON tags.dept_id = department.dept_id 
+    WHERE department.dept_name = '${department}'`;
 
     /*Count all the  tags assigned to a department but not assigned to an asset by subtracting query 3 result from query 2*/
 
@@ -1434,7 +1435,7 @@ app.post('/alertChartSearch', (req, res) => {
     let count = 0;
 
     for (let i = 0; i <= dateCount; i++) {
-        let query = `SELECT COUNT(*) AS '${i}' FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}' AND date = '${moment().subtract(i, 'days').format('YYYY-MM-DD')}'`;
+        let query = `SELECT COUNT(*) AS '${i}' FROM Alert INNER JOIN assets ON Alert.tag_id = assets.tag_id INNER JOIN department ON assets.dept_id = department.dept_id WHERE department.dept_name = '${department}' AND date = '${moment(startDate).subtract(i, 'days').format('YYYY-MM-DD')}'`;
 
         labelArr.push(moment(startDate).subtract(i, 'days').format('D/MM'));
 
@@ -2121,7 +2122,7 @@ app.post('/assetAdvancedSearch', (req, res) => {
 
 
 app.post('/setUserDashCards', (req, res) => {
-    let userID = '1003';
+    let userID = req.body.userID //'1003';
     let arr = [];
     // get all the assets owned by the employee
     let query0 = `SELECT COUNT(*) FROM assets WHERE emp_no = '${userID}'`;
@@ -2463,7 +2464,13 @@ app.post('/reqAsset', (req, res) => {
         // console.log(asset_name);
 
         // check if the requestor is a valid employee or not and retrieve their dept
-        let query0 = `SELECT dept_work FROM Employees WHERE emp_no = '${reqID}' AND first_name = '${firstName}' AND last_name = '${lastName}'`;
+        // solution to solve bug of asset request --- uncomment
+        let query0 = `SELECT dept_work FROM Employees e
+        INNER JOIN Users u ON e.emp_no = u.user_id 
+        WHERE emp_no = '${reqID}' AND user_name = '${reqName}'`
+
+        //comment this after uncomment
+        // let query0 = `SELECT dept_work FROM Employees WHERE emp_no = '${reqID}' AND first_name = '${firstName}' AND last_name = '${lastName}'`;
         // console.log(query0);
         // check if the entered asset id and its corresponding dept matches a record. Also check if the requestors department matdches the assets department
         let query1 = `SELECT dept_name FROM assets INNER JOIN department ON assets.dept_id = department.dept_id WHERE dept_name = '${assetDept}' AND asset_id = '${assetID}' AND asset_name = '${asset_name}'`;
@@ -2493,13 +2500,13 @@ app.post('/reqAsset', (req, res) => {
 
         let queryResult0 = mssql.query(query0, (err0, result0) => {
             if (err0) {
-                // console.log('error in /reqAsset query 0');
-                // throw err
+                console.log('error in /reqAsset query 0');
+                throw err0
                 //console.log(query0);
             }
             else if (result0.recordset.length > 0) {
                 //Valid Employee Checking
-                //console.log('passed query 0');
+                console.log('passed query 0');
                 let emp_dept = Object.values(result0.recordset[0])[0];
                 let queryResult1 = mssql.query(query1, (err1, result1) => {
                     if (err1) {
@@ -2507,7 +2514,7 @@ app.post('/reqAsset', (req, res) => {
 
                     }
                     else if (result1.recordset.length > 0) {
-                        // console.log(result1.recordset);
+                        console.log(result1.recordset);
                         //Asset Id anc corresponding dept check
                         if (emp_dept == Object.values(result1.recordset[0])[0]) {
                             // dept of requestor and asset matches
@@ -2853,7 +2860,7 @@ app.post('/multiReq', (req, res) => {
                                 let name = asset_name[j];
 
                                 // check if the requestor is a valid employee or not and retrieve their dept and error message not required
-                                let query0 = `SELECT dept_work FROM Employees WHERE emp_no = '${reqID}' AND first_name = '${firstName}' AND last_name = '${lastName}'`;
+                                let query0 = `SELECT dept_work FROM Employees WHERE emp_no = '${reqID}'`
                                 // check if the entered asset id and its corresponding dept matches a record. Also check if the requestors department matches the assets department
                                 let query1 = `SELECT dept_name FROM assets INNER JOIN department ON assets.dept_id = department.dept_id WHERE dept_name = '${assetDept}' AND asset_id = '${ID}' AND asset_name = '${name}'`;
                                 // check if asset is already present in the requested destination or not 
