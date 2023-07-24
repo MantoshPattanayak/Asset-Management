@@ -2423,12 +2423,12 @@ app.post('/reqAsset', (req, res) => {
 
         // check if the requestor is a valid employee or not and retrieve their dept
         // solution to solve bug of asset request --- uncomment
-        // let query0 = `SELECT dept_work FROM Employees e
-        // INNER JOIN Users u ON e.emp_no = u.user_id 
-        // WHERE emp_no = '${reqID}' AND user_name = '${reqName}'`
+        let query0 = `SELECT dept_work FROM Employees e
+        INNER JOIN Users u ON e.emp_no = u.user_id 
+        WHERE emp_no = '${reqID}' AND user_name = '${reqName}'`
 
         //comment this after uncomment
-        let query0 = `SELECT dept_work FROM Employees WHERE emp_no = '${reqID}' AND first_name = '${firstName}' AND last_name = '${lastName}'`;
+        // let query0 = `SELECT dept_work FROM Employees WHERE emp_no = '${reqID}' AND first_name = '${firstName}' AND last_name = '${lastName}'`;
         // console.log(query0);
         // check if the entered asset id and its corresponding dept matches a record. Also check if the requestors department matdches the assets department
         let query1 = `SELECT dept_name FROM assets INNER JOIN department ON assets.dept_id = department.dept_id WHERE dept_name = '${assetDept}' AND asset_id = '${assetID}' AND asset_name = '${asset_name}'`;
