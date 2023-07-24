@@ -54,10 +54,11 @@ function load_all_data(){
   }
 
 
-  $(document).on("click", ".edit-btn", function(e) {
-    e.preventDefault();
-   
 
+  $(document).on("click", ".edit-btn", function(event) {
+
+   
+    event.preventDefault();
     //find the closest tr for the clicked edit btn
     let trElement = $(this).closest('tr');
     //console.log(trElement);
@@ -77,7 +78,7 @@ function load_all_data(){
     // console.log('asset_id on click: ' + asset_id + ' '+ asset_type);
     // console.log("details ", location_name,asset_name);
 
-    call_edit_registration_popup($(this), asset_id, asset_type, asset_name, dept_name, emp_name, emp_no, location_name);
+    call_edit_registration_popup(event, $(this), asset_id, asset_type, asset_name, dept_name, emp_name, emp_no, location_name);
   });
 
   // Mantosh work  only ajax
@@ -115,7 +116,9 @@ function load_all_data(){
   
   }
 
-function call_edit_registration_popup(e, asset_id, asset_type, asset_name, dept_name, emp_name, emp_no, location_name){
+
+  function call_edit_registration_popup(event, e, asset_id, asset_type, asset_name, dept_name, emp_name, emp_no, location_name){
+    event.preventDefault();
 
   let thisBtn = $(e);
   
