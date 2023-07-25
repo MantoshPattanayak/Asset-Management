@@ -715,11 +715,6 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
 
 
 function insertDataToDatabase1(data1, callback) {
-
-
-    // bcrypt.hash(data1.password, saltRounds, function (err, hash) {
-    //  console.log(hash)
-
     mssql.query(`SELECT em.official_email, em.personal_email, emp_no, first_name, 
     middle_name,
     last_name
@@ -760,7 +755,6 @@ function insertDataToDatabase1(data1, callback) {
                 else {
                     let saltRounds = 10;
                     // console.log('3')
-
                     bcrypt.hash(data1.password, saltRounds, function (err, hash) {
                         if (err) {
                             console.error('Error hashing password: ', err);
@@ -783,7 +777,6 @@ function insertDataToDatabase1(data1, callback) {
         }
 
     });
-
     // })
 }
 
@@ -969,7 +962,7 @@ app.post('/assetreg', (req, res) => {
     let query6=`select location_id from asset.dbo.department where dept_id=${deptid}`
 
  
-
+    let query7=`select emp_no from assets where asset_id='${assetd}'`
 
 
     mssql.query(query5,(err,result5)=>{
@@ -986,18 +979,14 @@ app.post('/assetreg', (req, res) => {
         }
         else{
             mssql.query(query6,(err,result6)=>{
+
+        if(result6.recordset.length !== 0 && result6.recordset[0].location_id !== null && result6.recordset[0].location_id !== 'null'){
+
+        
+           
                 console.log('3')
                 if (err) throw err
                 
-                if(result6.recordset.length==0){
-                    res.send({
-                        code: "the location_id for the department is not present",
-                        response: "the location_id for the department is not present"
-                    })
-                }
-                else{
-
-            
            mssql.query(query, (err, result) => {
                 console.log(result)
         
@@ -1007,7 +996,17 @@ app.post('/assetreg', (req, res) => {
         
         
                         if (result1.recordset == "") {
-        
+                        mssql.query(query7,(err,result7)=>{
+                            console.log(result7)
+                                if(err)throw err;
+                                if(result7.recordset[0].emp_no!=empid){
+                                    res.send({
+                                        code: "the asset_id is already exist with the other employee",
+                                        response: "the asset_id is already exist with the other employee"
+                                    }) 
+                                }
+
+                                else{
                            mssql.query(query4, (err, result4) => {
         
                                 if (err) throw err;
@@ -1028,6 +1027,8 @@ app.post('/assetreg', (req, res) => {
                                 }
         
                             })
+                        }
+                    })  
         
                         }
         
@@ -1059,7 +1060,18 @@ app.post('/assetreg', (req, res) => {
         
         
                         if (result1.recordset == "") {
-        
+                            
+                            mssql.query(query7,(err,result7)=>{
+                                if(err)throw err;
+                                if(result7.recordset[0].emp_no!=empid){
+                                    res.send({
+                                        code: "this asset_id is already exist with other employee",
+                                        response: "this asset_id is already exist with  other employee"
+                                    }) 
+                                }
+                                else{
+
+                             
                              mssql.query(`insert into asset.dbo.assets(location_id,tag_id,asset_id,asset_type,asset_price,asset_name,dept_id,emp_no,tag_uuid,asset_class)
                             Values('${result6.recordset[0].location_id}','${result.recordset[0].tag_id}','${assetd}','${assett}','${assetp}','${assetn}','${deptid}','${empid}','${taguid}','${assetc}')`, (err, result2) => {
         
@@ -1071,6 +1083,8 @@ app.post('/assetreg', (req, res) => {
                                 }
                             })
                         }
+                    })
+                        }
                         else {
                             console.log('This asset_id with the tag_id is already present')
                             res.send({ response: 'This asset_id with the tag_id is already present' });
@@ -1080,10 +1094,15 @@ app.post('/assetreg', (req, res) => {
                 }
             })
         }
+        else{
+           
+            res.send({ response: 'the location_id is not mapped with the current dept_id so contact your department head' });
+        }
     })
 }
     })
 })
+    
     
 // Mantosh work starts here  
 
@@ -2331,10 +2350,6 @@ app.post('/userDetails', (req, res) => {
         if (err) throw err
         else {
             res.send(Object.values(result.recordset[0]));
-
-            console.log(Object.values(result), userID);
-
-            console.log(Object.values(result.recordset[0]));
 
         }
     })
