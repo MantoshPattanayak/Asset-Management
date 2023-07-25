@@ -17,6 +17,7 @@ $(document).ready(function(){
     }
 
     let id = sessionStorage.getItem('userID');
+    console.log(id);
 
     let navOpts = document.querySelector('#sideNav');
 

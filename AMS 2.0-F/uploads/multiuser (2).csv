@@ -1,0 +1,5 @@
+user_id,first_name,middle_name,last_name,email,password,user_type,Parent_org
+101788,Jibendu,,Sekhar,drjsroy@rediffmail.com,Jibendu@123,Admin,KIIT
+101799,Bharat,,Chandra,bcroutray@gmail.com,Bharat@123,user,KIIT
+102571,Rina,,Rani,rinarani.sahoo@kiit.ac.in,Rina@123,Admin,KIIT
+102600,Asima,,Prajna,ajibandash11@gmail.com,Asima@123,user,KIIT
