@@ -1567,4 +1567,14 @@ input[type="text"],select{
 
 
 
-       
+        .filter{
+           width: 9vh;
+           height: 3vh;
+         border-radius: 10px;
+         box-shadow: 1px, 1px 2px rgb(168, 12, 12);
+         border-right-color: red;
+          background-color: rgb(50, 57, 78);
+           color: white;
+        
+          
+          }
