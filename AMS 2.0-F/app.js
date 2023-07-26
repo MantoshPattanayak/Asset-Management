@@ -1006,14 +1006,17 @@ app.post('/assetreg', (req, res) => {
                         mssql.query(query7,(err,result7)=>{
                             console.log(result7)
                                 if(err)throw err;
-                                if(result7.recordset[0].emp_no!=empid){
-                                    res.send({
-                                        code: "the asset_id is already exist with the other employee",
-                                        response: "the asset_id is already exist with the other employee"
-                                    }) 
-                                }
+                              let isPresent=result7.recordset.length>0?result7.recordset[0].emp_no!=empid:false;
+                                    if(isPresent==true){
+                                        res.send({
+                                            code: "the asset_id is already exist with the other employee",
+                                            response: "the asset_id is already exist with the other employee"
+                                        }) 
+                                    }
+                                
+                              
 
-                                else{
+                                else {
                            mssql.query(query4, (err, result4) => {
         
                                 if (err) throw err;
@@ -1040,11 +1043,7 @@ app.post('/assetreg', (req, res) => {
                         }
         
                         else {
-                            // let queryResult3 = mssql.query(query4, (err, result3) => {
-        
-                            //     if (err) throw err;
-        
-                                // else {
+                           
         
                                     console.log('Invalid tag_id');
                                     res.send({
@@ -1052,10 +1051,7 @@ app.post('/assetreg', (req, res) => {
                                         response: 'Invalid tag_id'
                                     });
         
-                            //     }
-        
-        
-                            // })
+                           
         
                         }
         
@@ -1070,15 +1066,15 @@ app.post('/assetreg', (req, res) => {
                             
                             mssql.query(query7,(err,result7)=>{
                                 if(err)throw err;
-                                if(result7.recordset[0].emp_no!=empid){
+                                let isPresent=result7.recordset.length>0?result7.recordset[0].emp_no!=empid:false;
+                                if(isPresent==true){
                                     res.send({
                                         code: "this asset_id is already exist with other employee",
                                         response: "this asset_id is already exist with  other employee"
                                     }) 
                                 }
                                 else{
-
-                             
+                                    
                              mssql.query(`insert into asset.dbo.assets(location_id,tag_id,asset_id,asset_type,asset_price,asset_name,dept_id,emp_no,tag_uuid,asset_class)
                             Values('${result6.recordset[0].location_id}','${result.recordset[0].tag_id}','${assetd}','${assett}','${assetp}','${assetn}','${deptid}','${empid}','${taguid}','${assetc}')`, (err, result2) => {
         
