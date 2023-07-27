@@ -499,13 +499,12 @@ app.post('/assetupload', upload.single('uploadFile'), function (req, res) {
                 results.push(row);
 
             })
-            .on('end', function () {
+            .on('end', async function () {
                 let responseStr = '';
                 let taguuid = /^SA\/[a-z]{3}\/[a-z]\d\/\d{4}$/;
                 let deptid = /^(?:[1-35-9]|1[0-8])$/;
                 let empno = /^\d{6}$/;
-                let assetClassValue='';
-                var assetIdRegex = new RegExp('^' + assetClassValue + '\\d{10}$');
+              
 
                if(results.length>0){
                 for (let i = 0; i < results.length; i++) {
@@ -532,31 +531,56 @@ app.post('/assetupload', upload.single('uploadFile'), function (req, res) {
                             console.log('INVALID::::' + results[i].emp_no);
                             responseStr += `MATCH THE FORMAT emp_no(6digit) :::: ${results[i].emp_no} at row no ${i + 1}\n`;
                         }
-//asset id validation
+
+                 //asset id validation
+                      var assetClassValue='';
+                    //   let assetIdRegex = new RegExp('^' + assetClassValue + '\\d{10}$');
+                      let assetIdRegex = /^\d{12}$/;
+
                         const decimalValue = new BigNumber(results[i].asset_id).toString()
                           console.log((results[i].asset_id),decimalValue); 
 
+                          console.log(decimalValue.slice(0,2));
 
+                        // Fetch the asset_class from the database
+                                try {
+                                    const result = await new Promise((resolve, reject) => {
+                                    mssql.query(
+                                        `select asset_class from asset_class ac where asset_desc='${results[i].asset_type}'`,
+                                        function (err, result) {
+                                        if (err) reject(err);
+                                        resolve(result);
+                                        }
+                                    );
+                                    });
 
-                        mssql.query(`select asset_class from asset_class ac where asset_desc='${results[i].asset_type}'`, function (err, result) {
-                            if (err) throw err;
-                            if(result.recordset[0].asset_class)
-                            assetClassValue=result.recordset[0].asset_class;  
-                                              
-                         })
+                                    if (result.recordset[0].asset_class) {
+                                    assetClassValue = result.recordset[0].asset_class;
+                                    console.log('satyam', assetClassValue);
+                                    }
+                                } catch (err) {
+                                    // Handle the error if the database query fails
+                                    console.error(err);
+                                    // Assuming you want to stop processing if there's an error with the database
+                                    res.status(500).send('Internal Server Error');
+                                    return;
+                                }
 
-                        //  if (!assetIdRegex.test(results[i].asset_id)) {
-                        //     console.log('INVALID::::' + results[i].asset_id);
-                        //     responseStr += `MATCH THE FORMAT asset_id(12digit) :::: ${results[i].asset_id} at row no ${i + 1}\n`;
-                        // }
+                                console.log('mantosh', assetClassValue);
 
+                                if (assetClassValue != decimalValue.slice(0, 2)) {
+                                    responseStr += `Asset id is not mapped with given asset type:::: ${
+                                    results[i].asset_id
+                                    } at row no ${i + 1}\n`;
+                                }
 
+                                if (!assetIdRegex.test(decimalValue)) {
+                                    responseStr += `MATCH THE FORMAT asset_id(12digit) :::: ${
+                                    decimalValue
+                                    } at row no ${i + 1}\n`;
+                                }
 
-
-
-
-
-
+            //end asset id validation
 
                         if ((results[i].asset_type !== 'Medical Equipments' && results[i].asset_type !== 'Land & Land Developments' && results[i].asset_type !== 'Buildings' && results[i].asset_type !== 'Furniture, Fixture & Office Equipments' && results[i].asset_type !== 'Motor Vehicles' && results[i].asset_type !== 'Crockery and Utensils' && results[i].asset_type !== 'Books and Library' && results[i].asset_type !== 'Electrical, Electronics Equipments' && results[i].asset_type !== 'Machinery & Lab Equipments' && results[i].asset_type !== 'Photo Copier' && results[i].asset_type !== 'Audio & Visual Equipment' && results[i].asset_type !== 'Telephone & EPABX' && results[i].asset_type !== 'Transformer & Generator' && results[i].asset_type !== 'Laptop' && results[i].asset_type !== 'Computer Related' && results[i].asset_type !== 'Computer Software' && results[i].asset_type !== 'Air Conditioner' && results[i].asset_type !== 'Solar Power Systems' && results[i].asset_type !== 'Solar Water Heating System' && results[i].asset_type !== 'Sculpture Garden' && results[i].asset_type !== 'Central Medical Gas' && results[i].asset_type !== 'Electrical, Electronics Equipments for R&D' && results[i].asset_type !== 'Machinery & Lab Equipments for R&D' && results[i].asset_type !== 'Furniture, Fixture & Office Equipments for R&D' && results[i].asset_type !== 'Surveylliance Equipment' && results[i].asset_type !== 'Sports & Musical Equipment' && results[i].asset_type !== 'Computer Related for R&D' && results[i].asset_type !== 'Smart Class Room' && results[i].asset_type !== 'Asset Under Construction')) {
                             console.log('INVALID::::' + results[i].asset_type);
@@ -627,54 +651,62 @@ function insertDataToAsDatabase1(Asdata1, callback) {
    console.log( 'which formate',Asdata1.asset_id);
     mssql.query(query5,(err,result5)=>{
         console.log('1')
-        if (err) throw err  
+        if (err) {
+            console.error('error executing query 5',err);
+            return callback(null);
+        }  
         console.log(result5)
 
         if(result5.recordset.length==0){
             console.log('2')
-  callback("the employee doesn't exist");
+         return callback("the employee doesn't exist");
         }
         else{
             mssql.query(query6,(err,result6)=>{
-
-        if(result6.recordset.length !== 0 && result6.recordset[0].location_id !== null && result6.recordset[0].location_id !== 'null'){
-
-
-
+                if (err){
+                    console.error('error executing query 6',err);
+                    return callback(null);
+                }
+             if(result6.recordset.length !== 0 && result6.recordset[0].location_id !== null && result6.recordset[0].location_id !== 'null'){
                 console.log('3')
-                if (err) throw err
-
-           mssql.query(query, (err, result) => {
+                mssql.query(query, (err, result) => {
                 console.log(result)
 
                 if (result.recordset == "") {
 
                  mssql.query(query1, (err, result1) => {
-
-
                         if (result1.recordset == "") {
                         mssql.query(query7,(err,result7)=>{
                             console.log(result7)
-                                if(err)throw err;
+                            if (err) {
+                                console.error('error executing query 7',err);
+                                return callback(null);
+                              }
                                 let isPresent=result7.recordset.length>0?result7.recordset[0].emp_no!=`${Asdata1.emp_no}`:false;
                                   if(isPresent==true){
-                                callback('the asset_id is already exist with the other employee');
+                                return callback('the asset_id is already exist with the other employee');
                                 }
 
                                 else{
                            mssql.query(query4, (err, result4) => {
 
-                                if (err) throw err;
+                                if (err) {
+                                console.error('error executing query 4',err);
+                                return callback(null);
+                            }
 
                                 else {
 
                                  mssql.query(`insert into asset.dbo.assets(location_id,tag_id,asset_id,asset_type,asset_price,asset_name,dept_id,emp_no,tag_uuid)
                                     Values('${result6.recordset[0].location_id}','${result4.recordset[0].tag_id}','${Asdata1.asset_id}','${Asdata1.asset_type}','${Asdata1.asset_price}','${Asdata1.asset_name}','${Asdata1.dept_id}','${Asdata1.emp_no}','${Asdata1.tag_uuid}')`, (err, result5) => {
 
-                                        if (err) throw err;
+                                        if (err) {
+                                            console.error('error executing query 4',err);
+                                            return callback(null);
+                                        }
                                   
                                         console.log('Insertion has been done to tags and assets');
-                                           callback('Registration has been done to tags and assets');
+                                           return callback('Registration has been done to tags and assets');
                                     })
                                 }
 
@@ -692,7 +724,7 @@ function insertDataToAsDatabase1(Asdata1, callback) {
                                 // else {
 
                                     console.log('Invalid tag_id');
-                                      callback('Invalid tag_id');
+                                      return callback('Invalid tag_id');
 
                             //     }
 
@@ -706,15 +738,20 @@ function insertDataToAsDatabase1(Asdata1, callback) {
                 }
                 else {
                  mssql.query(query1, (err, result1) => {
-
-
+                    if (err) {
+                        console.error('error executing query 1',err);
+                        return callback(null);
+                    }
                         if (result1.recordset == "") {
                             // if(result7.recordset[0].emp_no!=`${Asdata1.emp_no}`){
                             mssql.query(query7,(err,result7)=>{
-                                if(err)throw err;
+                                if (err) {
+                                    console.error('error executing query 7',err);
+                                    return callback(null);
+                                }
                                 let isPresent=result7.recordset.length>0?result7.recordset[0].emp_no!=`${Asdata1.emp_no}`:false;
                                   if(isPresent==true){
-                                     callback("this asset_id is already exist with  other employee");
+                                     return callback("this asset_id is already exist with  other employee");
                                 }
                                 else{
 
@@ -722,11 +759,14 @@ function insertDataToAsDatabase1(Asdata1, callback) {
                              mssql.query(`insert into asset.dbo.assets(location_id,tag_id,asset_id,asset_type,asset_price,asset_name,dept_id,emp_no,tag_uuid)
                             Values('${result6.recordset[0].location_id}','${result.recordset[0].tag_id}','${Asdata1.asset_id}','${Asdata1.asset_type}','${Asdata1.asset_price}','${Asdata1.asset_name}','${Asdata1.dept_id}','${Asdata1.emp_no}','${Asdata1.tag_uuid}')`, (err, result2) => {
 
-                                if (err) throw err;
+                                if (err) {
+                                    console.error('error executing query 7',err);
+                                    return callback(null);
+                                }
 
                                 else {
                                     console.log('Insertion has been done to assets');
-                                 callback('Registration has been done to assets' );
+                                 return callback('Registration has been done to assets' );
                                 }
                             })
                         }
@@ -734,7 +774,7 @@ function insertDataToAsDatabase1(Asdata1, callback) {
                         }
                         else {
                             console.log('This asset_id with the tag_id is already present')
-                         callback('This asset_id with the tag_id is already present');
+                        return  callback('This asset_id with the tag_id is already present');
                         }
                     }
                     )
@@ -743,7 +783,7 @@ function insertDataToAsDatabase1(Asdata1, callback) {
         }
         else{
 
-            callback('the location_id is not mapped with the current dept_id so contact your department head');
+            return callback('the location_id is not mapped with the current dept_id so contact your department head');
         }
     })
 }
