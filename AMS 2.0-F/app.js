@@ -504,7 +504,6 @@ app.post('/assetupload', upload.single('uploadFile'), function (req, res) {
                 let deptid = /^(?:[1-35-9]|1[0-8])$/;
                 let empno = /^\d{6}$/;
 
-                if (results.length > 0) {
                     for (let i = 0; i < results.length; i++) {
                         if (results[i].asset_price == '' && results[i].asset_id == '' && results[i].emp_no
                             == '' && results[i].tag_uuid
@@ -512,7 +511,7 @@ app.post('/assetupload', upload.single('uploadFile'), function (req, res) {
                             == '' && results[i].asset_name
                             == '' && results[i].dept_id
                             == '') {
-                            responseStr += 'remove the empty rows';
+                            responseStr += 'file is empty';
                         }
                         else {
 
@@ -536,10 +535,6 @@ app.post('/assetupload', upload.single('uploadFile'), function (req, res) {
 
                         }
                     }
-                }
-                else {
-                    responseStr += 'file is empty';
-                }
                 if (responseStr)
                     res.send((responseStr));
                 else {
@@ -619,25 +614,18 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
                         responseStr += 'file is empty';
                     }
                     else {
-
                         if (!emailPattern.test(results[i].email)) {
                             console.log('INVALID::::' + results[i].email);
                             responseStr += `MATCH THE FORMAT OF email(abc@gmail.com) :::: ${results[i].email} at row no ${i + 1}\n`;
                         }
-
-
                         // if (!phonePattern.test(results[i].contact_no)) {
                         //     console.log('INVALID::::' + results[i].contact_no);
                         //     responseStr += `MATCH THE FORMAT OF contact_no(10 digit):::: ${results[i].contact_no} at row no ${i + 1} \n`;
                         // }
-
                         if (!passwordPattern.test(results[i].password)) {
                             console.log('INVALID::::' + results[i].password);
                             responseStr += `MATCH THE FORMAT OF password(Use a mix of alphabetical and numeric, a mixture of upper and lowercase, and special characters):::: ${results[i].password} at row no ${i + 1}\n`;
                         }
-
-
-
                         if (results[i].user_type != 'Admin' && results[i].user_type != 'user') {
                             console.log('INVALID::::' + results[i].user_type);
                             responseStr += `MATCH THE FORMAT OF user_type(Admin or user) :::: ${results[i].user_type} at row no ${i + 1}\n`;
@@ -663,10 +651,8 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
                         //     responseStr += `MATCH THE FORMAT OF dept_work:::: ${results[i].dept_work} at row no ${i + 1} \n`;
 
                         // }
-
                     }
                 }
-
                 //response 
                 if (responseStr)
                     res.send((responseStr));
@@ -678,48 +664,35 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
                             // console.log(dbvalue);   
                             // newstr.push( `${dbvalue} at row ${i + 1} \n`); 
                             newstr += `${dbvalue} at row ${i + 1} \n`
-                            console.log('outerloop data===', newstr);
-                            console.log('outervalue----------------', results.length, i);
+                            // console.log('outerloop data===', newstr);
+                            // console.log('outervalue----------------', results.length, i);
                             count++;
-                            console.log(`count value outer: ${count}`)
+                            // console.log(`count value outer: ${count}`)
                             if (count === results.length) {
-                                console.log('innervalue--------------', results.length, i);
-                                console.log(`count value inner: ${count}`)
+                                // console.log('innervalue--------------', results.length, i);
+                                // console.log(`count value inner: ${count}`)
                                 // res.send(newstr)
                                 sendResponse();
-                                console.log('inner loop data===', newstr)
+                                // console.log('inner loop data===', newstr)
                             }
                             // console.log(newstr); 
-
                         });
-
                     }
                     function sendResponse() {
                         res.send(newstr);
                         console.log('ans=', newstr);
                     }
-
-
-
                 }
             })
-
 
     } catch (err) {
         res.status(400).json(err);
     }
-
 });
 
 
 
-
 function insertDataToDatabase1(data1, callback) {
-
-
-    // bcrypt.hash(data1.password, saltRounds, function (err, hash) {
-    //  console.log(hash)
-
     mssql.query(`SELECT em.official_email, em.personal_email, emp_no, first_name, 
     middle_name,
     last_name
@@ -736,14 +709,12 @@ function insertDataToDatabase1(data1, callback) {
             callback(null);
             return;
         }
-
         //  for(let i=0;i<result.recordset.length;i++) {
         if (result.recordset.length == 0) {
             console.log('Employee does not exist');
             // var dbvalue = 'Employee does not exist';
             callback('Employee does not exist');
         }
-
         else if (result.recordset.length != 0) {
             // console.log('1')
             mssql.query(`select user_id from asset.dbo.Users where user_id='${data1.user_id}' or user_name='${data1.email}'`, function (err, result1) {
@@ -760,7 +731,6 @@ function insertDataToDatabase1(data1, callback) {
                 else {
                     let saltRounds = 10;
                     // console.log('3')
-
                     bcrypt.hash(data1.password, saltRounds, function (err, hash) {
                         if (err) {
                             console.error('Error hashing password: ', err);
@@ -779,12 +749,8 @@ function insertDataToDatabase1(data1, callback) {
                     callback('Data inserted successfully');
                 }
             });
-            // }
         }
-
     });
-
-    // })
 }
 
 //advance search for audit
@@ -969,7 +935,7 @@ app.post('/assetreg', (req, res) => {
     let query6=`select location_id from asset.dbo.department where dept_id=${deptid}`
 
  
-
+    let query7=`select emp_no from assets where asset_id='${assetd}'`
 
 
     mssql.query(query5,(err,result5)=>{
@@ -986,18 +952,14 @@ app.post('/assetreg', (req, res) => {
         }
         else{
             mssql.query(query6,(err,result6)=>{
+
+        if(result6.recordset.length !== 0 && result6.recordset[0].location_id !== null && result6.recordset[0].location_id !== 'null'){
+
+        
+           
                 console.log('3')
                 if (err) throw err
                 
-                if(result6.recordset.length==0){
-                    res.send({
-                        code: "the location_id for the department is not present",
-                        response: "the location_id for the department is not present"
-                    })
-                }
-                else{
-
-            
            mssql.query(query, (err, result) => {
                 console.log(result)
         
@@ -1007,7 +969,17 @@ app.post('/assetreg', (req, res) => {
         
         
                         if (result1.recordset == "") {
-        
+                        mssql.query(query7,(err,result7)=>{
+                            console.log(result7)
+                                if(err)throw err;
+                                if(result7.recordset[0].emp_no!=empid){
+                                    res.send({
+                                        code: "the asset_id is already exist with the other employee",
+                                        response: "the asset_id is already exist with the other employee"
+                                    }) 
+                                }
+
+                                else{
                            mssql.query(query4, (err, result4) => {
         
                                 if (err) throw err;
@@ -1028,6 +1000,8 @@ app.post('/assetreg', (req, res) => {
                                 }
         
                             })
+                        }
+                    })  
         
                         }
         
@@ -1059,7 +1033,18 @@ app.post('/assetreg', (req, res) => {
         
         
                         if (result1.recordset == "") {
-        
+                            
+                            mssql.query(query7,(err,result7)=>{
+                                if(err)throw err;
+                                if(result7.recordset[0].emp_no!=empid){
+                                    res.send({
+                                        code: "this asset_id is already exist with other employee",
+                                        response: "this asset_id is already exist with  other employee"
+                                    }) 
+                                }
+                                else{
+
+                             
                              mssql.query(`insert into asset.dbo.assets(location_id,tag_id,asset_id,asset_type,asset_price,asset_name,dept_id,emp_no,tag_uuid,asset_class)
                             Values('${result6.recordset[0].location_id}','${result.recordset[0].tag_id}','${assetd}','${assett}','${assetp}','${assetn}','${deptid}','${empid}','${taguid}','${assetc}')`, (err, result2) => {
         
@@ -1071,6 +1056,8 @@ app.post('/assetreg', (req, res) => {
                                 }
                             })
                         }
+                    })
+                        }
                         else {
                             console.log('This asset_id with the tag_id is already present')
                             res.send({ response: 'This asset_id with the tag_id is already present' });
@@ -1080,10 +1067,15 @@ app.post('/assetreg', (req, res) => {
                 }
             })
         }
+        else{
+           
+            res.send({ response: 'the location_id is not mapped with the current dept_id so contact your department head' });
+        }
     })
 }
     })
 })
+    
     
 // Mantosh work starts here  
 
@@ -2331,10 +2323,6 @@ app.post('/userDetails', (req, res) => {
         if (err) throw err
         else {
             res.send(Object.values(result.recordset[0]));
-
-            console.log(Object.values(result), userID);
-
-            console.log(Object.values(result.recordset[0]));
 
         }
     })
