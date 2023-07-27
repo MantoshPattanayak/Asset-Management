@@ -75,7 +75,7 @@ $(document).ready(function () {
           //  });
           // if(response)
           // {
-            $('#mess').text(response);
+            // $('#mess').text(response);
           //   console.log(response);
           // }
          

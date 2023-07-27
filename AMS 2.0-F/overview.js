@@ -914,7 +914,7 @@ $(document).ready(function () {
         processData: false,
         contentType: false,
         success: function (response) {
-          $('#mess').text(response);
+          // $('#mess').text(response);
           console.log(response);
           alert(response);
         },
