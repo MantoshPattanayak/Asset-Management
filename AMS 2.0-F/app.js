@@ -1121,149 +1121,145 @@ app.post('/assetreg', (req, res) => {
     into  asset.dbo.tags (tag_type,tag_uuid) OUTPUT inserted.tag_id Values('${tag_t}','${taguid}')`
 
 
-    let query5 = `select * from asset.dbo.Employees e inner join department d on e.dept_work=d.dept_name  where e.emp_no=${empid} and d.dept_id=${deptid}`;
+    let query5=`select * from asset.dbo.Employees e inner join department d on e.dept_work=d.dept_name  where e.emp_no=${empid} and d.dept_id=${deptid}`;
 
-    let query6 = `select location_id from asset.dbo.department where dept_id=${deptid}`
+    let query6=`select location_id from asset.dbo.department where dept_id=${deptid}`
+
+ 
+    let query7=`select emp_no from assets where asset_id='${assetd}'`
 
 
-    let query7 = `select emp_no from assets where asset_id='${assetd}'`
-
-
-    mssql.query(query5, (err, result5) => {
+    mssql.query(query5,(err,result5)=>{
         console.log('1')
-        if (err) throw err
+        if (err) throw err  
         console.log(result5)
 
-        if (result5.recordset.length == 0) {
+        if(result5.recordset.length==0){
             console.log('2')
             res.send({
                 code: "the employee doesn't exist",
                 response: "the employee doesn't exist"
             })
         }
-        else {
-            mssql.query(query6, (err, result6) => {
+        else{
+            mssql.query(query6,(err,result6)=>{
 
-                if (result6.recordset.length !== 0 && result6.recordset[0].location_id !== null && result6.recordset[0].location_id !== 'null') {
+        if(result6.recordset.length !== 0 && result6.recordset[0].location_id !== null && result6.recordset[0].location_id !== 'null'){
 
-
-
-                    console.log('3')
-                    if (err) throw err
-
-                    mssql.query(query, (err, result) => {
-                        console.log(result)
-
-                        if (result.recordset == "") {
-
-                            mssql.query(query1, (err, result1) => {
-
-
-                                if (result1.recordset == "") {
-                                    mssql.query(query7, (err, result7) => {
-                                        console.log(result7)
-                                        if (err) throw err;
-                                        if (result7.recordset[0].emp_no != empid) {
-                                            res.send({
-                                                code: "the asset_id is already exist with the other employee",
-                                                response: "the asset_id is already exist with the other employee"
-                                            })
-                                        }
-
-                                        else {
-                                            mssql.query(query4, (err, result4) => {
-
-                                                if (err) throw err;
-
-                                                else {
-
-                                                    mssql.query(`insert into asset.dbo.assets(location_id,tag_id,asset_id,asset_type,asset_price,asset_name,dept_id,emp_no,tag_uuid,asset_class)
-                                    Values('${result6.recordset[0].location_id}','${result4.recordset[0].tag_id}','${assetd}','${assett}','${assetp}','${assetn}','${deptid}','${empid}','${taguid}','${assetc}')`, (err, result5) => {
-
-                                                        if (err) throw err;
-
-                                                        console.log('Insertion has been done to tags and assets');
-                                                        res.send({
-                                                            code: 'Insertion has been done to tags and assets',
-                                                            response: 'Registration has been done to tags and assets'
-                                                        })
-                                                    })
-                                                }
-
-                                            })
-                                        }
-                                    })
-
-                                }
+        
+           
+                console.log('3')
+                if (err) throw err
+                
+           mssql.query(query, (err, result) => {
+                console.log(result)
+        
+                if (result.recordset == "") {
+        
+                 mssql.query(query1, (err, result1) => {
+        
+        
+                        if (result1.recordset == "") {
+                        mssql.query(query7,(err,result7)=>{
+                            console.log(result7)
+                                if(err)throw err;
+                              let isPresent=result7.recordset.length>0?result7.recordset[0].emp_no!=empid:false;
+                                    if(isPresent==true){
+                                        res.send({
+                                            code: "the asset_id is already exist with the other employee",
+                                            response: "the asset_id is already exist with the other employee"
+                                        }) 
+                                    }
+                                
+                              
 
                                 else {
-                                    // let queryResult3 = mssql.query(query4, (err, result3) => {
-
-                                    //     if (err) throw err;
-
-                                    // else {
-
+                           mssql.query(query4, (err, result4) => {
+        
+                                if (err) throw err;
+        
+                                else {
+        
+                                 mssql.query(`insert into asset.dbo.assets(location_id,tag_id,asset_id,asset_type,asset_price,asset_name,dept_id,emp_no,tag_uuid,asset_class)
+                                    Values('${result6.recordset[0].location_id}','${result4.recordset[0].tag_id}','${assetd}','${assett}','${assetp}','${assetn}','${deptid}','${empid}','${taguid}','${assetc}')`, (err, result5) => {
+        
+                                        if (err) throw err;
+        
+                                        console.log('Insertion has been done to tags and assets');
+                                        res.send({
+                                            code: 'Insertion has been done to tags and assets',
+                                            response: 'Registration has been done to tags and assets'
+                                        })
+                                    })
+                                }
+        
+                            })
+                        }
+                    })  
+        
+                        }
+        
+                        else {
+                           
+        
                                     console.log('Invalid tag_id');
                                     res.send({
                                         code: 'Invalid tag_id',
                                         response: 'Invalid tag_id'
                                     });
-
-                                    //     }
-
-
-                                    // })
-
-                                }
-
-                            })
-
+        
+                           
+        
                         }
-                        else {
-                            mssql.query(query1, (err, result1) => {
-
-
-                                if (result1.recordset == "") {
-
-                                    mssql.query(query7, (err, result7) => {
-                                        if (err) throw err;
-                                        if (result7.recordset[0].emp_no != empid) {
-                                            res.send({
-                                                code: "this asset_id is already exist with other employee",
-                                                response: "this asset_id is already exist with  other employee"
-                                            })
-                                        }
-                                        else {
-
-
-                                            mssql.query(`insert into asset.dbo.assets(location_id,tag_id,asset_id,asset_type,asset_price,asset_name,dept_id,emp_no,tag_uuid,asset_class)
-                            Values('${result6.recordset[0].location_id}','${result.recordset[0].tag_id}','${assetd}','${assett}','${assetp}','${assetn}','${deptid}','${empid}','${taguid}','${assetc}')`, (err, result2) => {
-
-                                                if (err) throw err;
-
-                                                else {
-                                                    console.log('Insertion has been done to assets');
-                                                    res.send({ response: 'Registration has been done to assets' });
-                                                }
-                                            })
-                                        }
-                                    })
-                                }
-                                else {
-                                    console.log('This asset_id with the tag_id is already present')
-                                    res.send({ response: 'This asset_id with the tag_id is already present' });
-                                }
-                            }
-                            )
-                        }
+        
                     })
+        
                 }
                 else {
-
-                    res.send({ response: 'the location_id is not mapped with the current dept_id so contact your department head' });
+                 mssql.query(query1, (err, result1) => {
+        
+        
+                        if (result1.recordset == "") {
+                            
+                            mssql.query(query7,(err,result7)=>{
+                                if(err)throw err;
+                                let isPresent=result7.recordset.length>0?result7.recordset[0].emp_no!=empid:false;
+                                if(isPresent==true){
+                                    res.send({
+                                        code: "this asset_id is already exist with other employee",
+                                        response: "this asset_id is already exist with  other employee"
+                                    }) 
+                                }
+                                else{
+                                    
+                             mssql.query(`insert into asset.dbo.assets(location_id,tag_id,asset_id,asset_type,asset_price,asset_name,dept_id,emp_no,tag_uuid,asset_class)
+                            Values('${result6.recordset[0].location_id}','${result.recordset[0].tag_id}','${assetd}','${assett}','${assetp}','${assetn}','${deptid}','${empid}','${taguid}','${assetc}')`, (err, result2) => {
+        
+                                if (err) throw err;
+        
+                                else {
+                                    console.log('Insertion has been done to assets');
+                                    res.send({ response: 'Registration has been done to assets' });
+                                }
+                            })
+                        }
+                    })
+                        }
+                        else {
+                            console.log('This asset_id with the tag_id is already present')
+                            res.send({ response: 'This asset_id with the tag_id is already present' });
+                        }
+                    }
+                    )
                 }
             })
         }
+        else{
+           
+            res.send({ response: 'the location_id is not mapped with the current dept_id so contact your department head' });
+        }
+    })
+}
     })
 })
 
