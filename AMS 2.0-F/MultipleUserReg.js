@@ -34,18 +34,7 @@ function downloadCSV(array) {
   link.click();
 }
 
-// uploadedfilename
-document.getElementById("uploadFile").addEventListener("change", function () {
-  const fileInput = this;
-  const uploadedFileNameElement = document.getElementById("uploadedFileName");
 
-  if (fileInput.files && fileInput.files.length > 0) {
-      const uploadedFile = fileInput.files[0];
-      uploadedFileNameElement.textContent = `${uploadedFile.name}`;
-  } else {
-      uploadedFileNameElement.textContent = "";
-  }
-});
 
 
 //ajax part
