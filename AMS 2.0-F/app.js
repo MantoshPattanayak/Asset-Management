@@ -507,7 +507,7 @@ app.post('/assetupload', upload.single('uploadFile'), function (req, res) {
                 let assetClassValue='';
                 var assetIdRegex = new RegExp('^' + assetClassValue + '\\d{10}$');
 
-
+               if(results.length>0){
                 for (let i = 0; i < results.length; i++) {
                     if (results[i].asset_price == '' && results[i].asset_id == '' && results[i].emp_no
                         == '' && results[i].tag_uuid
@@ -564,6 +564,10 @@ app.post('/assetupload', upload.single('uploadFile'), function (req, res) {
                         }
                     }
                 }
+            }else{
+                   responseStr += 'file is empty';
+            }
+
                 if (responseStr)
                     res.send((responseStr));
                 else {
@@ -792,6 +796,7 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
                 let passwordPattern = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{6,}$/;
 
                 let responseStr = '';
+                if(results.length>0){
                 for (let i = 0; i < results.length; i++) {
                     //if condition for reading 1st row of csv file
                     if (results[i].email == '' && results[i].user_id == '' && results[i].first_name
@@ -844,6 +849,9 @@ app.post('/userupload', upload.single('uploadFile'), function (req, res) {
                         // }
                     }
                 }
+            }else{
+                    responseStr += 'file is empty';
+            }
                 //response 
                 if (responseStr)
                     res.send((responseStr));
