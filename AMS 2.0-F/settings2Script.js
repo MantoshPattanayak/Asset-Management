@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
     if(sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass'){
         window.location.href = `./index.html`;
