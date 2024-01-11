@@ -26,9 +26,9 @@ app.use(
     })
 );
 const sqlConfig = {
-    server: '10.0.2.18',
-    user: 'SA',
-    password: 'Soulsvciot01',
+    server: '172.16.0.203',
+    user: 'soulasset',
+    password: '1234',
     database: 'asset',
     options: {
         encrypt: false,
@@ -189,13 +189,14 @@ app.post('/done', (req, res) => {
 
 
         mssql.query(query, (err, result) => {
-            console.log(result)
-            if (result.recordset == "") {
+           
 
+            if (result.recordset == "") {
                 res.send({
                     code: "Employee_Doesn't_exist",
                     response: "Employee doesn't exist"
                 });
+            
 
             }
             else if (result.recordset[0].emp_no == empid) {

@@ -67,25 +67,31 @@ $(document).ready(function () {
   /**===============AJAX CALL to fetch role of logged in user - END============================== */
 
 
-  /**On clicking search button, display fetched data in tabular format*/
-  $('#audit-submit').on('click', function (event) {
-    event.preventDefault(); // Prevent form submission
+    $('#audit-submit').on('click', function(event) {
+        event.preventDefault(); // Prevent form submission
+    
+        let employeeNumber = $('#fieldName').val();
+        let fromDate = $('#startDate').val();
+        let toDate = $('#endDate').val();
 
-    let employeeNumber = $('#fieldName').val();
-    let fromDate = $('#startDate').val();
-    let toDate = $('#endDate').val();
-
-    /** ************************************Function to format the date************************************************** ✈️✈️**/
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const year = date.getFullYear();
-      let month = (date.getMonth() + 1).toString().padStart(2, '0');
-      let day = date.getDate().toString().padStart(2, '0');
-      let hours = date.getHours().toString().padStart(2, '0');
-      let minutes = date.getMinutes().toString().padStart(2, '0');
-      let seconds = date.getSeconds().toString().padStart(2, '0');
-      return `${day}/${month}/${year} ${hours}:${minutes}`;
-    }
+         // Check if fromDate and toDate are empty
+         if (fromDate === '' || toDate === '') {
+            alert('Please select both Start Date and End Date.');
+            return; // Stop further execution
+        }
+    
+    
+        // Function to format the date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            let month = (date.getMonth() + 1).toString().padStart(2, '0');
+            let day = date.getDate().toString().padStart(2, '0');
+            let hours = date.getHours().toString().padStart(2, '0');
+            let minutes = date.getMinutes().toString().padStart(2, '0');
+            let seconds = date.getSeconds().toString().padStart(2, '0');
+            return `${day}/${month}/${year} ${hours}:${minutes}`;
+        }
 
     if ($('#startDate').val() != '' && $('#endDate').val() != ''){
       if (new Date($('#startDate').val()).toISOString() <= new Date($('#endDate').val()).toISOString()) {
@@ -635,20 +641,20 @@ function generatePDFReport(employeeNumber, fromDate, toDate) {
 
           //Add footer
           var totalPages = doc.internal.getNumberOfPages();
-          for (var i = 1; i <= totalPages; i++) {
-            doc.setPage(i);
-            doc.setFontSize(10);
-            doc.text('Page ' + i + ' of ' + totalPages, doc.internal.pageSize.width - 35, doc.internal.pageSize.height - 10);
-          }
+        for (var i = 1; i <= totalPages; i++) {
+          doc.setPage(i);
+          doc.setFontSize(10);
+          doc.text('Page ' + i + ' of ' + totalPages, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 10);
+        }
 
-          //Reported Generated Date
-          doc.setFontSize(12);
-          doc.text(`Report generated on ${formatDate(Date())}`, 230, 185);
-
-          // Add the "Soul Ltd" footer
-          doc.setFontSize(12);
-          doc.setTextColor('#006400'); // Set the text color to green
-          doc.text('Copyright © 2023 All Rights Reserved by Soul Limited ', doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 10, 'center');
+        //Reported Generated Date
+        doc.setFontSize(12);
+        doc.text(`Report generated on ${formatDate(Date())}`, 230, 185);
+        
+        // Add the "Soul Ltd" footer
+        doc.setFontSize(12);
+        doc.setTextColor('#006400'); // Set the text color to green
+        doc.text('Copyright © 2023 All Rights Reserved by Soul Limited ', doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 10, 'center');
 
 
           // Save and download the PDF file

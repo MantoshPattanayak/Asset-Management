@@ -239,7 +239,7 @@ if(data && data.length>0){
             html += "<td>" + row.emp_name + "</td>";
             html += "<td>" + row.emp_no + "</td>";
             html += "<td>" + row.location_name + "</td>";
-            html += `<td><button class="btn-info edit-btn">Edit</button></td></tr>`;
+            // html += `<td><button class="btn-info edit-btn">Edit</button></td></tr>`;
     html += "</tr>";
     $(tableBodyElement).append(html);
   }

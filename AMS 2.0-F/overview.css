@@ -201,27 +201,27 @@ table {
 
 
 .table-card {
-  background: #fff;
-  border-radius: 15px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.23), 0 5px 40px rgba(0, 0, 0, 0.19);
-
-  margin: 1em auto 0.625em;
-
-  overflow: hidden;
-  padding: 1.25em 0.625em 2.5em;
-
-  width: 95vw;
-  height: 100vh;
-
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.23), 0 5px 40px rgba(0, 0, 0, 0.19);
+   
+    margin: 0.5em auto 0.625em;
+   
+    overflow: hidden;
+    padding: 1.25em 0.625em 2.5em;
+    
+    width: 95vw;
+    height: 100vh;
+  
 }
 
 /* A container for all the inner elements of the card (the white container for the table) */
 
 .container {
-  margin: 0 auto;
-  width: 100%;
-  height: 78vh;
-
+    margin: 0 auto;
+    width: 100%;
+    height: 55vh;
+  
 
 }
 
@@ -1622,7 +1622,15 @@ select {
 }
 
 
-#uploadedFileName {
-  color: green;
-  font-weight: bold;
-}
+
+        .filter{
+           width: 9vh;
+           height: 3vh;
+         border-radius: 10px;
+         box-shadow: 1px, 1px 2px rgb(168, 12, 12);
+         border-right-color: red;
+          background-color: rgb(50, 57, 78);
+           color: white;
+        
+          
+          }
