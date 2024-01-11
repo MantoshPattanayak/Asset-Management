@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Two Navigation Bars</title>
+    <title>Asset Overview</title>
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="overview.css">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'> <!--icons link-->
     <!-- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> -->
@@ -200,6 +201,7 @@
                                         </div>
                                     </section>
                                     <button id="uploadBtns" class="upload-btn">Upload</button>
+                                    <p id="uploadedFileName"></p>
                                 </div>
                                 <!-- <div id="message">
 
@@ -207,7 +209,7 @@
 
                                 <div class="file-csv">
 
-                                    <button onclick="downloadCSV(people)" style="margin-top: -5px;"><i
+                                    <button onclick="downloadCSV(people, event)" style="margin-top: -5px;"><i
                                             class='bx bx-downvote'></i>Download CSV file</button>
                                 </div>
 
@@ -635,7 +637,8 @@
         }
 
 
-        function downloadCSV(array) {
+        function downloadCSV(array, event) {
+            event.preventDefault();
             csv = 'data:text/csv;charset=utf-8,' + createCSV(array); //Creates CSV File Format
             excel = encodeURI(csv); //Links to CSV 
 

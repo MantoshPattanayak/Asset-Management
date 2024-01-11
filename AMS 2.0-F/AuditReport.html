@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="AuditReport.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'> 
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"
-    integrity="sha384-Tv5i09RULyHKMwX0E8wJUqSOaXlyu3SQxORObAI08iUwIalMmN5L6AvlPX2LMoSE" crossorigin="anonymous" />
+        integrity="sha384-Tv5i09RULyHKMwX0E8wJUqSOaXlyu3SQxORObAI08iUwIalMmN5L6AvlPX2LMoSE" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"
-    integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous" />
+        integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <title>Audit Report</title>
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
 </head>
+
 <body>
 
     <div class="nav-bar-height">
@@ -48,14 +51,14 @@
                         <a href="http://127.0.0.1:5500/overview.html?#"><i class='bx bx-table'></i></a>
                     </li>
                     <li>
-                      <!-- Profile -->
-                      <a href="./AuditOverview.html"><i class='bx bx-edit' ></i></a>
-                  </li>
+                        <!-- Profile -->
+                        <a href="./AuditOverview.html"><i class='bx bx-edit'></i></a>
+                    </li>
                     <li>
                         <!-- Profile -->
                         <a href="./profile.html"><i class='bx bxs-user'></i></a>
                     </li>
-                   
+
 
 
                 </ul>
@@ -68,58 +71,60 @@
     </div>
 
     <!--   *****************************************************************Audit Report**************************************************************************************-->
-            <!--***************************** This page is redirected from the AuditOverview page by clicking on the "Audit Report" button ********************************** -->
+    <!--***************************** This page is redirected from the AuditOverview page by clicking on the "Audit Report" button ********************************** -->
 
     <div class="Audit-report">
-     <div class="container">
-        <h1>Audit Report</h1>
-        <div class="bar-progress"></div>
-        <div class="summery-aduit-Report">
-          <h2>Auditor Summary Report</h2>
-          <form id="auditForm">
-            <label for="fieldName">Auditor Employe Number:</label>
-            <input type="text" id="fieldName" placeholder="Employee No. (6-digit only)" onkeypress="return checkInputValue(event)">
-            <label for="startDate">Start Date:*</label>
-            <input type="date" id="startDate" required>
-            <label for="endDate">End Date:*</label>
-            <input type="date" id="endDate" required>
-            <input type="submit" id="audit-submit" value="Search">
-          </form>
-          
+        <div class="container">
+            <h1>Audit Report</h1>
+            <div class="bar-progress"></div>
+            <div class="summery-aduit-Report">
+                <h2>Auditor Summary Report</h2>
+                <form id="auditForm">
+                    <label for="fieldName">Auditor Employe Number:</label>
+                    <input type="text" id="fieldName" placeholder="Employee No. (6-digit only)"
+                        onkeypress="return checkInputValue(event)">
+                    <label for="startDate">Start Date:*</label>
+                    <input type="date" id="startDate" required>
+                    <label for="endDate">End Date:*</label>
+                    <input type="date" id="endDate" required>
+                    <input type="submit" id="audit-submit" value="Search">
+                </form>
+
+            </div>
+
         </div>
-       
-      </div>
-      <div class="sumary-table" style="display: none;">
-        <div class="table-container">
-          <div id="tableContainer"></div>
+        <div class="sumary-table" style="display: none;">
+            <div class="table-container">
+                <div id="tableContainer"></div>
 
 
-          
+
+            </div>
         </div>
-      </div>
-      <div class="csv-pdf" style="display: none;">
-        <button class="export-pdf" onclick="exportTable(event)">Export Table as PDF</button>
-        <button class="export-CSV" onclick=" exportTablecsv(event)">Export Table as CSV</button>
-      </div>
-      <!---Pagination button-->
-      <div class='pagination-container' style="display: none;">
-        <nav>
-            <ul class="pagination">
-                <li data-page="prev">
-                    <span>
-                        < <span class="sr-only">(current)
-                    </span></span>
-                </li>
-                <!--	Here the JS Function Will Add the Rows -->
-                <li data-page="next" id="prev">
-                    <span> > <span class="sr-only">(current)</span></span>
-                </li>
-            </ul>
-        </nav>
-      </div> 
+        <div class="csv-pdf" style="display: none;">
+            <button class="export-pdf" onclick="exportTable(event)">Export Table as PDF</button>
+            <button class="export-CSV" onclick=" exportTablecsv(event)">Export Table as CSV</button>
+        </div>
+        <!---Pagination button-->
+        <div class='pagination-container' style="display: none;">
+            <nav>
+                <ul class="pagination">
+                    <li data-page="prev">
+                        <span>
+                            < <span class="sr-only">(current)
+                        </span></span>
+                    </li>
+                    <!--	Here the JS Function Will Add the Rows -->
+                    <li data-page="next" id="prev">
+                        <span> > <span class="sr-only">(current)</span></span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
 
     </div>
     <script src="AuditReport.js"></script>
 </body>
+
 </html>

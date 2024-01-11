@@ -12,7 +12,12 @@ $(document).ready(function(){
 
     // console.log(sessionStorage.getItem('userID'));
 
+    if(sessionStorage.getItem('sessionVar') == 'userPass'){
+        $('#profile-multiple-asset-form').hide();
+    }
+
     let id = sessionStorage.getItem('userID');
+    console.log(id);
 
     let navOpts = document.querySelector('#sideNav');
 
@@ -83,6 +88,9 @@ $(document).ready(function(){
         <ul>
             <li>
                 <a href="./userDash.html"><i class='bx bxs-dashboard'></i></a> <!--Dashboard -->
+            </li>
+            <li>
+                <a href="./AuditOverview.html"><i class='bx bx-edit'></i></a>
             </li>
             <li>
                 <a href="./profile.html"><i class='bx bxs-user'></i></a> <!--Request -->

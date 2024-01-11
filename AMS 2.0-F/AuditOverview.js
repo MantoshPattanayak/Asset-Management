@@ -7,6 +7,10 @@ $(document).ready(function() {
     window.location.href = `./index.html`;
   }
 
+  if(sessionStorage.getItem('sessionVar') == 'userPass'){
+
+  }
+
     // *** Debasish Code ***
     // Data send for send user type to API
     $.ajax({
@@ -17,7 +21,7 @@ $(document).ready(function() {
 
       dataType: "",
       success: function(user_type) {
-        console.log(user_type)
+        // console.log(user_type)
         if (user_type == "user"){
           //$('#create_audit').hide();
           $('#button-div-audit').html('');
@@ -31,7 +35,7 @@ $(document).ready(function() {
               <ul>
                 <li>
                     <!-- Dashboard -->
-                    <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a>
+                    <a href="./userDash.html"><i class='bx bxs-dashboard'></i></a>
                 </li>
                 <li>
                     <!-- Profile -->
@@ -57,8 +61,11 @@ $(document).ready(function() {
     });
 
     // 
-    console.log("document ready");
+    // console.log("document ready");
     
+
+    //  Mantosh work for overview with a pagination and advance search filter with pagination
+
 function load_all_data(){
 
     load_data();
@@ -67,8 +74,8 @@ function load_all_data(){
       let  location_id= $('#LocationId').val();
       let employee_no1=$('#EmployeeNo').val();
       let department_id=$('#DepartmentId').val();
-      console.log(location_id,employee_no1,department_id)
-      console.log("Loading");
+      // console.log(location_id,employee_no1,department_id)
+      // console.log("Loading");
   
       $.ajax({
         url: `http://localhost:3000/audit-overview/audit_parent?locationId=${location_id}&departmentId=${department_id}&employee_no=${employee_no1}`,
@@ -77,9 +84,9 @@ function load_all_data(){
         dataType: "JSON",
         success: function(data) {
           var html = '';
-          console.log(data)
+          // console.log(data)
   
-          console.log('data length on doc ready function', data.answer.allPages.total_rows);
+          // console.log('data length on doc ready function', data.answer.allPages.total_rows);
   
           all_rows = data.answer.allPages.total_rows;
   
@@ -95,13 +102,13 @@ function load_all_data(){
     var lastPage = 1;
   
     function getPagination(table, pageNumber) {
-      console.log('table', table);
+      // console.log('table', table);
   
       var tableBodyElement = $(table);
-      console.log('tableBodyElement', tableBodyElement);
+      // console.log('tableBodyElement', tableBodyElement);
   
       var currentPage = pageNumber;
-      console.log("getPaging function called!!!!");
+      // console.log("getPaging function called!!!!");
   
       initializePagination(tableBodyElement);
     }
@@ -110,8 +117,8 @@ function load_all_data(){
       let  location_id= $('#LocationId').val();
       let employee_no1=$('#EmployeeNo').val();
       let department_id=$('#DepartmentId').val();
-        console.log(location_id,employee_no1,department_id)
-      console.log(currentPage );
+      //   console.log(location_id,employee_no1,department_id)
+      // console.log(currentPage );
       $.ajax({
         url: `http://localhost:3000/audit-overview/audit_parent?locationId=${location_id}&departmentId=${department_id}&employee_no=${employee_no1}`,
         method: "POST",
@@ -121,13 +128,13 @@ function load_all_data(){
         },
       
         success: function(response) {
-          console.log(response);
+          // console.log(response);
           var data = response.answer.answer;
           var message = response.answer.allPages;
           all_rows = message.total_rows;
       
           $(tableBodyElement).html(""); // Clear the table body
-          console.log(data);
+          // console.log(data);
       
           for (var i = 0; i < data.length; i++) {
             var row = data[i];
@@ -176,10 +183,10 @@ function load_all_data(){
   
         if (maxRows == 500) {
           $('.pagination').hide();
-          console.log('pagination hide!!!');
+          // console.log('pagination hide!!!');
         } else {
           $('.pagination').show();
-          console.log('pagination show!!!');
+          // console.log('pagination show!!!');
         }
   
         $(tableBodyElement)
@@ -196,7 +203,7 @@ function load_all_data(){
   
         if (all_rows > maxRows) {
           var pagenum = Math.ceil(all_rows / maxRows);
-          console.log("No of page", pagenum)
+          // console.log("No of page", pagenum)
           for (var i = 1; i <= pagenum; ) {
             $('.pagination #prev')
               .before(
@@ -323,10 +330,10 @@ function load_all_data(){
   
       if (maxRows == 500) {
         $('.pagination').hide();
-        console.log('pagination hide!!!');
+        // console.log('pagination hide!!!');
       } else {
         $('.pagination').show();
-        console.log('pagination show!!!');
+        // console.log('pagination show!!!');
       }
   
       $('.table-body')
@@ -343,7 +350,7 @@ function load_all_data(){
   
       if (all_rows > maxRows) {
         var pagenum = Math.ceil(all_rows / maxRows);
-        console.log("No of page", pagenum)
+        // console.log("No of page", pagenum)
         for (var i = 1; i <= pagenum; ) {
           $('.pagination #prev')
             .before(
@@ -403,7 +410,7 @@ $('#searchButton').on('click', function(evt) {
 
 })
 
-
+// Mantosh work ends here 
 
 
 
@@ -421,7 +428,7 @@ $('#searchButton').on('click', function(evt) {
         method: 'GET',
         dataType: 'json',
         success: function(data) {
-          console.log(data);
+          // console.log(data);
           var totalCount = 0;
           
           // Calculate the total count
@@ -440,7 +447,7 @@ $('#searchButton').on('click', function(evt) {
               var d=data.recordset[i].count;
             }
           }
-          console.log(a,b,c,d);
+          // console.log(a,b,c,d);
           
           // Update the chart for each recordset
           updateChart('new-audit', c, totalCount);

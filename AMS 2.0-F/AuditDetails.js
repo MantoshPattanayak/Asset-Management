@@ -2,19 +2,22 @@
 
 let all_rows;
 var lastPage = 1;
-if (sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass') {
-  window.location.href = `./index.html`;
-}
-
-
-
-  
 
 let auditID = sessionStorage.getItem('auditID');
-
+/**==============================================DOCUMENT READY FUNCTION - START================================================= */
 $(document).ready(function() {
+
+  //if no user role in session, then redirect to login page
+  if (sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass') {
+    window.location.href = `./index.html`;
+  }
+
   let page_size = parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value);
 
+  /**=====================================AJAX CALL to check loggedin user role - START===================================
+   * if user role, then display dashbord, audit and profile section in side navbar
+   * else display all sections for admin
+   * */
   $.ajax({
     url: "http://localhost:3000/audit-overview/audit_roll_check?employeeID="+sessionStorage.getItem('userID'),
     method: "GET",
@@ -23,7 +26,7 @@ $(document).ready(function() {
 
     dataType: "",
     success: function(user_type) {
-      console.log(user_type)
+      // console.log(user_type)
       if (user_type == "user"){
         //$('#create_audit').hide();
         $('#button-div-audit').html('');
@@ -37,7 +40,7 @@ $(document).ready(function() {
             <ul>
               <li>
                   <!-- Dashboard -->
-                  <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a>
+                  <a href="./userDash.html"><i class='bx bxs-dashboard'></i></a>
               </li>
               <li>
                   <!-- Profile -->
@@ -61,12 +64,14 @@ $(document).ready(function() {
     //     {$('#create_audit').hide()};
     // }
   });
+  /**=====================================AJAX CALL to check loggedin user role - END===================================*/
   
+  /**AJAX Call to fetch audit details and display in form section and chart section -  START*/
   $.ajax({
     url: `http://localhost:3000/audit-asset/fetch-data?auditID=${auditID}&page_number=${1}&page_size=${page_size}`,
     type: 'POST',
     success: function(response) {
-      console.log('doc ready function data fetch', response);
+      // console.log('doc ready function data fetch', response);
 
       // Update the input fields with the fetched data
       $('#aduit-scope-input-no').val(response.auditNumber);
@@ -89,32 +94,32 @@ $(document).ready(function() {
 
       all_rows = response.all_rows.all_pages;   //set total number of assets
 
-      console.log('response length on doc ready function', all_rows);
+      // console.log('response length on doc ready function', all_rows);
 
       $(".table-body").html(html);
 
       getPagination('.table-body', 1);
 
       function getPagination(table, pageNumber) {
-        console.log('table', table);
+        // console.log('table', table);
     
         var tableBodyElement = $(table);
-        console.log('tableBodyElement', tableBodyElement);
+        // console.log('tableBodyElement', tableBodyElement);
     
         var currentPage = pageNumber;
-        console.log("getPaging function called!!!!");
+        // console.log("getPaging function called!!!!");
     
         initializePagination(tableBodyElement);
       }
     
       function fetchTableData(currentPage, maxRows, tableBodyElement) {
-        console.log(currentPage );
+        // console.log(currentPage );
         $.ajax({
           url: `http://localhost:3000/audit-asset/fetch-data?auditID=${auditID}&page_number=${currentPage}&page_size=${maxRows}`,
           method: "POST",
           success: function(response) {
-            console.log(response)
-            console.log(currentPage);
+            // console.log(response)
+            // console.log(currentPage);
             var data = response.assetAuditDetailsData;
             var message = response.all_rows.all_Pages;
             all_rows = response.all_rows.all_pages;
@@ -158,10 +163,10 @@ $(document).ready(function() {
     
           if (maxRows == 500) {
             $('.pagination').hide();
-            console.log('pagination hide!!!');
+            // console.log('pagination hide!!!');
           } else {
             $('.pagination').show();
-            console.log('pagination show!!!');
+            // console.log('pagination show!!!');
           }
     
           $(tableBodyElement)
@@ -178,7 +183,7 @@ $(document).ready(function() {
     
           if (all_rows > maxRows) {
             var pagenum = Math.ceil(all_rows / maxRows);
-            console.log("No of page", pagenum)
+            // console.log("No of page", pagenum)
             for (var i = 1; i <= pagenum; ) {
               $('.pagination #prev')
                 .before(
@@ -298,10 +303,10 @@ $(document).ready(function() {
     
         if (maxRows == 500) {
           $('.pagination').hide();
-          console.log('pagination hide!!!');
+          // console.log('pagination hide!!!');
         } else {
           $('.pagination').show();
-          console.log('pagination show!!!');
+          // console.log('pagination show!!!');
         }
     
         $('.table-body')
@@ -318,7 +323,7 @@ $(document).ready(function() {
     
         if (all_rows > maxRows) {
           var pagenum = Math.ceil(all_rows / maxRows);
-          console.log("No of page", pagenum)
+          // console.log("No of page", pagenum)
           for (var i = 1; i <= pagenum; ) {
             $('.pagination #prev')
               .before(
@@ -335,7 +340,7 @@ $(document).ready(function() {
           }
         }
         else{
-          console.log('all_rows < maxRows', all_rows, maxRows);
+          // console.log('all_rows < maxRows', all_rows, maxRows);
         }
     
         fetchTableData(1, parseInt($('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value), '.table-body');
@@ -372,12 +377,16 @@ $(document).ready(function() {
       });
     },
     error: function() {
-      console.log('Error fetching data from the backend.');
+      // console.log('Error fetching data from the backend.');
     }
   });
+  /**AJAX Call to fetch audit details and display in form section and chart section -  END*/
 });
+/**==============================================DOCUMENT READY FUNCTION - END================================================= */
+
 
 //function to render chart
+/**display number of assets which is found, missing and new in a specific location, department in a piechart*/
 function chartRender(response){
   try {
     myChart.data.datasets[0].data = [
@@ -386,10 +395,10 @@ function chartRender(response){
       (response.assetCountData[0].MissingAssetCount / response.assetCountData[0].TotalAssets) * 100
       //response.newAssets
     ];
-    console.log(myChart.data.datasets[0].data);
+    // console.log(myChart.data.datasets[0].data);
   } catch (error) {
     // Display "none" when there is no data
-    console.log(error);
+    // console.log(error);
   }
   
 
@@ -424,7 +433,7 @@ function formatDate(dateString) {
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
-    
+/**log out functionality */
 let logout = document.getElementById('logoutBtn');
 logout.addEventListener('click', () => {
     $.post(
