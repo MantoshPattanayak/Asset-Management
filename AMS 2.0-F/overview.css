@@ -194,7 +194,7 @@ table {
     border-radius: 15px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.23), 0 5px 40px rgba(0, 0, 0, 0.19);
    
-    margin: 1em auto 0.625em;
+    margin: 0.5em auto 0.625em;
    
     overflow: hidden;
     padding: 1.25em 0.625em 2.5em;
@@ -209,7 +209,7 @@ table {
 .container {
     margin: 0 auto;
     width: 100%;
-    height: 78vh;
+    height: 55vh;
   
 
 }
