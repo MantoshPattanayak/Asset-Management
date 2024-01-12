@@ -1392,9 +1392,9 @@ app.post('/reqAccess', (req, res) => {
     let receiverMailMsg = `Request received. Our team will review your request and send a follow up mail`;
 
     let query = `SELECT * FROM Access_request WHERE applicant_id = '${appID}' AND Request_status = 'Pending'`;
-    let query0 = `SELECT * FROM Employees 
-    INNER JOIN Users ON Employees.emp_no = Users.user_id 
-    WHERE emp_no = '${appID}' AND first_name = '${firstName}' AND last_name = '${lastName}' AND email = '${appEmail}'`;
+    let query0 = `SELECT * FROM Employees e
+    INNER JOIN Users u ON e.emp_no = u.user_id 
+    WHERE e.emp_no = '${appID}' AND e.first_name = '${firstName}' AND e.last_name = '${lastName}' AND u.email = '${appEmail}'`;
     let query1 = `SELECT * FROM Users WHERE user_id = '${appID}' AND user_name = '${uName}' AND user_type = 'Admin'`;
     let query2 = `SELECT * FROM Users WHERE email = '${appEmail}'`;
     let query3 = `INSERT INTO Access_request(applicant_name, applicant_id, email, date, contact)values('${uName}','${appID}','${appEmail}','${moment().format('YYYY-MM-DD')}','${appContact}')`;
