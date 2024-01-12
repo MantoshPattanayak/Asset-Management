@@ -3418,9 +3418,9 @@ app.post('/advance-one', (req, res) => {
       `
 
     if (asset_id !== undefined && asset_id !== null && asset_id.trim() !== '') {
-        query += ` AND a.asset_id = ${asset_id}`;
-        query1 += ` AND a.asset_id = ${asset_id}`;
-        //   console.log(`${asset_id}`)
+        query += ` AND a.asset_id = '${asset_id}'`;
+        query1 += ` AND a.asset_id = '${asset_id}'`;
+          console.log(`${asset_id}`)
     }
 
     if (asset_type !== undefined && asset_type !== null && asset_type.trim() !== '') {
