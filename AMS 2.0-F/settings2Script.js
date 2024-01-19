@@ -1,3 +1,4 @@
+import { BACKEND_URL } from "./env.js";
 
 $(document).ready(function(){
     if(sessionStorage.getItem('sessionVar') != 'pass' && sessionStorage.getItem('sessionVar') != 'userPass'){
@@ -36,7 +37,7 @@ $(document).ready(function(){
         let successLogo = document.querySelectorAll('.successLogo');
         logout.addEventListener('click', ()=>{
             $.post(
-                "http://127.0.0.1:3000/logout",
+                BACKEND_URL+"/logout",
                 {
                     userMail : sessionStorage.getItem('userMail')
                 },
@@ -81,7 +82,7 @@ $(document).ready(function(){
             let contactState = contactCheck(newContact, newContact.value);
             if(contactState == 1){
                 $.post(
-                    "http://127.0.0.1:3000/resetContact",
+                    BACKEND_URL+"/resetContact",
                     {
                         userID : id,
                         contact : newContact.value
@@ -107,7 +108,7 @@ $(document).ready(function(){
         })
 
         $.post(
-            "http://127.0.0.1:3000/userDetails",
+            BACKEND_URL+"/userDetails",
             {
                 userID : id
             },
@@ -134,7 +135,7 @@ $(document).ready(function(){
             if(newPassword.value == confPassword.value){
                 // console.log('posting');
             $.post(
-                "http://127.0.0.1:3000/resetPass",
+                BACKEND_URL+"/resetPass",
                 {
                     userID : sessionStorage.getItem('userID'),
                     newPassword : newPassword.value,

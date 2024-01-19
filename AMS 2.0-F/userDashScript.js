@@ -1,4 +1,6 @@
 // check the session storage variable value to see whether the page is authorized to load or not
+import { BACKEND_URL } from "./env.js";
+
 if(sessionStorage.getItem('sessionVar') != 'userPass'){
     window.location.href = `./index.html`;
 }
@@ -38,7 +40,7 @@ let navOpts = document.getElementById('sideNav');
 let logout = document.getElementById('logoutBtn');
 logout.addEventListener('click', ()=>{
     $.post(
-        "http://127.0.0.1:3000/logout",
+        BACKEND_URL+"/logout",
         {
             userMail : sessionStorage.getItem('userMail')
         },
@@ -114,7 +116,7 @@ function setDashCards(){
 
     // console.log('userID: ', sessionStorage.getItem('userID'))
     $.post(
-        "http://127.0.0.1:3000/setUserDashCards",
+        BACKEND_URL+"/setUserDashCards",
         {
             userID : sessionStorage.getItem('userID')
         },
@@ -138,7 +140,7 @@ function setDashCards(){
 
 function setRequestsTable(){
     $.post(
-        "http://127.0.0.1:3000/setRequestsTable",
+        BACKEND_URL+"/setRequestsTable",
         {
             userID : sessionStorage.getItem('userID')
         },
@@ -149,7 +151,7 @@ function setRequestsTable(){
 }
 function setAssetsTable(){
     $.post(
-        "http://127.0.0.1:3000/setAssetsTable",
+        BACKEND_URL+"/setAssetsTable",
         {
             userID : sessionStorage.getItem('userID')
         },
@@ -161,7 +163,7 @@ function setAssetsTable(){
 
 function requestTableSearch(){
     $.post(
-        "http://127.0.0.1:3000/searchUserRequestTable",
+        BACKEND_URL+"/searchUserRequestTable",
         {
             userID : sessionStorage.getItem('userID'),
             requestSearchTerm : requestSearchField.value
@@ -174,7 +176,7 @@ function requestTableSearch(){
 }
 function assetsTableSearch(){
         $.post(
-            "http://127.0.0.1:3000/searchUserAssetsTable",
+            BACKEND_URL+"/searchUserAssetsTable",
             {
                 userID : sessionStorage.getItem('userID'),
                 assetSearchTerm : assetSearchField.value
@@ -373,7 +375,7 @@ singleReqFormSubmitBtn.addEventListener('click', (e)=>{
     if(inputState1 && inputState2 && inputState3 && inputState4 && inputState5 && inputState6 && assetNameState){
         if(startingPointValue.trim().toUpperCase() != destinationPointValue.trim().toUpperCase()){
             $.post(
-                "http://127.0.0.1:3000/reqAsset",
+                BACKEND_URL+"/reqAsset",
                 {
                     reqName : reqNameValue,
                     reqID : reqIDValue,
@@ -499,7 +501,7 @@ uploadFileBtn.addEventListener('click', (e)=>{
             let data = fr.result.split(/\r?\n|\r/);
             // console.log(data);
             $.post(
-                "http://127.0.0.1:3000/multiReq",
+                BACKEND_URL+"/multiReq",
                 {
                     reqName : username,
                     reqID : userId,
@@ -604,7 +606,7 @@ const updateDebounceText = debounce((text)=> {
     } else {
         // console.log(202)
         $.post(
-            "http://127.0.0.1:3000/assetSuggest",
+            BACKEND_URL+"/assetSuggest",
             {
                 value : text,
                 dept : dept
@@ -663,7 +665,7 @@ assetID.addEventListener('change', ()=> {
     dynamicChildremove(display);
 
     $.post(
-        "http://127.0.0.1:3000/assetNameFetch",
+        BACKEND_URL+"/assetNameFetch",
         {
             assetId:value
         },
@@ -741,7 +743,7 @@ window.addEventListener("load", (e)=> {
     // console.log(startingPoint)
     // console.log(destinationPoint)
     $.post(
-        "http://127.0.0.1:3000/location-fetch",
+        BACKEND_URL+"/location-fetch",
         {},
         function(result){
             // for(let i=0; i<result.length; i++){

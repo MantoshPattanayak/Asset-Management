@@ -1,3 +1,5 @@
+import { BACKEND_URL } from "./env.js";
+
 $(document).ready(function() {
   if(sessionStorage.getItem('sessionVar') != 'pass'){
     window.location.href = `./index.html`;
@@ -33,7 +35,7 @@ function load_all_data(){
     // console.log("Loading");
   
     $.ajax({
-      url: `http://localhost:3000/advance-one?asset_id=${assetId}&asset_type=${assetType}&asset_name=${assetName}&dept_name=${deptName}&emp_name=${empName}&emp_no=${empNo}&location_name=${locationName}`,
+      url: BACKEND_URL+`/advance-one?asset_id=${assetId}&asset_type=${assetType}&asset_name=${assetName}&dept_name=${deptName}&emp_name=${empName}&emp_no=${empNo}&location_name=${locationName}`,
       method: "POST",
       data: { action: 'fetch' },
       dataType: "JSON",
@@ -87,7 +89,7 @@ function load_all_data(){
 
   function edit(asset_id, asset_type, asset_name, dept_name, emp_name, emp_no, location_name){
     $.ajax({
-      url: "http://localhost:3000/editAssets",
+      url: BACKEND_URL+"/editAssets",
       method: "POST",
       data: {
         asset_id:asset_id,
@@ -211,7 +213,7 @@ let empNo= $('#filter-emp-no').val();
 let locationName= $('#filter-location-name').val();
 
 $.ajax({
-  url:  `http://localhost:3000/advance-one?asset_id=${assetId}&asset_type=${assetType}&asset_name=${assetName}&dept_name=${deptName}&emp_name=${empName}&emp_no=${empNo}&location_name=${locationName}`,
+  url:  BACKEND_URL+`/advance-one?asset_id=${assetId}&asset_type=${assetType}&asset_name=${assetName}&dept_name=${deptName}&emp_name=${empName}&emp_no=${empNo}&location_name=${locationName}`,
   method: "POST",
   data: {
     page_number: currentPage,
@@ -458,7 +460,7 @@ function populateDropdown(selectElement, options) {
 }
 /// Mantosh work starts here
 function fetchData() {
-  fetch('http://localhost:3000/fetch')
+  fetch(BACKEND_URL+'/fetch')
     .then(res => res.json())
     .then(data => {
       const { message, answer, answer2 } = data;
@@ -622,7 +624,7 @@ function fetchData() {
 
 // Mantosh work starts here
 
-fetch('http://localhost:3000/fetchdname')
+fetch(BACKEND_URL+'/fetchdname')
 .then(res => res.json())
 .then(data => {
 
@@ -673,7 +675,7 @@ function assetclass(){
   let atype=document.getElementById('asset-type').value
   let at = encodeURIComponent(atype)
   console.log('at: '+at);
-  fetch('http://localhost:3000/assetclass?at='+at)
+  fetch(BACKEND_URL+'/assetclass?at='+at)
   .then(res => res.json())
   .then(data=>{
     // console.log(data.message);
@@ -695,7 +697,7 @@ function assetclass(){
 function fetchData(){
   var dn=document.getElementById('dname').value
   //console.log('dn: '+dn);
-  fetch('http://localhost:3000/ddata?dn='+dn)
+  fetch(BACKEND_URL+'/ddata?dn='+dn)
   .then(res => res.json())
   .then(data=>{
     console.log(data.message);
@@ -734,7 +736,7 @@ function resetForm() {
   taguid.value = '';
 
   // Fetch asset type options from the backend
-  fetchData('http://localhost:3000/asset-types', function(response) {
+  fetchData(BACKEND_URL+'/asset-types', function(response) {
     // Assuming the response is an array of asset types
     atype.innerHTML = ''; // Clear existing options
 
@@ -748,7 +750,7 @@ function resetForm() {
   });
 
   // Fetch department names from the backend
-  fetchData('http://localhost:3000/departments', function(response) {
+  fetchData(BACKEND_URL+'/departments', function(response) {
     // Assuming the response is an array of department objects {name, id}
     di.innerHTML = ''; // Clear existing options
 
@@ -767,7 +769,7 @@ function resetForm() {
   //  document.getElementById('did').value = '';
 
   // Fetch asset class and tag UUID from the backend
-  fetchData('http://localhost:3000/asset-class-and-tag-uuid', function(response) {
+  fetchData(BACKEND_URL+'/asset-class-and-tag-uuid', function(response) {
     // Assuming the response contains assetClass and tagUuid properties
     assetcl.value = response.assetClass;
     taguid.value = response.tagUuid;
@@ -844,7 +846,7 @@ if (!assetdv.match(assetIdRegex)) {
 
 
 // Set the URL and request method
-  var url = 'http://localhost:3000/assetreg'; // Replace with your server-side script URL
+  var url = BACKEND_URL+'/assetreg'; // Replace with your server-side script URL
   var method = 'POST'; // Replace with the desired request method
 // console.log(assetdv )
   // Send the form data using AJAX
@@ -908,7 +910,7 @@ $(document).ready(function () {
       formData.append('uploadFile', file);
 
       $.ajax({
-        url: 'http://localhost:3000/assetupload',
+        url: BACKEND_URL+'/assetupload',
         type: 'POST',
         data: formData,
         processData: false,
@@ -979,7 +981,7 @@ document.getElementById("uploadFile").addEventListener("change", function () {
 let logout = document.getElementById('logoutBtn');
 logout.addEventListener('click', () => {
   $.post(
-    "http://127.0.0.1:3000/logout",
+    BACKEND_URL+"/logout",
     {
       userMail: sessionStorage.getItem('userMail')
     },

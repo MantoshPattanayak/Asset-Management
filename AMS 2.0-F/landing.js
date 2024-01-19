@@ -1,3 +1,5 @@
+import { BACKEND_URL } from "./env.js";
+
 sessionStorage.setItem('sessionVar', null);
 
 // access application form
@@ -109,7 +111,7 @@ submitAccssForm.addEventListener('click', (e)=>{
 
     if(inputState1 && inputState2 && inputState3 && inputState4 && appContactValue.toString().length <= 10){
         $.post(
-            "http://127.0.0.1:3000/reqAccess",
+            BACKEND_URL+"/reqAccess",
             {
                 appName : appNameValue,
                 appID : appIDValue,
@@ -170,22 +172,26 @@ submitAccssForm.addEventListener('click', (e)=>{
 // submit login form 
 
 submitLoginForm.addEventListener('click', (e)=>{
+   console.log('1')
     e.preventDefault();
     let userEmailValue = userEmail.value;
     let userPassValue = userPass.value;
+    console.log('One')
+    console.log('One', userEmailValue, userPassValue);
 
     let inputState1 = inputCheck(userEmail, userEmailValue);
     let inputState2 = inputCheck(userPass, userPassValue);
+    
 
     if(inputState1 && inputState2){
         $.post(
-            "http://127.0.0.1:3000/login",
+            BACKEND_URL+"/login",
             {
                 userEmail : userEmailValue,
                 userPass : userPassValue
             },
             function(result){
-                // console.log(parseInt(result[0]));
+                console.log(parseInt(result[0]), 'work');
 
                 if(parseInt(result[0]) == 2){
                     // console.log('hey there');
@@ -233,7 +239,7 @@ submitLoginForm.addEventListener('click', (e)=>{
 
 // submit asset form
 
-fetch('http://localhost:3000/d')
+fetch(BACKEND_URL+'/d')
 .then(res => res.json())
 .then(data => {
 
@@ -353,7 +359,7 @@ function resetForm() {
     // }
   
     // Set the URL and request method
-    var url = 'http://localhost:3000/done'; // Replace with your server-side script URL
+    var url =  BACKEND_URL+'/done'; // Replace with your server-side script URL
     var method = 'POST'; // Replace with the desired request method
   
     // Send the form data using AJAX
@@ -429,7 +435,7 @@ submitContactForm.addEventListener('click', (e)=>{
 
     if(inputState1 && inputState2 && inputState3){
         $.post(
-            "http://127.0.0.1:3000/contactUs",
+            BACKEND_URL+"/contactUs",
             {
                 visitorName : visitorNameValue,
                 visitorID : visitorIDValue,
@@ -498,7 +504,7 @@ $('.closeModal').click(function(e){
 
 function inputCheck(element, elementValue, type){
     // console.log(type);
-    errMsgElement = element.parentElement.nextElementSibling;
+    let errMsgElement = element.parentElement.nextElementSibling;
     // console.log(errMsgElement);
     if(elementValue.trim() == 0){
         // message to be shown if the field is 0

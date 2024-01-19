@@ -1,4 +1,6 @@
 //excelsheet download
+import { BACKEND_URL } from "./env.js";
+
 if (sessionStorage.getItem('sessionVar') != 'pass') {
   window.location.href = `./index.html`;
 }
@@ -62,7 +64,7 @@ $(document).ready(function () {
       var formData = new FormData();
       formData.append('uploadFile', file);
       $.ajax({
-        url: 'http://localhost:3000/userupload',
+        url: BACKEND_URL+'/userupload',
         type: 'POST',
         data: formData,
         processData: false,
@@ -105,7 +107,7 @@ $(document).ready(function () {
 let logout = document.getElementById('logoutBtn');
 logout.addEventListener('click', () => {
   $.post(
-    "http://127.0.0.1:3000/logout",
+    BACKEND_URL+"/logout",
     {
       userMail: sessionStorage.getItem('userMail')
     },

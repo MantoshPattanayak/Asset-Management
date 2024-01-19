@@ -1,4 +1,5 @@
 /**alok */
+import { BACKEND_URL } from "./env.js";
 
 var user_type;
 
@@ -14,7 +15,7 @@ $(document).ready(function() {
     // *** Debasish Code ***
     // Data send for send user type to API
     $.ajax({
-      url: "http://localhost:3000/audit-overview/audit_roll_check?employeeID="+sessionStorage.getItem('userID'),
+      url: BACKEND_URL+"/audit-overview/audit_roll_check?employeeID="+sessionStorage.getItem('userID'),
       method: "GET",
       data: {
       },
@@ -78,7 +79,7 @@ function load_all_data(){
       // console.log("Loading");
   
       $.ajax({
-        url: `http://localhost:3000/audit-overview/audit_parent?locationId=${location_id}&departmentId=${department_id}&employee_no=${employee_no1}`,
+        url: BACKEND_URL+`/audit-overview/audit_parent?locationId=${location_id}&departmentId=${department_id}&employee_no=${employee_no1}`,
         method: "POST",
         data: { action: 'fetch' },
         dataType: "JSON",
@@ -120,7 +121,7 @@ function load_all_data(){
       //   console.log(location_id,employee_no1,department_id)
       // console.log(currentPage );
       $.ajax({
-        url: `http://localhost:3000/audit-overview/audit_parent?locationId=${location_id}&departmentId=${department_id}&employee_no=${employee_no1}`,
+        url: BACKEND_URL+`/audit-overview/audit_parent?locationId=${location_id}&departmentId=${department_id}&employee_no=${employee_no1}`,
         method: "POST",
         data: {
           page_number: currentPage,
@@ -424,7 +425,7 @@ $('#searchButton').on('click', function(evt) {
   
     function fetchChartData() {
       $.ajax({
-        url: 'http://localhost:3000/progressbarForAudit',
+        url: BACKEND_URL+'/progressbarForAudit',
         method: 'GET',
         dataType: 'json',
         success: function(data) {
@@ -492,7 +493,7 @@ $('#searchButton').on('click', function(evt) {
 
   function fetchOptions() {
     $.ajax({
-        url: 'http://localhost:3000/locations',
+        url: BACKEND_URL+'/locations',
         type: 'GET',
         dataType: 'json',
         success: function (response) {
@@ -508,7 +509,7 @@ $('#searchButton').on('click', function(evt) {
     });
 
     $.ajax({
-        url: 'http://localhost:3000/departments',
+        url: BACKEND_URL+'/departments',
         type: 'GET',
         dataType: 'json',
         success: function (response) {
@@ -532,7 +533,7 @@ function fetchData() {
   var EmployeeNo = $('#EmployeeNo').val();
 
   // Construct the URL with the parameter values
-  var url = 'http://localhost:3000/advanceSearchForAudit?';
+  var url = BACKEND_URL+'/advanceSearchForAudit?';
 
   if (LocationId) {
     url += 'LocationId=' + LocationId;
@@ -630,7 +631,7 @@ $('#searchButton').click(function() {
 let logout = document.getElementById('logoutBtn');
 logout.addEventListener('click', () => {
     $.post(
-        "http://127.0.0.1:3000/logout",
+      BACKEND_URL+"/logout",
         {
             userMail: sessionStorage.getItem('userMail')
         },

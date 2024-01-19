@@ -1,4 +1,6 @@
 // check the session variable value to see whether the page is authorized to load or not
+import { BACKEND_URL } from "./env.js";
+
 $(document).ready(function(){
     if(sessionStorage.getItem('sessionVar') != 'pass'){
         window.location.href = `./index.html`;
@@ -38,7 +40,7 @@ $(document).ready(function(){
         let logout = document.getElementById('logoutBtn');
         logout.addEventListener('click', ()=>{
             $.post(
-                "http://127.0.0.1:3000/logout",
+                BACKEND_URL+"/logout",
                 {
                     userMail : sessionStorage.getItem('userMail')
                 },
@@ -87,7 +89,7 @@ $(document).ready(function(){
 
         function setCards(){
         $.post(
-            "http://127.0.0.1:3000/dashboardCards",
+            BACKEND_URL+"/dashboardCards",
             {
                 department: sessionStorage.getItem('userDept')
             },
@@ -145,7 +147,7 @@ $(document).ready(function(){
 
         function setMovementChart(){
             $.post(
-                "http://127.0.0.1:3000/movementChartData",
+                BACKEND_URL+"/movementChartData",
                 {
                     department : sessionStorage.getItem('userDept')
                 },
@@ -159,7 +161,7 @@ $(document).ready(function(){
 
         function setAlertChart(){
             $.post(
-                "http://127.0.0.1:3000/alertsChartData",
+                BACKEND_URL+"/alertsChartData",
                 {
                     department : sessionStorage.getItem('userDept')
                 },
@@ -173,7 +175,7 @@ $(document).ready(function(){
 
         function setRequestTable(){
             $.post(
-                "http://127.0.0.1:3000/latestAssetRequests",
+                BACKEND_URL+"/latestAssetRequests",
                 {
                     department : sessionStorage.getItem('userDept')
                 },
@@ -215,7 +217,7 @@ $(document).ready(function(){
 
         function setAssetDeptTiles(){
             $.post(
-                "http://127.0.0.1:3000/assetsPerDept",
+                BACKEND_URL+"/assetsPerDept",
                 {
                     department : sessionStorage.getItem('userDept')
                 },
@@ -245,7 +247,7 @@ $(document).ready(function(){
 
         function setSystemStats(){
             $.post(
-                "http://127.0.0.1:3000/systemStatistics",
+                BACKEND_URL+"/systemStatistics",
                 function(result){
                     let tiles = document.querySelectorAll('.statTiles');
                     
@@ -283,7 +285,7 @@ $(document).ready(function(){
             
             if(startDate >= endDate){
                 $.post(
-                    "http://127.0.0.1:3000/movementChartSearch",
+                    BACKEND_URL+"/movementChartSearch",
                     {
                         department : sessionStorage.getItem('userDept'),
                         startDate : mStartDate.value,
@@ -315,7 +317,7 @@ $(document).ready(function(){
 
             if(startDate >= endDate){
                 $.post(
-                    "http://127.0.0.1:3000/alertChartSearch",
+                    BACKEND_URL+"/alertChartSearch",
                     {
                         department : sessionStorage.getItem('userDept'),
                         startDate : startDate,
@@ -456,7 +458,7 @@ singleReqFormSubmitBtn.addEventListener('click', (e)=>{
     if(inputState1 && inputState2 && inputState3 && inputState4 && inputState5 && inputState6 && assetNameState){
         if(startingPointValue.trim().toUpperCase() != destinationPointValue.trim().toUpperCase()){
             $.post(
-                "http://127.0.0.1:3000/reqAsset",
+                BACKEND_URL+"/reqAsset",
                 {
                     reqName : reqNameValue,
                     reqID : reqIDValue,
@@ -582,7 +584,7 @@ uploadFileBtn.addEventListener('click', (e)=>{
             let data = fr.result.split(/\r?\n|\r/);
             // console.log(data);
             $.post(
-                "http://127.0.0.1:3000/multiReq",
+                BACKEND_URL+"/multiReq",
                 {
                     reqName : username,
                     reqID : userId,
@@ -687,7 +689,7 @@ const updateDebounceText = debounce((text)=> {
     } else {
         // console.log(202)
         $.post(
-            "http://127.0.0.1:3000/assetSuggest",
+            BACKEND_URL+"/assetSuggest",
             {
                 value : text,
                 dept : dept
@@ -766,7 +768,7 @@ assetID.addEventListener('change', ()=> {
     dynamicChildremove(display);
 
     $.post(
-        "http://127.0.0.1:3000/assetNameFetch",
+        BACKEND_URL+"/assetNameFetch",
         {
             assetId:value
         },
@@ -825,7 +827,7 @@ function append(element , data, c){
     // }
     for(let i=0; i<data.length; i++){
         // console.log(result)
-        option = document.createElement("option");
+        let option = document.createElement("option");
         option.text = data[i];
         element.appendChild(option);
     }
@@ -837,7 +839,7 @@ window.addEventListener("load", (e)=> {
     // console.log(startingPoint)
     // console.log(destinationPoint)
     $.post(
-        "http://127.0.0.1:3000/location-fetch",
+        BACKEND_URL+"/location-fetch",
         {},
         function(result){
             // for(let i=0; i<result.length; i++){
@@ -847,7 +849,7 @@ window.addEventListener("load", (e)=> {
             // }
             // console.log(option)
             let result1 = [];
-            for(i = 0; i < result.length; i++){
+            for(let i = 0; i < result.length; i++){
                 if(result[i].toLowerCase().includes('outside') == false){
                     result1.push(result[i]);
                 }

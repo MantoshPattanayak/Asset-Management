@@ -1,4 +1,5 @@
 //**************************************Audit Status********************************************************************************* */
+import { BACKEND_URL } from "./env.js";
 
 let all_rows;
 var lastPage = 1;
@@ -19,7 +20,7 @@ $(document).ready(function() {
    * else display all sections for admin
    * */
   $.ajax({
-    url: "http://localhost:3000/audit-overview/audit_roll_check?employeeID="+sessionStorage.getItem('userID'),
+    url: BACKEND_URL+"/audit-overview/audit_roll_check?employeeID="+sessionStorage.getItem('userID'),
     method: "GET",
     data: {
     },
@@ -68,7 +69,7 @@ $(document).ready(function() {
   
   /**AJAX Call to fetch audit details and display in form section and chart section -  START*/
   $.ajax({
-    url: `http://localhost:3000/audit-asset/fetch-data?auditID=${auditID}&page_number=${1}&page_size=${page_size}`,
+    url: BACKEND_URL+`/audit-asset/fetch-data?auditID=${auditID}&page_number=${1}&page_size=${page_size}`,
     type: 'POST',
     success: function(response) {
       // console.log('doc ready function data fetch', response);
@@ -115,7 +116,7 @@ $(document).ready(function() {
       function fetchTableData(currentPage, maxRows, tableBodyElement) {
         // console.log(currentPage );
         $.ajax({
-          url: `http://localhost:3000/audit-asset/fetch-data?auditID=${auditID}&page_number=${currentPage}&page_size=${maxRows}`,
+          url: BACKEND_URL+`/audit-asset/fetch-data?auditID=${auditID}&page_number=${currentPage}&page_size=${maxRows}`,
           method: "POST",
           success: function(response) {
             // console.log(response)
@@ -437,7 +438,7 @@ function formatDate(dateString) {
 let logout = document.getElementById('logoutBtn');
 logout.addEventListener('click', () => {
     $.post(
-        "http://127.0.0.1:3000/logout",
+      BACKEND_URL+"/logout",
         {
             userMail: sessionStorage.getItem('userMail')
         },

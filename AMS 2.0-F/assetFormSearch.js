@@ -1,4 +1,4 @@
-
+import { BACKEND_URL } from "./env.js";
 let employeeField = document.getElementById('searchEmployeeField');
 let assetField = document.getElementById('searchAssetField');
 let startDateField = document.getElementById('searchStartDateField');
@@ -28,7 +28,7 @@ assetSearchBtn.addEventListener('click', (e)=>{
         // console.log(arr);
 
         $.post(
-            "http://127.0.0.1:3000/assetSearch",
+            BACKEND_URL+"/assetSearch",
             {
                 dataArr : JSON.stringify(arr)
             },
