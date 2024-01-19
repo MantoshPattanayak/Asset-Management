@@ -993,7 +993,7 @@ assetID.addEventListener('change', ()=> {
         if(assetID.value && valueArray.length > 0){
             for (let i = 0; i < valueArray.length; i++) {
                 // console.log(valueArray[i]);
-                button = document.createElement('button');
+               let button = document.createElement('button');
                 button.classList.add('active');
                 button.textContent = valueArray[i];
                 display.appendChild(button);
@@ -1049,7 +1049,7 @@ function append(element , data){
     
     for(let i=0; i<data.length; i++){
         // console.log(result)
-        option = document.createElement("option");
+        let option = document.createElement("option");
         option.text = data[i];
         element.appendChild(option);
     }

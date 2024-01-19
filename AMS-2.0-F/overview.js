@@ -628,7 +628,7 @@ fetch(BACKEND_URL+'/fetchdname')
 .then(res => res.json())
 .then(data => {
 
-  dept_nm=data;
+   let dept_nm=data;
   // console.log(dept_nm)
  const { message,answer} = data
   const dept_name_list = message.dept_name.map((dept) => {
