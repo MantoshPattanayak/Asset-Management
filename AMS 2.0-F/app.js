@@ -26,7 +26,7 @@ app.use(
     })
 );
 const sqlConfig = {
-    server: '172.16.0.203',
+    server: '172.16.0.250',
     user: 'soulasset',
     password: '1234',
     database: 'asset',
@@ -78,6 +78,7 @@ app.listen(port, () => {
 // Landing page 
 
 app.post('/login', (req, res) => {
+    console.log('1')
     let userEmail = req.body.userEmail.toLowerCase();
     let userPass = req.body.userPass;
 
@@ -88,6 +89,7 @@ app.post('/login', (req, res) => {
     let queryResult1 = mssql.query(query1, (err1, result1) => {
         if (err1) throw err1
         else {
+            console.log(userPass,'password')
             let hash = Object.values(result1.recordset[0])[0];
             console.log(hash);
             let cryptResult = bcrypt.compare(userPass, hash, function (err, result) {

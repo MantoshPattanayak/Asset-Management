@@ -1,3 +1,5 @@
+import { BACKEND_URL } from "./env.js";
+
 let locationDetails = [];
 let departmentDetails = [];
 let locationDepartment = [];
@@ -47,7 +49,7 @@ $(document).ready(function(){
    * else if admin, then display all sections
    */
   $.ajax({
-    url: "http://localhost:3000/audit-overview/audit_roll_check?employeeID="+sessionStorage.getItem('userID'),
+    url: BACKEND_URL+"/audit-overview/audit_roll_check?employeeID="+sessionStorage.getItem('userID'),
     method: "GET",
     data: {
     },
@@ -98,7 +100,7 @@ $(document).ready(function(){
   let logout = document.getElementById('logoutBtn');
   logout.addEventListener('click', () => {
       $.post(
-          "http://127.0.0.1:3000/logout",
+        BACKEND_URL+"/logout",
           {
               userMail: sessionStorage.getItem('userMail')
           },
@@ -112,7 +114,7 @@ $(document).ready(function(){
 
   /******************ajax call to fetch location and department details on window load -  START*****************/
   $.ajax({
-      url: "http://localhost:3000/audit-assign/loc-dept-fetch",
+      url: BACKEND_URL+"/audit-assign/loc-dept-fetch",
       method: "GET",
       success: function (response) {
 
@@ -164,7 +166,7 @@ $(document).ready(function(){
 
     if(selectedLocationId && selectDepartmentId){
       $.ajax({
-        url:"http://localhost:3000/audit-assign/audit-assign-one",
+        url: BACKEND_URL+"/audit-assign/audit-assign-one",
         data: {
           location_id: selectedLocationId,
           dept_id: selectDepartmentId,
@@ -354,7 +356,7 @@ $(document).ready(function(){
 
     if(selectedLocationId && selectDepartmentId){
       $.ajax({
-        url:"http://localhost:3000/audit-assign/audit-assign-one",
+        url: BACKEND_URL+"/audit-assign/audit-assign-one",
         type: "GET",
         data: {
           location_id: selectedLocationId,
@@ -459,7 +461,7 @@ function fetchEmployeeDetails(event) {
     if (employeeNumber.length === 6) {
       errorMessageElement.textContent = ""; // Clear any previous error message
       $.ajax({
-        url: `http://localhost:3000/audit-assign/emp-no-emp-name?emp_no=${employeeNumber}`,
+        url: BACKEND_URL+`/audit-assign/emp-no-emp-name?emp_no=${employeeNumber}`,
         method: "GET",
         success: function (response) {
           console.log(response);
@@ -563,7 +565,7 @@ function submitForm() {
   
     //submit ajax call to submit audit assign form data
     $.ajax({
-      url: "http://localhost:3000/audit-assign/submitForm",
+      url: BACKEND_URL+"/audit-assign/submitForm",
       type: 'POST',
       data: formData,
       success: function (response){

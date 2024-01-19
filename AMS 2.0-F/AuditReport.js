@@ -1,4 +1,6 @@
 /**===================================================DOCUMENT READY FUNCTION -  START=======================================*/
+import { BACKEND_URL } from "./env.js";
+
 $(document).ready(function () {
 
   //if no user signed in, then redirect to login page
@@ -19,7 +21,7 @@ $(document).ready(function () {
 
   /**================AJAX CALL to fetch role of logged in user - START============================== */
   $.ajax({
-    url: "http://localhost:3000/audit-overview/audit_roll_check?employeeID=" + sessionStorage.getItem('userID'),
+    url:  BACKEND_URL+"/audit-overview/audit_roll_check?employeeID=" + sessionStorage.getItem('userID'),
     method: "GET",
     data: {
     },
@@ -96,7 +98,7 @@ $(document).ready(function () {
     if ($('#startDate').val() != '' && $('#endDate').val() != ''){
       if (new Date($('#startDate').val()).toISOString() <= new Date($('#endDate').val()).toISOString()) {
         $.ajax({
-          url: `http://localhost:3000/audit-report/submitData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
+          url:  BACKEND_URL+`/audit-report/submitData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
           type: 'GET',
           success: function (response) {
             console.log(response);
@@ -212,7 +214,7 @@ function downloadAsCSVFile(e, element) {
 function generateCSVReportRow(auditID) {
   // Fetch the data from the server
   $.ajax({
-    url: `http://localhost:3000/audit-report/downloadData?auditID=${auditID}`,
+    url:  BACKEND_URL+`/audit-report/downloadData?auditID=${auditID}`,
     type: 'GET',
     success: function (response) {
       // Handle the data
@@ -299,7 +301,7 @@ function generatePDFReportRow(auditID) {
 
   // Fetch the data from the server
   $.ajax({
-    url: `http://localhost:3000/audit-report/downloadData?auditID=${auditID}`,
+    url:  BACKEND_URL+`/audit-report/downloadData?auditID=${auditID}`,
     type: 'GET',
     success: function (response) {
       // Handle the data
@@ -504,7 +506,7 @@ function generatePDFReport(employeeNumber, fromDate, toDate) {
 
   // Fetch the data from the server
   $.ajax({
-    url: `http://localhost:3000/audit-report/downloadAuditData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
+    url:  BACKEND_URL+`/audit-report/downloadAuditData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
     type: 'GET',
     success: function (response) {
       // Handle the data
@@ -689,7 +691,7 @@ function exportTablecsv(event) {
 function generateCSVReportTable(employeeNumber, fromDate, toDate) {
   // Fetch the data from the server
   $.ajax({
-    url: `http://localhost:3000/audit-report/downloadAuditData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
+    url:  BACKEND_URL+`/audit-report/downloadAuditData?fromDate=${fromDate}&toDate=${toDate}&employeeNumber=${employeeNumber}`,
     type: 'GET',
     success: function (response) {
       // Handle the data
@@ -758,7 +760,7 @@ function generateCSVReportTable(employeeNumber, fromDate, toDate) {
 let logout = document.getElementById('logoutBtn');
 logout.addEventListener('click', () => {
     $.post(
-        "http://127.0.0.1:3000/logout",
+      BACKEND_URL+"/logout",
         {
             userMail: sessionStorage.getItem('userMail')
         },

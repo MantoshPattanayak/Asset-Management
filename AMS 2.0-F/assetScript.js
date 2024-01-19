@@ -1,4 +1,6 @@
 // check the session storage variable value to see whether the page is authorized to be loaded or not
+import { BACKEND_URL } from "./env.js";
+
 $(document).ready(function(){
     if(sessionStorage.getItem('sessionVar') != 'pass'){
         window.location.href = `./index.html`;
@@ -29,7 +31,7 @@ $(document).ready(function(){
         let logout = document.getElementById('logoutBtn');
         logout.addEventListener('click', ()=>{
             $.post(
-                "http://127.0.0.1:3000/logout",
+                BACKEND_URL+"/logout",
                 {
                     userMail : sessionStorage.getItem('userMail')
                 },
@@ -90,7 +92,7 @@ $(document).ready(function(){
         function setAllAssetsTable(){
             tableTitle.innerText = 'All assets';
             $.post(
-                "http://127.0.0.1:3000/allAssets",
+                BACKEND_URL+"/allAssets",
                 {
                     department : sessionStorage.getItem('userDept')
                 },
@@ -107,7 +109,7 @@ $(document).ready(function(){
                 console.log(1);
                 $.post(
                     // route will be renamed to assetSearch
-                    "http://127.0.0.1:3000/assetSearch",
+                    BACKEND_URL+"/assetSearch",
                     {
                         department : sessionStorage.getItem('userDept'),
                         searchTerm : searchTerm
@@ -141,7 +143,7 @@ $(document).ready(function(){
 
                 $.post(
                     // route will be renamed to assetAdvancedSearch
-                    "http://127.0.0.1:3000/assetAdvancedSearch",
+                    BACKEND_URL+"/assetAdvancedSearch",
                     {
                         dataArr : JSON.stringify(arr),
                         department : sessionStorage.getItem('userDept'),
@@ -314,7 +316,7 @@ singleReqFormSubmitBtn.addEventListener('click', (e)=>{
     if(inputState1 && inputState2 && inputState3 && inputState4 && inputState5 && inputState6 && assetNameState){
         if(startingPointValue.trim().toUpperCase() != destinationPointValue.trim().toUpperCase()){
             $.post(
-                "http://127.0.0.1:3000/reqAsset",
+                BACKEND_URL+"/reqAsset",
                 {
                     reqName : reqNameValue,
                     reqID : reqIDValue,
@@ -440,7 +442,7 @@ uploadFileBtn.addEventListener('click', (e)=>{
             let data = fr.result.split(/\r?\n|\r/);
             // console.log(data);
             $.post(
-                "http://127.0.0.1:3000/multiReq",
+                BACKEND_URL+"/multiReq",
                 {
                     reqName : username,
                     reqID : userId,
@@ -545,7 +547,7 @@ const updateDebounceText = debounce((text)=> {
     } else {
         // console.log(202)
         $.post(
-            "http://127.0.0.1:3000/assetSuggest",
+            BACKEND_URL+"/assetSuggest",
             {
                 value : text,
                 dept : dept
@@ -603,7 +605,7 @@ assetID.addEventListener('change', ()=> {
     dynamicChildremove(display);
 
     $.post(
-        "http://127.0.0.1:3000/assetNameFetch",
+        BACKEND_URL+"/assetNameFetch",
         {
             assetId:value
         },
@@ -681,7 +683,7 @@ window.addEventListener("load", (e)=> {
     // console.log(startingPoint)
     // console.log(destinationPoint)
     $.post(
-        "http://127.0.0.1:3000/location-fetch",
+        BACKEND_URL+"/location-fetch",
         {},
         function(result){
             // for(let i=0; i<result.length; i++){

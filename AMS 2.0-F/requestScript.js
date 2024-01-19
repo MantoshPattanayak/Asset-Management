@@ -1,3 +1,5 @@
+import { BACKEND_URL } from "./env.js";
+
 $(document).ready(function(){
     if(sessionStorage.getItem('sessionVar') != 'pass'){
         window.location.href = `./index.html`;
@@ -48,7 +50,7 @@ $(document).ready(function(){
         let logout = document.getElementById('logoutBtn');
         logout.addEventListener('click', ()=>{
             $.post(
-                "http://127.0.0.1:3000/logout",
+                BACKEND_URL+"/logout",
                 {
                     userMail : sessionStorage.getItem('userMail')
                 },
@@ -199,7 +201,7 @@ $(document).ready(function(){
             tableStatus = 1;
             if(searchTerm.length != 0 && isNaN(searchTerm) == false){
                 $.post(
-                    "http://127.0.0.1:3000/requestSearch",
+                    BACKEND_URL+"/requestSearch",
                     {
                         panelIndex : panelIndex,
                         cardIndex : cardIndex,
@@ -222,7 +224,7 @@ $(document).ready(function(){
 
         function setRequestCards(){
             $.post(
-                "http://127.0.0.1:3000/requestCards",
+                BACKEND_URL+"/requestCards",
                 {
                     department : sessionStorage.getItem('userDept')
                 },
@@ -255,7 +257,7 @@ $(document).ready(function(){
             }
 
             $.post(
-                "http://127.0.0.1:3000/allMovementRequests",
+                BACKEND_URL+"/allMovementRequests",
                 {
                     department: sessionStorage.getItem('userDept')
                 },
@@ -279,7 +281,7 @@ $(document).ready(function(){
             }
 
             $.post(
-                "http://127.0.0.1:3000/pendingMovementRequests",
+                BACKEND_URL+"/pendingMovementRequests",
                 {
                     department: sessionStorage.getItem('userDept')
                 },
@@ -303,7 +305,7 @@ $(document).ready(function(){
             }
 
             $.post(
-                "http://127.0.0.1:3000/approvedMovementRequests",
+                BACKEND_URL+"/approvedMovementRequests",
                 {
                     department: sessionStorage.getItem('userDept')
                 },
@@ -327,7 +329,7 @@ $(document).ready(function(){
             }
 
             $.post(
-                "http://127.0.0.1:3000/deniedMovementRequests",
+                BACKEND_URL+"/deniedMovementRequests",
                 {
                     department: sessionStorage.getItem('userDept')
                 },
@@ -351,7 +353,7 @@ $(document).ready(function(){
             }
 
             $.post(
-                "http://127.0.0.1:3000/allAccessRequests",
+                BACKEND_URL+"/allAccessRequests",
                 {
                     department: sessionStorage.getItem('userDept')
                 },
@@ -375,7 +377,7 @@ $(document).ready(function(){
             }
 
             $.post(
-                "http://127.0.0.1:3000/pendingAccessRequests",
+                BACKEND_URL+"/pendingAccessRequests",
                 {
                     department: sessionStorage.getItem('userDept')
                 },
@@ -399,7 +401,7 @@ $(document).ready(function(){
             }
 
             $.post(
-                "http://127.0.0.1:3000/approvedAccessRequests",
+                BACKEND_URL+"/approvedAccessRequests",
                 {
                     department: sessionStorage.getItem('userDept')
                 },
@@ -423,7 +425,7 @@ $(document).ready(function(){
             }
 
             $.post(
-                "http://127.0.0.1:3000/deniedAccessRequests",
+                BACKEND_URL+"/deniedAccessRequests",
                 {
                     department: sessionStorage.getItem('userDept')
                 },
@@ -502,7 +504,7 @@ $(document).ready(function(){
                     let empID = this.parentElement.parentElement.children[7].innerText;
                     console.log(1);
                     $.post(
-                        'http://127.0.0.1:3000/mAppr',
+                        BACKEND_URL+'/mAppr',
                         {
                             requestSerial : serial,
                             assetID : assetID,
@@ -523,7 +525,7 @@ $(document).ready(function(){
                     let email = this.parentElement.parentElement.children[3].innerText;
                     console.log(2);
                     $.post(
-                        "http://127.0.0.1:3000/aAppr",
+                        BACKEND_URL+"/aAppr",
                         {
                             requesterSerial : serial,
                             userName : userName,
@@ -545,7 +547,7 @@ $(document).ready(function(){
                     let name = this.parentElement.parentElement.children[2].innerText;
                     console.log(3);
                     $.post(
-                        "http://127.0.0.1:3000/mDeny",
+                        BACKEND_URL+"/mDeny",
                         {
                             reqSerial : serial,
                             assetId : id,
@@ -562,7 +564,7 @@ $(document).ready(function(){
                     console.log(4);
 
                     $.post(
-                        "http://127.0.0.1:3000/aDeny",
+                        BACKEND_URL+"/aDeny",
                         {
                             reqID : id,
                             reqSerial : serial
@@ -691,7 +693,7 @@ singleReqFormSubmitBtn.addEventListener('click', (e)=>{
     if(inputState1 && inputState2 && inputState3 && inputState4 && inputState5 && inputState6 && assetNameState){
         if(startingPointValue.trim().toUpperCase() != destinationPointValue.trim().toUpperCase()){
             $.post(
-                "http://127.0.0.1:3000/reqAsset",
+                BACKEND_URL+"/reqAsset",
                 {
                     reqName : reqNameValue,
                     reqID : reqIDValue,
@@ -817,7 +819,7 @@ uploadFileBtn.addEventListener('click', (e)=>{
             let data = fr.result.split(/\r?\n|\r/);
             // console.log(data);
             $.post(
-                "http://127.0.0.1:3000/multiReq",
+                BACKEND_URL+"/multiReq",
                 {
                     reqName : username,
                     reqID : userId,
@@ -922,7 +924,7 @@ const updateDebounceText = debounce((text)=> {
     } else {
         // console.log(202)
         $.post(
-            "http://127.0.0.1:3000/assetSuggest",
+            BACKEND_URL+"/assetSuggest",
             {
                 value : text,
                 dept : dept
@@ -981,7 +983,7 @@ assetID.addEventListener('change', ()=> {
     dynamicChildremove(display);
 
     $.post(
-        "http://127.0.0.1:3000/assetNameFetch",
+        BACKEND_URL+"/assetNameFetch",
         {
             assetId:value
         },
@@ -1059,7 +1061,7 @@ window.addEventListener("load", (e)=> {
     // console.log(startingPoint)
     // console.log(destinationPoint)
     $.post(
-        "http://127.0.0.1:3000/location-fetch",
+        BACKEND_URL+"/location-fetch",
         {},
         function(result){
             // for(let i=0; i<result.length; i++){
