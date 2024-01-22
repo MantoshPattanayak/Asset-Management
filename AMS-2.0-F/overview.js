@@ -19,8 +19,8 @@ $(document).ready(function() {
 // it is used to put all the data in the table of the overview table and filter is used  by taking the query  parameter .
     
 function load_all_data(){
-  load_data();
 
+  
   function load_data() {
     
     let assetId= $('#filter-asset-id').val();
@@ -31,13 +31,14 @@ function load_all_data(){
     let empName= $('#filter-emp-name').val();
     let empNo= $('#filter-emp-no').val();
     let locationName= $('#filter-location-name').val();
-    
+    let deptForTheGivenUser=sessionStorage.getItem('userDept')
     // console.log("Loading");
   
     $.ajax({
       url: BACKEND_URL+`/advance-one?asset_id=${assetId}&asset_type=${assetType}&asset_name=${assetName}&dept_name=${deptName}&emp_name=${empName}&emp_no=${empNo}&location_name=${locationName}`,
       method: "POST",
-      data: { action: 'fetch' },
+      data: { action: 'fetch',
+              userDept:deptForTheGivenUser },
       dataType: "JSON",
       success: function(data) {
         var html = '';
@@ -56,9 +57,10 @@ function load_all_data(){
   }
 
 
+  load_data();
 
   $(document).on("click", ".edit-btn", function(event) {
-
+    console.log('12 edit asset data')
    
     event.preventDefault();
     //find the closest tr for the clicked edit btn
@@ -88,6 +90,7 @@ function load_all_data(){
   // for editing the asset overview page 
 
   function edit(asset_id, asset_type, asset_name, dept_name, emp_name, emp_no, location_name){
+    console.log('asset data edit ajax call')
     $.ajax({
       url: BACKEND_URL+"/editAssets",
       method: "POST",
@@ -203,6 +206,8 @@ function fetchTableData(currentPage, maxRows, tableBodyElement) {
 //var apiUrl = ;
 // Send a request  to the API to fetch the data for the specified page and page size
 
+console.log('advance search button is clicked')
+
 let assetId= $('#filter-asset-id').val();
 let asset_Type= $('#filter-asset-type').val();
 let assetType=encodeURIComponent(asset_Type)
@@ -211,13 +216,15 @@ let deptName= $('#filter-dept-name').val();
 let empName= $('#filter-emp-name').val();
 let empNo= $('#filter-emp-no').val();
 let locationName= $('#filter-location-name').val();
+let deptForTheGivenUser=sessionStorage.getItem('userDept')
 
 $.ajax({
   url:  BACKEND_URL+`/advance-one?asset_id=${assetId}&asset_type=${assetType}&asset_name=${assetName}&dept_name=${deptName}&emp_name=${empName}&emp_no=${empNo}&location_name=${locationName}`,
   method: "POST",
   data: {
     page_number: currentPage,
-    page_size: maxRows//$('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value //pageSize
+    page_size: maxRows,//$('#maxRows')[0].options[$('#maxRows')[0].selectedIndex].value //pageSize
+    userDept:deptForTheGivenUser
   },
   success: function(response) {
     var data = response.answer.answer; // Assuming the API response contains the data in the 'data' property
