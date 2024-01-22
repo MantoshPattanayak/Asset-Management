@@ -77,10 +77,10 @@ else if(sessionStorage.getItem('sessionVar') == 'userPass'){
         <li>
             <a href="./userDash.html"><i class='bx bxs-dashboard'></i></a> <!--Dashboard -->
         </li>
-        <li>
-            <!-- Audit -->
+        <!--<li>
+             Audit 
             <a href="./AuditOverview.html"><i class='bx bx-edit' ></i></a>
-        </li>
+        </li>-->
         <li>
             <a href="./profile.html"><i class='bx bxs-user'></i></a> <!--Request -->
         </li>
