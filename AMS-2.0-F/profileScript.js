@@ -73,13 +73,8 @@ $(document).ready(function(){
                 <a href="./request.html"><i class='bx bxs-layer' ></i></a> <!--Request -->
             </li>
             <li>
-            <!-- Dashboard -->
-            <a href="./overview.html"><i class='bx bx-table'></i></a>
-            </li>
-            <li>
-            <!-- Audit -->
-            <a href="./AuditOverview.html"><i class='bx bx-edit' ></i></a>
-           </li>
+          
+    
             <li>
                 <a href="./profile.html"><i class='bx bxs-user'></i></a> <!--Request -->
             </li>
