@@ -3363,7 +3363,7 @@ app.post('/aDeny', (req, res) => {
 // Mantosh code starts here
 //  it is used to show the overview of all the assets and advance search also implemented here and the pagination also implemented here
 app.post('/advance-one', (req, res) => {
-
+    
     // Extract the inputs from the request
     // const {
     //   asset_id,
@@ -3381,7 +3381,8 @@ app.post('/advance-one', (req, res) => {
     let answer;
     // console.log(1)
     let page = (req.body.page_number) ? req.body.page_number : 1;
-
+    let userDept = req.body.userDept;
+    console.log(userDept,'data from session storage')
 
     //   const asset_id=null;
     //               const asset_type='Computer Related';       
@@ -3411,14 +3412,15 @@ app.post('/advance-one', (req, res) => {
     INNER JOIN department d ON d.dept_id = a.dept_id
     INNER JOIN Employees e ON e.emp_no = a.emp_no
     INNER JOIN location l ON l.location_id = a.location_id
-    WHERE 1=1`;
+    WHERE d.dept_name='${userDept}' and 1=1`;
+
     let query = `SELECT a.asset_id,a.asset_type,a.asset_name,d.dept_name,e.emp_no,l.location_name,CONCAT(e.first_name, ' ', e.middle_name, ' ', e.last_name) AS emp_name from asset.dbo.assets as a 
       INNER JOIN department d ON d.dept_id = a.dept_id
       INNER JOIN Employees e ON e.emp_no = a.emp_no
       INNER JOIN location l ON l.location_id = a.location_id
-      WHERE 1=1 
+      WHERE d.dept_name='${userDept}' and 1=1 
       `
-
+   
     if (asset_id !== undefined && asset_id !== null && asset_id.trim() !== '') {
         query += ` AND a.asset_id = '${asset_id}'`;
         query1 += ` AND a.asset_id = '${asset_id}'`;
@@ -3506,6 +3508,7 @@ app.post('/advance-one', (req, res) => {
             //   console.log(asset_type)
             //   console.log(asset_name)
             //   console.log(location_name)
+            console.log(data,'all assets data')
             res.send({ answer: answer });
         });
     })
