@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <link rel="stylesheet" href="MultipleUserReg.css">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'> <!--icons link-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<title>Multiple Reg</title>
+</head>
+
+<body>
+    <section class="sidebar">
+        <section class="imageSet">
+            <img src="./images/favicon.ico" alt="" class="companyLogo">
+        </section>
+        <nav class="navbar">
+            <ul>
+                <li>
+                    <!-- Dashboard -->
+                    <a href="./dashboard.html"><i class='bx bxs-dashboard'></i></a>
+                </li>
+                <li>
+                    <!-- Alerts -->
+                    <a href="./alert.html"><i class='bx bxs-bell'></i></a>
+                </li>
+                <li>
+                    <!-- Assets -->
+                    <a href="./asset.html"><i class='bx bxs-cube-alt'></i></a>
+                </li>
+                <li>
+                    <!-- Requests -->
+                    <a href="./request.html"><i class='bx bxs-layer'></i></a>
+                </li>
+                <li>
+                    <!-- overview page -->
+                    <a href="./overview.html"><i class='bx bx-table'></i></a>
+                </li>
+                <li>
+                    <!-- Audit -->
+                    <a href="./AuditOverview.html"><i class='bx bx-edit'></i></a>
+                </li>
+                <li>
+                    <!-- Profile -->
+                    <a href="./profile.html"><i class='bx bxs-user'></i></a>
+                </li>
+            </ul>
+        </nav>
+        <section class="navOpts">
+            <!-- <section class="toggleBtn">
+                    <input type="checkbox" id="switch" name="switch">
+                    <label for="switch"></label>
+                </section> -->
+            <!-- logout button -->
+            <button class="logoutBtn" id="logoutBtn"><i class='bx bx-log-out-circle'></i></button>
+        </section>
+    </section>
+    <!---   csv upload web page -->
+    <div class="container">
+        <div class="card">
+            <h3>Upload File</h3>
+            <div class="drop-box">
+                <!-- <p>File Support: CSV/EXCEL</p> -->
+                <section class="uploadForm">
+                    <img src="images/csv.jpg" width="110">
+                    <label for="uploadFile"><i class='bx bx-select-multiple'></i>&nbsp;Select file</label>
+                    <input type="file" name="uploadFile" id="uploadFile" accept=".csv" value="Select file"
+                        style="display: none">
+                    <div id="mess">
+                    </div>
+                </section>
+                <button id="uploadBtns" class="upload-btn">Upload</button>
+                <p id="uploadedFileName"></p>
+                </form>
+            </div>
+            <!--   dowloand csv file 🤞-->
+            <div class="file">
+                <button onclick="downloadCSV(people)" class="button-download"><i
+                        class='bx bxs-down-arrow-circle'></i>&nbsp;Download CSV file</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script type="module" src="MultipleUserReg.js"></script>
+</body>
+</html>
