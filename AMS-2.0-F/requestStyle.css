@@ -54,6 +54,18 @@ body{
     width: 80%;
     height: 80%;
 }
+.reqFormClose{
+    margin-top: 10px;
+    margin-left: 20px;
+    color: red;
+    font-weight: bolder;
+    font-size: larger;
+
+}
+.reqFormClose:hover{
+    color: green;
+}
+
 .navbar{
     width: 100%;
     display: flex;

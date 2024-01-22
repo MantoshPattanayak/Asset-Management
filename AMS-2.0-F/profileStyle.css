@@ -50,6 +50,17 @@ body{
     justify-content: center;
     align-items: center;
 }
+.reqFormClose{
+    margin-top: 10px;
+    margin-left: 20px;
+    color: red;
+    font-weight: bolder;
+    font-size: larger;
+
+}
+.reqFormClose:hover{
+    color: green;
+}
 .sidebar .imageSet img{
     width: 80%;
     height: 80%;
