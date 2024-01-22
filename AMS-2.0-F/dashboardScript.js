@@ -31,7 +31,7 @@ $(document).ready(function(){
         let requestsTable = document.getElementById('tableBody');
 
         let assetsPerDeptPanel = document.getElementById('assetsPanelBody');
-        let systemStats = document.getElementById('systemPanelBody');
+        // let systemStats = document.getElementById('systemPanelBody');
 
 
         let mChartStatus = 0;
@@ -267,7 +267,7 @@ $(document).ready(function(){
                         tileValue.innerText = result[1][i];
 
                         tile.append(tileHeader, tileValue);
-                        systemStats.append(tile);
+                        // systemStats.append(tile);
                     }
                 }
             )
@@ -344,6 +344,7 @@ let modalLaunchBtn = document.getElementById('launchRequestForm');
 
 let modal = document.getElementById('reqFormContainer');
 // let closeModal = document.getElementById('');
+let closeReqForm = document.getElementsByClassName('reqFormClose')[0];
 let formFront = document.getElementById('reqFormFront');
 // console.log(formFront);
 let formBack = document.getElementById('reqFormBack');
@@ -900,7 +901,7 @@ modalLaunchBtn.addEventListener('click', (e)=>{
     startingPoint.selectedIndex = 0;
     destinationPoint.selectedIndex = 0;
     
-    if(modalLaunchCounter == 0){
+    if(modalLaunchCounter == 0){    //on click of request asset for first time
         formFront.style.transform = 'perspective(600px) rotateY(0deg)';
         formFront.style.transitiion = 'none';
         formBack.style.transform = 'perspective(600px) rotateY(180deg)';
@@ -911,7 +912,7 @@ modalLaunchBtn.addEventListener('click', (e)=>{
         modalLaunchCounter = 1;
         console.log(1)
     }
-    else if(modalLaunchCounter == 1){
+    else if(modalLaunchCounter == 1){   // on click of request asset for next time, to close the request asset form
         modal.style.top = `0%`;
         modal.style.transition = `all 0.4s ease-in-out 0s`;
         modal.style.transform = `translate(-50%, -110%)`;
@@ -920,5 +921,13 @@ modalLaunchBtn.addEventListener('click', (e)=>{
     }
 })
 
+//to close request asset form
+closeReqForm.addEventListener('click', (e) => {
+    e.preventDefault();
 
-
+    modal.style.top = `0%`;
+    modal.style.transition = `all 0.4s ease-in-out 0s`;
+    modal.style.transform = `translate(-50%, -110%)`;
+    modalLaunchCounter = 0;
+    console.log(3);
+})
