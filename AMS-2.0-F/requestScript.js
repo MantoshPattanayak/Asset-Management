@@ -580,6 +580,7 @@ $(document).ready(function(){
 let modalLaunchBtn = document.getElementById('launchRequestForm');
 
 let modal = document.getElementById('reqFormContainer');
+let closeReqForm = document.getElementsByClassName('reqFormClose')[0];
 // let closeModal = document.getElementById('');
 let formFront = document.getElementById('reqFormFront');
 // console.log(formFront);
@@ -1123,4 +1124,15 @@ modalLaunchBtn.addEventListener('click', (e)=>{
         modalLaunchCounter = 0;
         // console.log(2)
     }
+})
+
+//to close request asset form
+closeReqForm.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    modal.style.top = `0%`;
+    modal.style.transition = `all 0.4s ease-in-out 0s`;
+    modal.style.transform = `translate(-50%, -110%)`;
+    modalLaunchCounter = 0;
+    console.log(3);
 })

@@ -240,6 +240,7 @@ errElement.style.visibility = 'visible';
 
 //Request asset from script
 let modalLaunchBtn = document.getElementById('launchRequestForm');
+let closeReqForm = document.getElementsByClassName('reqFormClose')[0];
 
 let modal = document.getElementById('reqFormContainer');
 // let closeModal = document.getElementById('');
@@ -788,4 +789,14 @@ modalLaunchBtn.addEventListener('click', (e)=>{
         modalLaunchCounter = 0;
         // console.log(2)
     }
+})
+
+closeReqForm.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    modal.style.top = `0%`;
+    modal.style.transition = `all 0.4s ease-in-out 0s`;
+    modal.style.transform = `translate(-50%, -110%)`;
+    modalLaunchCounter = 0;
+    console.log(3);
 })

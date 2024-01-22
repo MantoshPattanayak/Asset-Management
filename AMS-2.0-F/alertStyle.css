@@ -109,7 +109,17 @@ body{
     outline: none;
     border: none;
 }
+.reqFormClose{
+    margin-top: 10px;
+    margin-left: 20px;
+    color: red;
+    font-weight: bolder;
+    font-size: larger;
 
+}
+.reqFormClose:hover{
+    color: green;
+}
 /* Main body style */
 
 .mainBody{
