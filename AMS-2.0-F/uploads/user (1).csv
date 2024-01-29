@@ -1,8 +1,0 @@
-user_id,first_name,middle_name,last_name,email,password,user_type,Parent_org
-100007,Kanan,,Bala,kbrayfet@kiit.ac.in,sa@123M,Admin,KIIT
-908070,satyam,vivek,hgh,svt@gmail.com,ra@157M,user,KIIT
-707080,mantosh,,thakur,m@gmail.com,ra@157M,Admin,KIIT
-100002,Manas,,Kumar,manas.mishra@kiit.ac.in,ra@157M,user,KIIT
-908070,satyam,,hgh,svt@gmail.com,sa@123M,Admin,KIIT
-908070,satyam,,hgh,svt@gmail.com,sa@123M,Admin,KIIT
-123456,raj,,kumar,lalu@gmail.com,sa@123M,Admin,KIIT
