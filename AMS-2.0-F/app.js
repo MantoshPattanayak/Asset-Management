@@ -3001,29 +3001,33 @@ app.post('/multiReq', (req, res) => {
     let ending_point = [];
     let asset_id = [];
     let asset_name = [];
-
+    
 
     data.pop(); // eliminating the added space at the end cause of JSON stringify and parse    
     let firstName = reqName.split(" ")[0];
     let lastName = reqName.split(" ")[1];
     let totalCount = data.length;
+    console.log('data from body',data,reqName,reqID,assetDept,starting_point,asset_name,idElements,ending_point,errorList)
 
     // console.log(totalCount)
     let len = data.length;
 
     for (let i = 0; i < data.length; i++) {
         idElements.push(data[i].split(',')[0]);
+        console.log('what is id elements',data[i].split(',')[0])
         let start = data[i].split(',')[1];
-        // console.log(start)
+        console.log(start,'start')
         starting_point.push(start.toLowerCase().replaceAll(/\s/g, ''));
         // starting_point.push(data[i].split(',')[1]);
         let end = data[i].split(',')[2];
         ending_point.push(end.toLowerCase().replaceAll(/\s/g, ''));
+        console.log(end,'end')
 
     }
+    console.log('starting point',starting_point,'ending point',ending_point)
 
     const intersection_location = [...new Set(starting_point.filter(element => ending_point.includes(element)))];
-
+    console.log('intersection location',intersection_location)
     const uniq = idElements.map((name) => {
         return {
             count: 1,
@@ -3036,6 +3040,7 @@ app.post('/multiReq', (req, res) => {
 
     // console.log(idElements)
     const duplicate_ID = Object.keys(uniq).filter((a) => uniq[a] > 1);
+    console.log(uniq,duplicate_ID, 'duplicate id')
     // console.log(duplicate_ID.length)
 
     //Checking for duplicate values

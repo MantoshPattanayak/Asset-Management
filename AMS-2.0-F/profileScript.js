@@ -523,7 +523,7 @@ uploadFileBtn.addEventListener('click', (e)=>{
     }
 })
 function inputCheck(element, elementValue, type){
-    errMsgElement = element.parentElement.nextElementSibling;
+    let errMsgElement = element.parentElement.nextElementSibling;
     if(elementValue.trim() == 0){
         // message to be shown if the field is 0
         let errMsg = `Field cannot be empty`;
@@ -559,7 +559,7 @@ function typeCheck(elementValue, type){
 }
 
 function assetName_Check(names,element){
-    errMsgElement = element.parentElement.nextElementSibling;
+   let errMsgElement = element.parentElement.nextElementSibling;
     if(names.length === 0){
         let errMsg = "Please Select assets"
         errMsgElement.innerText = errMsg;
@@ -659,7 +659,7 @@ assetID.addEventListener('change', ()=> {
         if(assetID.value && valueArray.length > 0){
             for (let i = 0; i < valueArray.length; i++) {
                 // console.log(valueArray[i]);
-                button = document.createElement('button');
+                let button = document.createElement('button');
                 button.classList.add('active');
                 button.textContent = valueArray[i];
                 display.appendChild(button);
@@ -677,7 +677,7 @@ display.addEventListener('click',(e) => {
     if(e.target && e.target.nodeName == 'BUTTON'){
         // console.log(e.target)
         // e.target.remove();
-        currentbutton = e.target;
+        let currentbutton = e.target;
         currentbutton.classList.toggle('selected');
     }
 })
@@ -715,7 +715,7 @@ function append(element , data){
     
     for(let i=0; i<data.length; i++){
         // console.log(result)
-        option = document.createElement("option");
+       let option = document.createElement("option");
         option.text = data[i];
         element.appendChild(option);
     }

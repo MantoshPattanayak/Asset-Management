@@ -861,7 +861,7 @@ uploadFileBtn.addEventListener('click', (e)=>{
     }
 })
 function inputCheck(element, elementValue, type){
-    errMsgElement = element.parentElement.nextElementSibling;
+    let errMsgElement = element.parentElement.nextElementSibling;
     if(elementValue.trim() == 0){
         // message to be shown if the field is 0
         let errMsg = `Field cannot be empty`;
@@ -897,7 +897,7 @@ function typeCheck(elementValue, type){
 }
 
 function assetName_Check(names,element){
-    errMsgElement = element.parentElement.nextElementSibling;
+    let errMsgElement = element.parentElement.nextElementSibling;
     if(names.length === 0){
         let errMsg = "Please Select assets"
         errMsgElement.innerText = errMsg;
@@ -1012,7 +1012,7 @@ display.addEventListener('click',(e) => {
     if(e.target && e.target.nodeName == 'BUTTON'){
         // console.log(e.target)
         // e.target.remove();
-        currentbutton = e.target;
+        let currentbutton = e.target;
         currentbutton.classList.toggle('selected');
     }
 })
