@@ -27,14 +27,20 @@ function createCSV(array) {
 }
 
 function downloadCSV(array) {
-  csv = 'data:text/csv;charset=utf-8,' + createCSV(array); //Creates CSV File Format
-  excel = encodeURI(csv); //Links to CSV 
-
-  link = document.createElement('a');
-  link.setAttribute('href', excel); //Links to CSV File 
-  link.setAttribute('download', 'multiuser.csv'); //Filename that CSV is saved as
+  console.log("Inside downloadCSV function"); // Add this line
+  var csv = 'data:text/csv;charset=utf-8,' + createCSV(array);
+  var  excel = encodeURI(csv);
+  var link = document.createElement('a');
+  link.setAttribute('href', excel);
+  link.setAttribute('download', 'multiuser.csv');
   link.click();
 }
+
+
+document.querySelector(".button-download").addEventListener("click", function() {
+  downloadCSV(people);
+});
+
 
 //file name
 document.getElementById("uploadFile").addEventListener("change", function () {
