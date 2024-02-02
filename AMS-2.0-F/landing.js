@@ -99,10 +99,12 @@ showLoginForm.addEventListener('click',(e)=>{
 
 submitAccssForm.addEventListener('click', (e)=>{
     e.preventDefault();
-    appNameValue = appName.value;
-    appIDValue = appID.value;
-    appEmailValue = appEmail.value;
-    appContactValue = appContact.value;
+    // console.log('12')
+    let appNameValue = appName.value;
+    let appIDValue = appID.value;
+    let appEmailValue = appEmail.value;
+    let appContactValue = appContact.value;
+    console.log(appNameValue,appIDValue,appEmailValue,appContactValue, "all values")
 
     let inputState1 = inputCheck(appName, appNameValue, 'string');
     let inputState2 = inputCheck(appID, appIDValue, 'number');

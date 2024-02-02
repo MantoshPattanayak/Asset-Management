@@ -1408,6 +1408,7 @@ app.post('/reqAccess', (req, res) => {
     // console.log(query3);
 
     // console.log(query1);
+    console.log('query 0', query0)
     let queryResult0 = mssql.query(query0, (err0, result0) => {
         if (err0) throw err0
         else if (result0.recordset.length == 1) {
