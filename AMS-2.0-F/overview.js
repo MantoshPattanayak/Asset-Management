@@ -699,6 +699,10 @@ function assetclass(){
 }
 
 // Mantosh work starts here
+document.querySelector("#asset-type").addEventListener("click", function() {
+  console.log('121')
+  assetclass();
+});
 
 
 function fetchData(){
@@ -719,11 +723,16 @@ function fetchData(){
   })
   .catch(error=> console.error(error));
 }
-function total(){
-  fetchData();
-  updateField();
-}
 
+  // fetchData();
+
+  // updateField();
+
+
+document.querySelector("#dname").addEventListener("click", function() {
+  console.log('1')
+  fetchData()
+});
 // Mantosh work ends here
 
 
