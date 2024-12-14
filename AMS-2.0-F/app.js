@@ -26,7 +26,7 @@ app.use(
     })
 );
 const sqlConfig = {
-    server: '172.16.0.250',
+    server: 'localhost',
     user: 'soulasset',
     password: '1234',
     database: 'asset',
@@ -70,7 +70,7 @@ mssql.connect(sqlConfig, (err, result) => {
 
 
 app.listen(port, () => {
-    console.log('listening to port : ' + port);
+    console.log('listening on port : ' + port);
 }).on('error', (err) => {
     console.log('Error occurred : ' + err.messsage);
 })
